@@ -1,4 +1,5 @@
 using UnityEngine;
+using FMODUnity;
 namespace Dany
 {
 [CreateAssetMenu(fileName = "InventoryItem", menuName = "Scriptable Objects/InventoryItem")]
@@ -43,7 +44,9 @@ public class InventoryItem : ScriptableObject
       
     }
     public WeaponType weaponType;
-    public AudioClip shootSound;
+
+    [Header("Audio (FMOD)")]
+    public EventReference shootFmodEvent;
  
     public GameObject decalPrefab;
 

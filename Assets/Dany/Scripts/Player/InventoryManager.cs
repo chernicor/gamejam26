@@ -1,4 +1,5 @@
 using UnityEngine;
+using FMODUnity;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
@@ -34,6 +35,7 @@ public class InventoryManager : MonoBehaviour
     private int[] ammoInMagazine = new int[2];
     private int[] reserveAmmo = new int[2];
     private bool[] isReloading = new bool[2];
+    private InventoryItem[] ammoInitializedForItem = new InventoryItem[2];
 
     private bool isShowingHint = false;
     private string currentHintText = "";
@@ -43,7 +45,6 @@ public class InventoryManager : MonoBehaviour
 
     private float lastShotTime = 0f; 
 
-    private AudioSource audioSource;
     private GameObject currentMuzzleEffect;
     
     public Dictionary<InventoryItem.WeaponType, GameObject> decalPrefabs = new Dictionary<InventoryItem.WeaponType, GameObject>();
@@ -57,9 +58,6 @@ public class InventoryManager : MonoBehaviour
 
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource == null) audioSource = gameObject.AddComponent<AudioSource>();
-
         if (playerCamera == null)
         {
             playerCamera = Camera.main;
@@ -264,8 +262,19 @@ public class InventoryManager : MonoBehaviour
     // Подбор предмета
     public void PickupItem(InventoryItem item)
     {
+        if (item == null)
+        {
+            Debug.LogWarning("PickupItem вызван с null item");
+            return;
+        }
+
+        // Ограничение: оружие (стреляющее) можно иметь только 2 штуки (2 слота).
+        // Поэтому оружие кладём только в слоты 0-1.
+        bool isWeapon = item.canShoot;
+
         bool placed = false;
-        for (int i = 0; i < 9; i++)
+        int maxSlot = isWeapon ? 2 : 9;
+        for (int i = 0; i < maxSlot; i++)
         {
             if (slotItems[i] == null || (slotItems[i] == item && !item.isConsumable && slotCounts[i] < item.maxStack))
             {
@@ -288,7 +297,10 @@ public class InventoryManager : MonoBehaviour
 
         if (!placed)
         {
-            Debug.Log("Инвентарь полон!");
+            if (isWeapon)
+                Debug.Log("У вас уже есть два оружия. Нельзя подобрать третье!");
+            else
+                Debug.Log("Инвентарь полон!");
         }
         else
         {
@@ -340,6 +352,7 @@ public class InventoryManager : MonoBehaviour
             {
                 ammoInMagazine[slotIndex] = 0;
                 reserveAmmo[slotIndex] = 0;
+                ammoInitializedForItem[slotIndex] = null;
             }
             UpdateUI();
             UpdateHand();
@@ -391,9 +404,9 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        if (weapon.shootSound != null && audioSource != null)
+        if (!weapon.shootFmodEvent.IsNull)
         {
-            audioSource.PlayOneShot(weapon.shootSound);
+            RuntimeManager.PlayOneShot(weapon.shootFmodEvent, muzzlePosition);
         }
         
         ApplyRecoil(weapon);
@@ -440,12 +453,14 @@ public class InventoryManager : MonoBehaviour
         {
             ammoInMagazine[slotIndex] = 0;
             reserveAmmo[slotIndex] = 0;
+            ammoInitializedForItem[slotIndex] = null;
             UpdateAmmoUI();
             return;
         }
         
         ammoInMagazine[slotIndex] = Mathf.Clamp(item.startingAmmoInMagazine, 0, item.magazineSize);
         reserveAmmo[slotIndex] = Mathf.Clamp(item.startingReserveAmmo, 0, item.reserveAmmoMax);
+        ammoInitializedForItem[slotIndex] = item;
         UpdateAmmoUI();
     }
 
@@ -547,7 +562,7 @@ public class InventoryManager : MonoBehaviour
 
         if (isReloading[selectedSlot])
         {
-            ammoText.text = $"RELOADING... {reserveAmmo[selectedSlot]} | {ammoInMagazine[selectedSlot]}";
+            ammoText.text = $"Перезарядка... {reserveAmmo[selectedSlot]} | {ammoInMagazine[selectedSlot]}";
         }
         else
         {
@@ -650,7 +665,10 @@ public class InventoryManager : MonoBehaviour
             currentHandItem = Instantiate(slotItems[selectedSlot].handModel, handSocket.position, handSocket.rotation, handSocket);
             Debug.Log($"Модель {slotItems[selectedSlot].itemName} отображена в руке (слот {selectedSlot})");
             
-            if (slotItems[selectedSlot].usesAmmo && ammoInMagazine[selectedSlot] == 0 && reserveAmmo[selectedSlot] == 0)
+            // Инициализируем стартовые патроны ТОЛЬКО при первом появлении оружия в слоте
+            // (или если предмет в слоте сменился). Не переинициализируем по условию "0/0",
+            // иначе при переключении оружия можно случайно вернуть "заводские" значения.
+            if (slotItems[selectedSlot].usesAmmo && ammoInitializedForItem[selectedSlot] != slotItems[selectedSlot])
             {
                 InitAmmoForSlot(selectedSlot, slotItems[selectedSlot]);
             }
