@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 1207427172668571063}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.7, y: -0.6, z: 1}
+  m_LocalPosition: {x: 0.7, y: -0.45, z: 0.762}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45,6 +45,8 @@ GameObject:
   - component: {fileID: 8817265342268496367}
   - component: {fileID: 8923012369263447972}
   - component: {fileID: 6328405112033386591}
+  - component: {fileID: 8943455351909143087}
+  - component: {fileID: 443739331768101856}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -179,15 +181,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c801349ba16ee404cb9e0bb28f085a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 7
-  airSpeedMultiplier: 1.5
+  walkSpeed: 5
+  airSpeedMultiplier: 1
   aimSpeedMultiplier: 0.5
-  jumpHeight: 1.5
+  jumpHeight: 1
   gravity: -15
   mouseSensitivity: 2
   minFov: 40
   maxFov: 60
   zoomSpeed: 10
+  headBobTarget: {fileID: 3767897282949946003}
+  enableHeadBob: 1
+  bobFrequency: 10
+  bobAmplitude: 0.05
+  bobHorizontalAmplitude: 0.03
+  bobSmooth: 12
+--- !u!114 &8943455351909143087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733456135814089942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cf95ce1d72362e499e3114ea0ee98d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pistol: 0
+  rifle: 0
+  shotgun: 0
+--- !u!114 &443739331768101856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733456135814089942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a51cc8ac14743124b8bd579fdc4e2851, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickupKey: 101
+  radius: 1
+  pickupMask:
+    serializedVersion: 2
+    m_Bits: 2097152
 --- !u!1 &6183308384104727364
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,7 +296,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.1
   far clip plane: 1000
   field of view: 60.000004
   orthographic: 0

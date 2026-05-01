@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AutomatItem
   m_EditorClassIdentifier: 
   firePointPath: FirePoint
-  itemName: Automat
+  itemName: "\u041F\u0443\u043B\u0435\u043C\u0451\u0442"
   icon: {fileID: 21300000, guid: a42948eea10575445b486c618ec3b135, type: 3}
   handModel: {fileID: 7994863093977762723, guid: 5a30f9ae50596a947b8f8aa98dd70bb9,
     type: 3}
@@ -37,7 +37,7 @@ MonoBehaviour:
   recoilKickSide: 0.1
   recoilReturnSpeed: 55
   recoilSnappiness: 72
-  weaponType: 0
+  weaponType: 1
   shootSound: {fileID: 0}
   decalPrefab: {fileID: 2504214343621411470, guid: 3ed0d324122d7b24eaec75c55c74aafc,
     type: 3}
