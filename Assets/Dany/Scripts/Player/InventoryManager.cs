@@ -8,7 +8,7 @@ public class InventoryManager : MonoBehaviour
 {
     [Header("UI Settings")]
     public Transform inventoryPanel;
-    public SlotUI[] slots = new SlotUI[9];
+    public SlotUI[] slots = new SlotUI[2];
 
     [Header("Player Hand")]
     public Transform handSocket; 
@@ -164,21 +164,21 @@ public class InventoryManager : MonoBehaviour
         // Смена слота: колесо мыши
         if (Input.GetAxis("Mouse ScrollWheel") > 0)
         {
-            selectedSlot = (selectedSlot + 1) % 9;
+            selectedSlot = (selectedSlot + 1) % 2;
             UpdateHand();
             UpdateUI();
             Debug.Log($"Выбран слот {selectedSlot + 1} колесом");
         }
         else if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
-            selectedSlot = (selectedSlot - 1 + 9) % 9;
+            selectedSlot = (selectedSlot - 1 + 2) % 2;
             UpdateHand();
             UpdateUI();
             Debug.Log($"Выбран слот {selectedSlot + 1} колесом");
         }
 
         // Смена слота: клавиши 1-9
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < 2; i++)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1 + i))
             {
@@ -344,7 +344,7 @@ public class InventoryManager : MonoBehaviour
 
     private void UpdateUI()
     {
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < 2; i++)
         {
             if (slots[i] != null)
             {
@@ -356,7 +356,7 @@ public class InventoryManager : MonoBehaviour
 
     private void HighlightSelectedSlot()
     {
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < 2; i++)
         {
             if (slots[i] != null)
             {
@@ -392,7 +392,7 @@ public class InventoryManager : MonoBehaviour
 
     public bool HasFreeSlot()
     {
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < 2; i++)
         {
             if (slotItems[i] == null) return true;
         }

@@ -20,9 +20,9 @@ public class InventoryItem : ScriptableObject
    
     public enum WeaponType
     {
-        Magic_Book,
-        Sphere_Ice,
-        Sacred_Grende
+        Gan,
+        Automat,
+        Grende
       
     }
     public WeaponType weaponType;
