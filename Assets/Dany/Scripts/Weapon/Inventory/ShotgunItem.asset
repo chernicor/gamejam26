@@ -13,38 +13,39 @@ MonoBehaviour:
   m_Name: ShotgunItem
   m_EditorClassIdentifier: 
   firePointPath: FirePoint
-  itemName: 
-  icon: {fileID: 0}
-  handModel: {fileID: 0}
+  itemName: "\u0414\u0440\u043E\u0431\u043E\u0432\u0438\u043A"
+  icon: {fileID: 21300000, guid: 1c283568731649940a6c08614914c894, type: 3}
+  handModel: {fileID: 7719784349500890954, guid: 4a568b1dae265db48bb2077f2ae5dcb7,
+    type: 3}
   isConsumable: 0
   maxStack: 1
-  canShoot: 0
+  canShoot: 1
   fireMode: 0
   bulletSpeed: 50
-  damage: 10
-  fireRate: 0.5
-  muzzleEffect: {fileID: 0}
-  pelletCount: 10
-  spreadAngle: 6
-  maxRange: 35
-  minDamageMultiplierAtMaxRange: 0.35
-  usesAmmo: 0
-  magazineSize: 30
-  startingAmmoInMagazine: 30
-  reserveAmmoMax: 90
-  startingReserveAmmo: 90
-  reloadTime: 1.5
+  damage: 50
+  fireRate: 1
+  muzzleEffect: {fileID: 1008575725560751202, guid: c441904f4a9c93043859126dbc5182f1,
+    type: 3}
+  usesAmmo: 1
+  magazineSize: 2
+  startingAmmoInMagazine: 2
+  reserveAmmoMax: 999
+  startingReserveAmmo: 20
+  reloadTime: 1
   useRecoil: 1
-  recoilKickUp: 2
+  recoilKickUp: 1
   recoilKickSide: 0.6
   recoilReturnSpeed: 18
   recoilSnappiness: 22
-  weaponType: 0
+  weaponType: 2
   shootSound: {fileID: 0}
-  decalPrefab: {fileID: 0}
+  decalPrefab: {fileID: 2504214343621411470, guid: 3ed0d324122d7b24eaec75c55c74aafc,
+    type: 3}
   canThrow: 0
-  throwPrefab: {fileID: 0}
+  throwPrefab: {fileID: 7719784349500890954, guid: 4a568b1dae265db48bb2077f2ae5dcb7,
+    type: 3}
   throwForce: 20
   explosionRadius: 5
   explosionDamage: 50
-  worldPickupPrefab: {fileID: 0}
+  worldPickupPrefab: {fileID: 7719784349500890954, guid: 4a568b1dae265db48bb2077f2ae5dcb7,
+    type: 3}

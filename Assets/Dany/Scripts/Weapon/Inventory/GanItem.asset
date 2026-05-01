@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GanItem
   m_EditorClassIdentifier: 
   firePointPath: FirePoint
-  itemName: Gan
+  itemName: "\u041F\u0438\u0441\u0442\u043E\u043B\u0435\u0442"
   icon: {fileID: 21300000, guid: f77ce2057593d514a96bc826343dfe4e, type: 3}
   handModel: {fileID: 7994863093977762723, guid: fb5745ed8cda237408e86c689ac6993c,
     type: 3}
