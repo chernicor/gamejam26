@@ -1723,7 +1723,11 @@ PrefabInstance:
     - {fileID: 2635579019637189229, guid: 888685b711e910a48ae908e1cf4ecfc1, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5773982854462284956, guid: 888685b711e910a48ae908e1cf4ecfc1,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1848693515}
   m_SourcePrefab: {fileID: 100100000, guid: 888685b711e910a48ae908e1cf4ecfc1, type: 3}
 --- !u!1001 &352549058
 PrefabInstance:
@@ -1801,6 +1805,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 443739331768101856, guid: c145f6610a501ca4fad15edc0476433b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1733456135814089942, guid: c145f6610a501ca4fad15edc0476433b,
         type: 3}
       propertyPath: m_Name
@@ -10284,6 +10293,43 @@ Camera:
     type: 3}
   m_PrefabInstance: {fileID: 397570068}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1848693512 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5773982854462284956, guid: 888685b711e910a48ae908e1cf4ecfc1,
+    type: 3}
+  m_PrefabInstance: {fileID: 333576896}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1848693515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1848693512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 480004298
+      Data2: 1188854243
+      Data3: -557472361
+      Data4: 1990808506
+    Path: event:/Doom
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &1858280962
 GameObject:
   m_ObjectHideFlags: 0
