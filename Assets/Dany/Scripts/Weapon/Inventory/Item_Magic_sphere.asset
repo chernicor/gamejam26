@@ -24,7 +24,13 @@ MonoBehaviour:
   fireRate: 0.3
   muzzleEffect: {fileID: 1008575725560751202, guid: 931f6e9e16fecb74687b908a1f83235a, type: 3}
   weaponType: 1
-  shootSound: {fileID: 8300000, guid: 21fdcba2d1b730342be9069d2fdb2aa7, type: 3}
+  shootFmodEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   decalPrefab: {fileID: 5112403345868107898, guid: 6f34ef0d986e9db4199cf75805f79753, type: 3}
   canThrow: 0
   throwPrefab: {fileID: 0}
