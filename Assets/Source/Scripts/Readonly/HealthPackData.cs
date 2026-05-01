@@ -8,5 +8,6 @@ namespace SiberianGJ26.YouAreDoing.Antos.Readonly
         [field: SerializeField] public float Value { get; private set; } = 10f;
         [field: SerializeField] public float Range { get; private set; } = 1f;
         [field: SerializeField] public LayerMask DetectLayer { get; private set; }
+        [field: SerializeField] public VfxData Effect { get; private set;}
     }
 }

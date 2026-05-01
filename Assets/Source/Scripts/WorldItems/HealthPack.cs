@@ -15,14 +15,33 @@ namespace SiberianGJ26.YouAreDoing.Antos.Items
         private void Start()
         {
             _monoUpdater = MonoUpdater.Instance;
+            _monoUpdater?.Add(this);
+        }
+
+        private void OnEnable()
+        {
+            _monoUpdater?.Add(this);
+        }
+
+        private void OnDisable()
+        {
+            _monoUpdater?.Add(this);
         }
 
         public void OnUpdate()
         {
-            /*if (Physics.SphereCast(transform.position, data.Range, transform.forward, out var hit, data.DetectLayer))
+            if (Physics.SphereCast(transform.position, data.Range, transform.forward, out var hit, data.DetectLayer))
             {
-                hit.collider.TryGetComponent(out )
-            }*/
+                if (hit.collider.TryGetComponent(out IHealth health) && health.TrySet(data.Value))
+                {
+                    if (data.Effect != null)
+                    {
+                        var effect = Instantiate(data.Effect.Prefab);
+                        effect.Init(hit.collider.transform);
+                    }
+                    Destroy(gameObject);
+                }
+            }
         }
     }
 }
