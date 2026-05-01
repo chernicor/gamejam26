@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fc647e2940d0e444a8d43606fa6d6a9, type: 3}
+  m_Name: Item_Grenade
+  m_EditorClassIdentifier: 
+  itemName: Grenade
+  icon: {fileID: 21300000, guid: f24fe8c1af92f7f4db30ce86b4f8a746, type: 3}
+  handModel: {fileID: 0}
+  isConsumable: 1
+  maxStack: 12
+  canShoot: 0
+  fireMode: 0
+  bulletSpeed: 50
+  damage: 10
+  fireRate: 0.5
+  muzzleEffect: {fileID: 0}
+  weaponType: 2
+  shootSound: {fileID: 8300000, guid: 6cedbd3415eace04a847a5c2b9b43263, type: 3}
+  decalPrefab: {fileID: 2433282508537954060, guid: 3ef3ae421f71c5c4e97fe12dc2fc6312, type: 3}
+  canThrow: 1
+  throwPrefab: {fileID: 4745315432066015424, guid: 6600b0409496d4048856a89639b0cb89, type: 3}
+  throwForce: 20
+  explosionRadius: 5
+  explosionDamage: 50
+  worldPickupPrefab: {fileID: 4745315432066015424, guid: 6600b0409496d4048856a89639b0cb89, type: 3}

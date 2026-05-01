@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fc647e2940d0e444a8d43606fa6d6a9, type: 3}
+  m_Name: AutomatItem
+  m_EditorClassIdentifier: 
+  firePointPath: FirePoint
+  itemName: "\u041F\u0443\u043B\u0435\u043C\u0451\u0442"
+  icon: {fileID: 21300000, guid: a42948eea10575445b486c618ec3b135, type: 3}
+  handModel: {fileID: 7994863093977762723, guid: 5a30f9ae50596a947b8f8aa98dd70bb9,
+    type: 3}
+  isConsumable: 0
+  maxStack: 1
+  canShoot: 1
+  fireMode: 1
+  bulletSpeed: 50
+  damage: 10
+  fireRate: 0.06
+  muzzleEffect: {fileID: 1008575725560751202, guid: c441904f4a9c93043859126dbc5182f1,
+    type: 3}
+  usesAmmo: 1
+  magazineSize: 100
+  startingAmmoInMagazine: 100
+  reserveAmmoMax: 999
+  startingReserveAmmo: 500
+  reloadTime: 1.5
+  useRecoil: 1
+  recoilKickUp: 0.4
+  recoilKickSide: 0.1
+  recoilReturnSpeed: 55
+  recoilSnappiness: 72
+  weaponType: 1
+  shootSound: {fileID: 0}
+  decalPrefab: {fileID: 2504214343621411470, guid: 3ed0d324122d7b24eaec75c55c74aafc,
+    type: 3}
+  canThrow: 0
+  throwPrefab: {fileID: 0}
+  throwForce: 20
+  explosionRadius: 5
+  explosionDamage: 50
+  worldPickupPrefab: {fileID: 7994863093977762723, guid: 5a30f9ae50596a947b8f8aa98dd70bb9,
+    type: 3}
