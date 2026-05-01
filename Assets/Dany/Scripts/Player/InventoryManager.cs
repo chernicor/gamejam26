@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using System.Collections;
 namespace Dany
 {
 public class InventoryManager : MonoBehaviour
@@ -9,6 +10,7 @@ public class InventoryManager : MonoBehaviour
     [Header("UI Settings")]
     public Transform inventoryPanel;
     public SlotUI[] slots = new SlotUI[2];
+    public TextMeshProUGUI ammoText;
 
     [Header("Player Hand")]
     public Transform handSocket; 
@@ -28,11 +30,16 @@ public class InventoryManager : MonoBehaviour
    
     private List<InventoryItem> slotItems = new List<InventoryItem>(9);
     private List<int> slotCounts = new List<int>(9);
+    
+    private int[] ammoInMagazine = new int[2];
+    private int[] reserveAmmo = new int[2];
+    private bool[] isReloading = new bool[2];
 
     private bool isShowingHint = false;
     private string currentHintText = "";
 
     private PickupObject currentPickupObject;
+    private AmmoPickup currentAmmoPickup;
 
     private float lastShotTime = 0f; 
 
@@ -44,6 +51,9 @@ public class InventoryManager : MonoBehaviour
     public enum CameraMode { TopDown, FPS, TPS }
     public CameraMode cameraMode = CameraMode.FPS;
     public Transform playerTransform;
+    
+    private Vector3 recoilCurrent;
+    private Vector3 recoilTarget;
 
     void Start()
     {
@@ -60,11 +70,20 @@ public class InventoryManager : MonoBehaviour
             slotItems.Add(null);
             slotCounts.Add(0);
         }
+        
+        for (int i = 0; i < 2; i++)
+        {
+            ammoInMagazine[i] = 0;
+            reserveAmmo[i] = 0;
+            isReloading[i] = false;
+        }
 
         UpdateUI();
         UpdateHand();
+        UpdateAmmoUI();
 
         pickupHintText.SetActive(false);
+        
     }
 
     void Update()
@@ -72,6 +91,18 @@ public class InventoryManager : MonoBehaviour
         HandleInput();
         CheckForPickupObject();
         UpdateHint();
+        UpdateRecoil();
+        
+        if (ammoText != null && !ammoText.gameObject.activeSelf)
+        {
+            ammoText.gameObject.SetActive(true);
+        }
+        UpdateAmmoUI();
+    }
+    
+    void LateUpdate()
+    {
+        ApplyRecoilToCamera();
     }
 
     // Raycast для обнаружения подобранных предметов
@@ -90,7 +121,19 @@ public class InventoryManager : MonoBehaviour
                 canPickup = true;
                 pickupItem = pickupObj.item;
                 currentPickupObject = pickupObj;
+                currentAmmoPickup = null;
                 currentHintText = $"Нажми E, чтобы подобрать {pickupObj.item.itemName}";
+                return;
+            }
+
+            AmmoPickup ammoPickup = hit.collider.GetComponent<AmmoPickup>();
+            if (ammoPickup != null)
+            {
+                canPickup = true;
+                pickupItem = null;
+                currentPickupObject = null;
+                currentAmmoPickup = ammoPickup;
+                currentHintText = ammoPickup.GetHintText();
                 return;
             }
         }
@@ -98,6 +141,7 @@ public class InventoryManager : MonoBehaviour
         canPickup = false;
         pickupItem = null;
         currentPickupObject = null;
+        currentAmmoPickup = null;
         currentHintText = "";
     }
 
@@ -105,7 +149,7 @@ public class InventoryManager : MonoBehaviour
     {
         if (pickupHintText == null) return;
 
-        bool shouldShow = canPickup && pickupItem != null;
+        bool shouldShow = canPickup && (pickupItem != null || currentAmmoPickup != null);
 
         if (shouldShow && !isShowingHint)
         {
@@ -119,15 +163,32 @@ public class InventoryManager : MonoBehaviour
         }
 
         float targetAlpha = isShowingHint ? 1f : 0f;
+
+        var tmp = pickupHintText.GetComponent<TextMeshProUGUI>();
+        if (tmp == null) tmp = pickupHintText.GetComponentInChildren<TextMeshProUGUI>();
+        if (tmp != null)
+        {
+            tmp.text = currentHintText;
+            var c = tmp.color;
+            c.a = Mathf.Lerp(c.a, targetAlpha, Time.deltaTime * hintFadeSpeed);
+            tmp.color = c;
+        }
     }
 
     // Обработка ввода
     private void HandleInput()
     {
         // Подбор по E
-        if (Input.GetKeyDown(KeyCode.E) && canPickup && pickupItem != null)
+        if (Input.GetKeyDown(KeyCode.E) && canPickup)
         {
-            PickupItem(pickupItem);
+            if (pickupItem != null)
+            {
+                PickupItem(pickupItem);
+            }
+            else if (currentAmmoPickup != null)
+            {
+                PickupAmmo(currentAmmoPickup);
+            }
         }
 
         // Выброс по X
@@ -154,6 +215,12 @@ public class InventoryManager : MonoBehaviour
                 }
             }
         }
+        
+        // Перезарядка по R
+        if (Input.GetKeyDown(KeyCode.R) && slotItems[selectedSlot] != null && slotItems[selectedSlot].canShoot)
+        {
+            Reload(selectedSlot);
+        }
 
         // Бросок гранаты по G (только если предмет canThrow)
         if (Input.GetKeyDown(KeyCode.G) && slotItems[selectedSlot] != null && slotItems[selectedSlot].canThrow)
@@ -167,6 +234,7 @@ public class InventoryManager : MonoBehaviour
             selectedSlot = (selectedSlot + 1) % 2;
             UpdateHand();
             UpdateUI();
+            UpdateAmmoUI();
             Debug.Log($"Выбран слот {selectedSlot + 1} колесом");
         }
         else if (Input.GetAxis("Mouse ScrollWheel") < 0)
@@ -174,6 +242,7 @@ public class InventoryManager : MonoBehaviour
             selectedSlot = (selectedSlot - 1 + 2) % 2;
             UpdateHand();
             UpdateUI();
+            UpdateAmmoUI();
             Debug.Log($"Выбран слот {selectedSlot + 1} колесом");
         }
 
@@ -185,6 +254,7 @@ public class InventoryManager : MonoBehaviour
                 selectedSlot = i;
                 UpdateHand();
                 UpdateUI();
+                UpdateAmmoUI();
                 Debug.Log($"Выбран слот {i + 1} клавишей");
                 break;
             }
@@ -202,9 +272,15 @@ public class InventoryManager : MonoBehaviour
                 slotItems[i] = item;
                 slotCounts[i] = (slotItems[i] == item && slotCounts[i] > 0) ? slotCounts[i] + 1 : 1;
                 placed = true;
+                
+                if (i < 2)
+                {
+                    InitAmmoForSlot(i, item);
+                }
 
                 UpdateUI();
                 UpdateHand();
+                UpdateAmmoUI();
                 Debug.Log($"Подобран {item.itemName}! Слот {i}: {slotCounts[i]} шт.");
                 break;
             }
@@ -225,6 +301,34 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    public void PickupAmmo(AmmoPickup ammoPickup)
+    {
+        if (ammoPickup == null) return;
+
+        bool applied = false;
+        for (int i = 0; i < 2; i++)
+        {
+            InventoryItem weapon = slotItems[i];
+            if (weapon == null) continue;
+            if (!weapon.usesAmmo) continue;
+            if (weapon.weaponType != ammoPickup.weaponType) continue;
+
+            int max = Mathf.Max(0, weapon.reserveAmmoMax);
+            reserveAmmo[i] = Mathf.Clamp(reserveAmmo[i] + Mathf.Max(0, ammoPickup.amount), 0, max);
+            applied = true;
+        }
+
+        if (!applied)
+        {
+            Debug.Log($"Нет оружия подходящего типа для патронов ({ammoPickup.weaponType}).");
+            return;
+        }
+
+        UpdateAmmoUI();
+        Destroy(ammoPickup.gameObject);
+        currentAmmoPickup = null;
+    }
+
     private void DropItem(int slotIndex)
     {
         if (slotItems[slotIndex] != null)
@@ -232,8 +336,14 @@ public class InventoryManager : MonoBehaviour
             string itemName = slotItems[slotIndex].itemName;
             slotItems[slotIndex] = null;
             slotCounts[slotIndex] = 0;
+            if (slotIndex < 2)
+            {
+                ammoInMagazine[slotIndex] = 0;
+                reserveAmmo[slotIndex] = 0;
+            }
             UpdateUI();
             UpdateHand();
+            UpdateAmmoUI();
             Debug.Log($"Выброшен {itemName} из слота {slotIndex}");
         }
     }
@@ -242,13 +352,30 @@ public class InventoryManager : MonoBehaviour
     {
         InventoryItem weapon = slotItems[slotIndex];
         if (weapon == null || !weapon.canShoot) return;
+        if (weapon.usesAmmo && isReloading[slotIndex]) return;
+        
+        if (weapon.usesAmmo)
+        {
+            if (ammoInMagazine[slotIndex] <= 0)
+            {
+                Reload(slotIndex);
+                return;
+            }
+            
+            ammoInMagazine[slotIndex]--;
+            UpdateAmmoUI();
+        }
 
         lastShotTime = Time.time;
+
+        Transform firePoint = GetFirePointForCurrentHandItem(weapon);
+        Vector3 muzzlePosition = firePoint != null ? firePoint.position : handSocket.position;
+        Quaternion muzzleRotation = firePoint != null ? firePoint.rotation : handSocket.rotation;
 
         if (weapon.muzzleEffect != null)
         {
             if (currentMuzzleEffect != null) Destroy(currentMuzzleEffect);
-            currentMuzzleEffect = Instantiate(weapon.muzzleEffect.gameObject, handSocket.position, handSocket.rotation);
+            currentMuzzleEffect = Instantiate(weapon.muzzleEffect.gameObject, muzzlePosition, muzzleRotation);
             ParticleSystem ps = currentMuzzleEffect.GetComponent<ParticleSystem>();
             if (ps != null)
             {
@@ -268,6 +395,8 @@ public class InventoryManager : MonoBehaviour
         {
             audioSource.PlayOneShot(weapon.shootSound);
         }
+        
+        ApplyRecoil(weapon);
 
         Vector3 rayOrigin = playerCamera.transform.position;
         Vector3 rayDirection = playerCamera.transform.forward;
@@ -295,7 +424,144 @@ public class InventoryManager : MonoBehaviour
             Debug.Log($"Попадание в {hit.collider.name} на расстоянии {hit.distance}. Урон: {weapon.damage}");
         }
 
-        Debug.Log($"Выстрел из {weapon.itemName}! Урон: {weapon.damage}, Скорострельность: {weapon.fireRate}");
+        if (weapon.usesAmmo)
+        {
+            Debug.Log($"Выстрел из {weapon.itemName}! Патроны: {ammoInMagazine[slotIndex]}/{weapon.magazineSize} | Запас: {reserveAmmo[slotIndex]}");
+        }
+        else
+        {
+            Debug.Log($"Выстрел из {weapon.itemName}! Урон: {weapon.damage}, Скорострельность: {weapon.fireRate}");
+        }
+    }
+
+    private void InitAmmoForSlot(int slotIndex, InventoryItem item)
+    {
+        if (item == null || !item.usesAmmo)
+        {
+            ammoInMagazine[slotIndex] = 0;
+            reserveAmmo[slotIndex] = 0;
+            UpdateAmmoUI();
+            return;
+        }
+        
+        ammoInMagazine[slotIndex] = Mathf.Clamp(item.startingAmmoInMagazine, 0, item.magazineSize);
+        reserveAmmo[slotIndex] = Mathf.Clamp(item.startingReserveAmmo, 0, item.reserveAmmoMax);
+        UpdateAmmoUI();
+    }
+
+    private void Reload(int slotIndex)
+    {
+        InventoryItem weapon = slotItems[slotIndex];
+        if (weapon == null || !weapon.canShoot || !weapon.usesAmmo) return;
+        if (isReloading[slotIndex]) return;
+        if (ammoInMagazine[slotIndex] >= weapon.magazineSize) return;
+        if (reserveAmmo[slotIndex] <= 0)
+        {
+            Debug.Log("Нет патронов.");
+            return;
+        }
+        
+        StartCoroutine(ReloadRoutine(slotIndex, weapon));
+    }
+    
+    private void ApplyRecoil(InventoryItem weapon)
+    {
+        if (weapon == null || !weapon.useRecoil) return;
+        if (playerCamera == null) return;
+        
+        float side = Random.Range(-weapon.recoilKickSide, weapon.recoilKickSide);
+        recoilTarget += new Vector3(-weapon.recoilKickUp, side, 0f);
+    }
+    
+    private void UpdateRecoil()
+    {
+        InventoryItem weapon = slotItems[selectedSlot];
+        if (weapon == null || !weapon.canShoot || !weapon.useRecoil || playerCamera == null)
+        {
+            recoilTarget = Vector3.Lerp(recoilTarget, Vector3.zero, Time.deltaTime * 20f);
+            recoilCurrent = Vector3.Lerp(recoilCurrent, Vector3.zero, Time.deltaTime * 20f);
+            return;
+        }
+        
+        recoilTarget = Vector3.Lerp(recoilTarget, Vector3.zero, Time.deltaTime * weapon.recoilReturnSpeed);
+        recoilCurrent = Vector3.Slerp(recoilCurrent, recoilTarget, Time.deltaTime * weapon.recoilSnappiness);
+    }
+    
+    private void ApplyRecoilToCamera()
+    {
+        if (playerCamera == null) return;
+        
+        InventoryItem weapon = slotItems[selectedSlot];
+        if (weapon == null || !weapon.canShoot || !weapon.useRecoil) return;
+        
+        // Добавляем отдачу поверх текущего поворота камеры (mouse look).
+        // Это не ломает управление вверх/вниз, потому что не меняем иерархию.
+        playerCamera.transform.localRotation = playerCamera.transform.localRotation * Quaternion.Euler(recoilCurrent);
+    }
+    
+    private IEnumerator ReloadRoutine(int slotIndex, InventoryItem weapon)
+    {
+        isReloading[slotIndex] = true;
+        UpdateAmmoUI();
+        
+        float t = Mathf.Max(0f, weapon.reloadTime);
+        if (t > 0f) yield return new WaitForSeconds(t);
+        
+        // оружие могло смениться во время ожидания
+        if (slotItems[slotIndex] != weapon)
+        {
+            isReloading[slotIndex] = false;
+            UpdateAmmoUI();
+            yield break;
+        }
+        
+        int need = weapon.magazineSize - ammoInMagazine[slotIndex];
+        if (need <= 0)
+        {
+            isReloading[slotIndex] = false;
+            UpdateAmmoUI();
+            yield break;
+        }
+        if (reserveAmmo[slotIndex] <= 0) { isReloading[slotIndex] = false; UpdateAmmoUI(); yield break; }
+        
+        int take = Mathf.Min(need, reserveAmmo[slotIndex]);
+        reserveAmmo[slotIndex] -= take;
+        ammoInMagazine[slotIndex] += take;
+        isReloading[slotIndex] = false;
+        UpdateAmmoUI();
+        
+        Debug.Log($"Перезарядка: {ammoInMagazine[slotIndex]}/{weapon.magazineSize} | Запас: {reserveAmmo[slotIndex]}");
+    }
+    
+    private void UpdateAmmoUI()
+    {
+        if (ammoText == null) return;
+        if (!ammoText.gameObject.activeSelf) ammoText.gameObject.SetActive(true);
+        
+        InventoryItem weapon = slotItems[selectedSlot];
+        if (weapon == null || !weapon.canShoot || !weapon.usesAmmo)
+        {
+            ammoText.text = "";
+            return;
+        }
+
+        if (isReloading[selectedSlot])
+        {
+            ammoText.text = $"RELOADING... {reserveAmmo[selectedSlot]} | {ammoInMagazine[selectedSlot]}";
+        }
+        else
+        {
+            ammoText.text = $"{reserveAmmo[selectedSlot]} | {ammoInMagazine[selectedSlot]}";
+        }
+    }
+
+    private Transform GetFirePointForCurrentHandItem(InventoryItem weapon)
+    {
+        if (weapon == null || currentHandItem == null) return null;
+        if (string.IsNullOrWhiteSpace(weapon.firePointPath)) return null;
+        
+        Transform t = currentHandItem.transform.Find(weapon.firePointPath);
+        return t;
     }
 
     public void Throw(int slotIndex)
@@ -383,11 +649,18 @@ public class InventoryManager : MonoBehaviour
         {
             currentHandItem = Instantiate(slotItems[selectedSlot].handModel, handSocket.position, handSocket.rotation, handSocket);
             Debug.Log($"Модель {slotItems[selectedSlot].itemName} отображена в руке (слот {selectedSlot})");
+            
+            if (slotItems[selectedSlot].usesAmmo && ammoInMagazine[selectedSlot] == 0 && reserveAmmo[selectedSlot] == 0)
+            {
+                InitAmmoForSlot(selectedSlot, slotItems[selectedSlot]);
+            }
         }
         else
         {
             Debug.Log($"Нет предмета в слоте {selectedSlot} или handModel не задан в ScriptableObject.");
         }
+        
+        UpdateAmmoUI();
     }
 
     public bool HasFreeSlot()

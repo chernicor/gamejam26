@@ -19,12 +19,27 @@ public class InventoryItem : ScriptableObject
     public int damage = 10;
     public float fireRate = 0.5f;
     public ParticleSystem muzzleEffect;
+    
+    [Header("Ammo (only for ranged weapons)")]
+    public bool usesAmmo = false;
+    public int magazineSize = 30;
+    public int startingAmmoInMagazine = 30;
+    public int reserveAmmoMax = 90;
+    public int startingReserveAmmo = 90;
+    public float reloadTime = 1.5f;
+    
+    [Header("Recoil (camera kick)")]
+    public bool useRecoil = true;
+    public float recoilKickUp = 2f;
+    public float recoilKickSide = 0.6f;
+    public float recoilReturnSpeed = 18f;
+    public float recoilSnappiness = 22f;
    
     public enum WeaponType
     {
         Gan,
         Automat,
-        Grende
+        Shotgun
       
     }
     public WeaponType weaponType;

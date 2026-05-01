@@ -16,6 +16,14 @@ public class FirstPersonController : MonoBehaviour
     public float minFov = 40f;
     public float maxFov = 60f;
     public float zoomSpeed = 10f;
+    public Transform headBobTarget;
+    
+    [Header("Head Bob")]
+    public bool enableHeadBob = true;
+    public float bobFrequency = 10f;
+    public float bobAmplitude = 0.05f;
+    public float bobHorizontalAmplitude = 0.03f;
+    public float bobSmooth = 12f;
 
     private CharacterController controller;
     private Camera playerCamera;
@@ -23,6 +31,9 @@ public class FirstPersonController : MonoBehaviour
     private bool isGrounded;
     private float currentFov;
     private bool isAiming;
+    private Vector3 headBobDefaultLocalPos;
+    private float bobTime;
+    private float moveInputMagnitude;
 
     void Start()
     {
@@ -31,6 +42,9 @@ public class FirstPersonController : MonoBehaviour
         currentFov = maxFov;
         playerCamera.fieldOfView = currentFov;
         Cursor.lockState = CursorLockMode.Locked;
+        
+        if (headBobTarget == null && playerCamera != null) headBobTarget = playerCamera.transform;
+        if (headBobTarget != null) headBobDefaultLocalPos = headBobTarget.localPosition;
     }
 
     void Update()
@@ -39,6 +53,7 @@ public class FirstPersonController : MonoBehaviour
         HandleJump();
         HandleCameraRotation();
         HandleAiming();
+        HandleHeadBob();
     }
 
     void HandleMovement()
@@ -47,6 +62,7 @@ public class FirstPersonController : MonoBehaviour
         float moveZ = Input.GetAxis("Vertical");   // W/S
 
         Vector3 move = transform.right * moveX + transform.forward * moveZ;
+        moveInputMagnitude = Mathf.Clamp01(new Vector2(moveX, moveZ).magnitude);
 
         isGrounded = controller.isGrounded;
         if (isGrounded && velocity.y < 0)
@@ -90,6 +106,32 @@ public class FirstPersonController : MonoBehaviour
         currentFov = Mathf.Lerp(currentFov, targetFov, Time.deltaTime * zoomSpeed);
         playerCamera.fieldOfView = currentFov;
 
+    }
+    
+    void HandleHeadBob()
+    {
+        if (!enableHeadBob || headBobTarget == null) return;
+
+        bool isMoving = moveInputMagnitude > 0.01f;
+        float targetWeight = (isGrounded && isMoving) ? moveInputMagnitude : 0f;
+        if (isAiming) targetWeight *= 0.35f;
+        
+        if (targetWeight > 0f)
+        {
+            bobTime += Time.deltaTime * bobFrequency * Mathf.Lerp(0.85f, 1.35f, targetWeight);
+            
+            float y = Mathf.Sin(bobTime) * bobAmplitude;
+            float x = Mathf.Cos(bobTime * 0.5f) * bobHorizontalAmplitude;
+            Vector3 offset = new Vector3(x, y, 0f) * targetWeight;
+            
+            Vector3 targetPos = headBobDefaultLocalPos + offset;
+            headBobTarget.localPosition = Vector3.Lerp(headBobTarget.localPosition, targetPos, Time.deltaTime * bobSmooth);
+        }
+        else
+        {
+            bobTime = 0f;
+            headBobTarget.localPosition = Vector3.Lerp(headBobTarget.localPosition, headBobDefaultLocalPos, Time.deltaTime * bobSmooth);
+        }
     }
 }
 }
