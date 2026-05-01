@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fc647e2940d0e444a8d43606fa6d6a9, type: 3}
+  m_Name: Item_Magic_sphere
+  m_EditorClassIdentifier: 
+  itemName: Magic_sphere_ice
+  icon: {fileID: 21300000, guid: 07f790ac2fc5f2a4488b7070b90de4f6, type: 3}
+  handModel: {fileID: 1038219255158280671, guid: ab999eefe1f53ca49a9369ea55c77db0, type: 3}
+  isConsumable: 0
+  maxStack: 1
+  canShoot: 1
+  fireMode: 1
+  bulletSpeed: 50
+  damage: 10
+  fireRate: 0.3
+  muzzleEffect: {fileID: 1008575725560751202, guid: 931f6e9e16fecb74687b908a1f83235a, type: 3}
+  weaponType: 1
+  shootSound: {fileID: 8300000, guid: 21fdcba2d1b730342be9069d2fdb2aa7, type: 3}
+  decalPrefab: {fileID: 5112403345868107898, guid: 6f34ef0d986e9db4199cf75805f79753, type: 3}
+  canThrow: 0
+  throwPrefab: {fileID: 0}
+  throwForce: 20
+  explosionRadius: 5
+  explosionDamage: 50
+  worldPickupPrefab: {fileID: 1038219255158280671, guid: ab999eefe1f53ca49a9369ea55c77db0, type: 3}
