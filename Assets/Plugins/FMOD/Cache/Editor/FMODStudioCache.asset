@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8957750985393756336
+--- !u!114 &-4376798456546159456
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9,25 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/ShotganS
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
   m_EditorClassIdentifier: 
-  Path: event:/ShotganS
-  Guid:
-    Data1: 117670925
-    Data2: 1282531912
-    Data3: 372324519
-    Data4: -1366926807
-  Banks:
-  - {fileID: -2410401690709898207}
-  IsStream: 1
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 520
---- !u!114 &-8825685636460748505
+  Path: Assets/Plugins/FmodSibGanmeJam/SibGameJam2026/Build/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 639133427237449548
+  FileSizes:
+  - Name: Desktop
+    Value: 2705824
+  Exists: 1
+--- !u!114 &-3714532422097859512
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,7 +39,7 @@ MonoBehaviour:
     Data3: -1345412716
     Data4: 1029381103
   Banks:
-  - {fileID: -2410401690709898207}
+  - {fileID: -4376798456546159456}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -198,25 +191,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Doom
+  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
+  m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
-  Path: event:/Doom
-  Guid:
-    Data1: 480004298
-    Data2: 1188854243
-    Data3: -557472361
-    Data4: 1990808506
-  Banks:
-  - {fileID: -2410401690709898207}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 0
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 144744
---- !u!114 &-2410401690709898207
+  EditorBanks:
+  - {fileID: 1926245205852720016}
+  - {fileID: -4376798456546159456}
+  EditorEvents:
+  - {fileID: 8037836848112873719}
+  - {fileID: -3714532422097859512}
+  - {fileID: 3492014021507753649}
+  - {fileID: 8691404459082793337}
+  EditorParameters: []
+  MasterBanks:
+  - {fileID: -4376798456546159456}
+  StringsBanks:
+  - {fileID: 1926245205852720016}
+  cacheTime: 639133427237475423
+  cacheVersion: 131636
+--- !u!114 &1926245205852720016
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -226,7 +219,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.bank
+  m_Name: bank:/Master.strings.bank
   m_EditorClassIdentifier: 
   Path: Assets/Plugins/FmodSibGanmeJam/SibGameJam2026/Build/Desktop/Master.bank
   Name: Master
@@ -299,8 +292,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.strings.bank
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/MiniganS
   m_EditorClassIdentifier: 
   Path: Assets/Plugins/FmodSibGanmeJam/SibGameJam2026/Build/Desktop/Master.strings.bank
   Name: Master.strings
@@ -427,8 +420,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
-  m_Name: FMODStudioCache
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/ShotganS
   m_EditorClassIdentifier: 
   EditorBanks:
   - {fileID: -1687581084223323070}
@@ -478,15 +471,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: event:/miniganS
   Guid:
-    Data1: -833000028
-    Data2: 1317990376
-    Data3: 866189741
-    Data4: 2127024282
+    Data1: 480004298
+    Data2: 1188854243
+    Data3: -557472361
+    Data4: 1990808506
   Banks:
-  - {fileID: -2410401690709898207}
+  - {fileID: -4376798456546159456}
   IsStream: 1
-  Is3D: 1
-  IsOneShot: 1
+  Is3D: 0
+  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
