@@ -13,6 +13,9 @@ namespace Kirill
         [SerializeField] private string state = "idle"; //idle, rush, meleeAttack, rotate, rangeAttack, ?reloading?, chase
         [SerializeField] private string phase = "melee"; //melee, range
         [SerializeField] private NavMeshAgent agent;
+        [SerializeField] private Animator anim;
+        [SerializeField] private GameObject ballisticPrefab;
+        [SerializeField] private Transform ballisticSpawnPoint;
         private Transform player;
         private MonoHealth playerHealth;
         [Header("Settings")]
@@ -20,6 +23,8 @@ namespace Kirill
         [SerializeField] private float timeToRangePhase;
         [SerializeField] private float meleeAttackTime;
         [SerializeField] private float inaccuracy;
+        [SerializeField] private float ballSpeed;
+        [SerializeField] private bool isBallistic;
         [SerializeField] private float rangeAttackTime;
         [SerializeField] private float rangeAttackMaxDistance;
         [SerializeField] private float rangeDamage;
@@ -46,13 +51,13 @@ namespace Kirill
             if (phase == "melee")
             {
                 phase = "range";
-                state = "idle";
+                if (state != "meleeAttack") state = "idle";
                 StartCoroutine(ChangePhase(timeToMeleePhase));
             }
             else if (phase == "range")
             {
                 phase = "melee";
-                state = "idle";
+                if(state != "rangeAttack") state = "idle";
                 StartCoroutine(ChangePhase(timeToRangePhase));
             }
         }
@@ -76,6 +81,8 @@ namespace Kirill
                 else if (agent.velocity.magnitude < 0.1f && (state == "rotate" || state == "chase")) StartCoroutine(RangeAttack());
                 else if (state == "rotate" && Vector3.Distance(transform.position, player.position) < 10) StartCoroutine(RangeAttack());
             }
+            if(agent.velocity.magnitude > 0.1f) anim.SetBool("Walk", true);
+            else anim.SetBool("Walk", false);
         }
         private void Rush()
         {
@@ -89,13 +96,13 @@ namespace Kirill
         }
         private IEnumerator MeleeAttack()
         {
+            anim.SetTrigger("Punch");
             playerHealth.TrySet(-meleeDamage);
             if (player == null)
             {
                 FirstPersonController p = FindObjectOfType<FirstPersonController>();
                 SetPlayerLinks(p.transform, p.GetComponent<MonoHealth>());
             }
-            //анимация
             yield return new WaitForSeconds(meleeAttackTime);
             state = "idle";
         }
@@ -123,24 +130,42 @@ namespace Kirill
                 yield break;
             }
             state = "rangeAttack";
+            if(isBallistic) BallisticAttack();
+            else RayCastAttack();
+            transform.LookAt(player.position, Vector3.up);
+            anim.SetTrigger("Shoot");
+            yield return new WaitForSeconds(rangeAttackTime);
+            state = "idle";
+            agent.isStopped = false;
+        }
+        private void BallisticAttack()
+        {
+            GameObject ball = Instantiate(ballisticPrefab, ballisticSpawnPoint);
+            ball.transform.parent = transform.parent;
+            //ballisticSpawnPoint.LookAt(player.position);
+            Vector3 velocity = (player.position - transform.position).normalized;
+            velocity.y += 2 / ballSpeed;
+            velocity = velocity * ballSpeed;
+            ball.GetComponent<Rigidbody>().velocity = velocity;
+            ball.GetComponent<Ball>().damage = rangeDamage;
+
+        }
+        private void RayCastAttack()
+        {
+            Ray _ray = new Ray(transform.position, player.position - transform.position);
+            Debug.DrawRay(transform.position, player.position - transform.position);
             Vector3 shootDir = player.position + Vector3.up * Random.Range(-inaccuracy, +inaccuracy) + Vector3.right * Random.Range(-inaccuracy, +inaccuracy) - transform.position;
-            Ray _shoot = new Ray(transform.position, shootDir);
             Debug.DrawRay(transform.position, shootDir);
             Physics.Raycast(_ray, out RaycastHit hit);
             if (hit.collider.CompareTag("Player"))
             {
                 playerHealth.TrySet(-rangeDamage);
-                if(player == null)
+                if (player == null)
                 {
                     FirstPersonController p = FindObjectOfType<FirstPersonController>();
                     SetPlayerLinks(p.transform, p.GetComponent<MonoHealth>());
                 }
             }
-
-            //анимация
-            yield return new WaitForSeconds(rangeAttackTime);
-            state = "idle";
-            agent.isStopped = false;
         }
         private bool isBossSeePlayer()
         {
