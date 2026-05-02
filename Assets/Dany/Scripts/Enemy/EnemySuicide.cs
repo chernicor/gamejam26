@@ -6,6 +6,7 @@ namespace Dany
 {
     /// <summary>
     /// Бежит к игроку и при срабатывании дистанции наносит урон по сфере и уничтожается.
+    /// Достаточно параметров бега в <see cref="EnemyBase"/> (Run Speed Float / Run Bool). Смерть через Animator не подписывается, если не задан триггер.
     /// </summary>
     public class EnemySuicide : EnemyBase
     {
@@ -23,7 +24,7 @@ namespace Dany
 
         private void Update()
         {
-            if (_exploded) return;
+            if (_exploded || IsDead) return;
 
             RefreshTarget();
             if (Target == null) return;
