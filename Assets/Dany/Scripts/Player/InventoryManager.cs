@@ -84,7 +84,9 @@ namespace Dany
                     DropItem(i);
             }
 
-            _playerSpawnState.OnDestroyEv -= PlayerDestroy;
+            // Не отписываемся от OnDestroyEv: иначе после первой смерти респавн больше не
+            // вызовет Init, и playerCamera / playerTransform останутся на уничтоженном игроке.
+            _playerSpawnState.OnSpawnEv -= Init;
             _playerSpawnState.OnSpawnEv += Init;
         }
 
@@ -92,6 +94,8 @@ namespace Dany
         {
             _playerSpawnState.OnSpawnEv -= Init;
 
+            slotItems.Clear();
+            slotCounts.Clear();
             for (int i = 0; i < 9; i++)
             {
                 slotItems.Add(null);
@@ -103,7 +107,18 @@ namespace Dany
                 ammoInMagazine[i] = 0;
                 reserveAmmo[i] = 0;
                 isReloading[i] = false;
+                ammoInitializedForItem[i] = null;
             }
+
+            selectedSlot = 0;
+            canPickup = false;
+            pickupItem = null;
+            currentPickupObject = null;
+            currentAmmoPickup = null;
+            currentHintText = "";
+            isShowingHint = false;
+            recoilCurrent = Vector3.zero;
+            recoilTarget = Vector3.zero;
 
             playerCamera = player.PlayerCamera;
             handSocket = player.HandSocket;
