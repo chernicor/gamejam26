@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: New Health Pack Data
   m_EditorClassIdentifier: 
   <Value>k__BackingField: 10
-  <Range>k__BackingField: 1
+  <Radius>k__BackingField: 0.8
   <DetectLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 64
   <Effect>k__BackingField: {fileID: 0}
+  <GizmosColor>k__BackingField: {r: 0, g: 1, b: 0, a: 0.43137255}

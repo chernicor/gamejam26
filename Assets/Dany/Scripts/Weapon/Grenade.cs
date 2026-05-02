@@ -1,61 +1,68 @@
+using SiberianGJ26.YouAreDoing.Antos.Abstraction;
+using SiberianGJ26.YouAreDoing.Antos.Singleton;
 using UnityEngine;
 
 namespace Dany
 {
-public class Grenade : MonoBehaviour
-{
-    public float explosionDelay = 3f;
-    private float timer = 0f;
-    private bool timerStarted = false;
-    private bool hasExploded = false;
-
-    public InventoryItem item; 
-
-    public void StartTimer()
+    public class Grenade : MonoBehaviour, IMonoUpdate
     {
-        if (!timerStarted)
+        public float explosionDelay = 3f;
+        private float timer = 0f;
+        private bool timerStarted = false;
+        private bool hasExploded = false;
+
+        public InventoryItem item;
+
+        //Singleton
+        private MonoUpdater _monoUpdater;
+
+        private void Start()
         {
-            timerStarted = true;
-            Debug.Log("������ ������� �������!");
+            _monoUpdater = MonoUpdater.Instance;
+            _monoUpdater.Add(this);
         }
-    }
 
-    void Update()
-    {
-        if (timerStarted && !hasExploded)
+        public void OnUpdate()
         {
-            timer += Time.deltaTime;
-            if (timer >= explosionDelay)
+            if (timerStarted && !hasExploded)
             {
-                Explode();
-                hasExploded = true;
-            }
-        }
-    }
-
-    private void Explode()
-    {
-        Debug.Log("Boom! ������� ����������.");
-
-        if (item != null && item.decalPrefab != null)
-        {
-            Instantiate(item.decalPrefab, transform.position, Quaternion.identity);
-        }
-
-        if (item != null)
-        {
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, item.explosionRadius);
-            foreach (Collider hit in hitColliders)
-            {
-                Health health = hit.GetComponent<Health>();
-                if (health != null)
+                timer += Time.deltaTime;
+                if (timer >= explosionDelay)
                 {
-                    health.TakeDamage(item.explosionDamage);
+                    Explode();
+                    hasExploded = true;
                 }
             }
         }
 
-        Destroy(gameObject);
+        public void StartTimer()
+        {
+            if (!timerStarted)
+            {
+                timerStarted = true;
+                Debug.Log("������ ������� �������!");
+            }
+        }
+
+        private void Explode()
+        {
+            Debug.Log("Boom! ������� ����������.");
+
+            if (item != null && item.decalPrefab != null)
+            {
+                Instantiate(item.decalPrefab, transform.position, Quaternion.identity);
+            }
+
+            if (item != null)
+            {
+                var hitColliders = Physics.OverlapSphere(transform.position, item.explosionRadius);
+                foreach (var hit in hitColliders)
+                    if (hit.TryGetComponent(out IHealth health))
+                        health.TrySet(-item.explosionDamage);
+            }
+
+            _monoUpdater.Remove(this);
+            Destroy(gameObject);
+        }
     }
-}
 }

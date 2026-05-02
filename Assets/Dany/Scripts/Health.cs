@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Dany
+namespace Dany.Legacy
 {
     public class Health : MonoBehaviour
     {
@@ -12,7 +12,7 @@ namespace Dany
 
         [SerializeField] private GameObject explosionPrefab;
 
-        void Start()
+         void Start()
         {
             currentHealth = maxHealth;
         }
