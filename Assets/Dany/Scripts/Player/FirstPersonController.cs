@@ -33,6 +33,12 @@ namespace Dany
         public float bobHorizontalAmplitude = 0.03f;
         public float bobSmooth = 12f;
 
+        [Header("Damage (camera kick)")]
+        [Tooltip("Макс. угол тряски на единицу урона (масштабируется).")]
+        [SerializeField] private float damageShakeAnglePerDamage = 1.35f;
+        [SerializeField] private float damageShakePosPerDamage = 0.028f;
+        [SerializeField] private float damageShakeDecay = 16f;
+
         private Vector3 velocity;
         private bool isGrounded;
         private float currentFov;
@@ -40,6 +46,8 @@ namespace Dany
         private Vector3 headBobDefaultLocalPos;
         private float bobTime;
         private float moveInputMagnitude;
+        private Vector3 _damageShakeEuler;
+        private Vector3 _damageShakePos;
 
         //Singleton
         private MonoUpdater _monoUpdater;
@@ -75,12 +83,34 @@ namespace Dany
 
         public void OnUpdate()
         {
+            if (GamePause.IsPaused) return;
+
+            DecayDamageShake();
             HandleMovement();
             HandleJump();
             HandleCameraRotation();
             HandleAiming();
             HandleHeadBob();
             PickupInteractor.OnUpdate();
+        }
+
+        /// <summary>Импульс тряски камеры при получении урона (вызывается из <see cref="PlayerDamageFeedback"/>).</summary>
+        public void AddDamageCameraImpulse(float damageAmount)
+        {
+            float d = Mathf.Abs(damageAmount);
+            float scale = Mathf.Clamp(d / 18f, 0.4f, 2.2f);
+            _damageShakeEuler += new Vector3(
+                Random.Range(-1f, 1f),
+                Random.Range(-1f, 1f),
+                Random.Range(-1f, 1f)) * (damageShakeAnglePerDamage * scale);
+            _damageShakePos += Random.insideUnitSphere * (damageShakePosPerDamage * scale);
+        }
+
+        private void DecayDamageShake()
+        {
+            float k = Mathf.Clamp01(damageShakeDecay * Time.deltaTime);
+            _damageShakeEuler = Vector3.Lerp(_damageShakeEuler, Vector3.zero, k);
+            _damageShakePos = Vector3.Lerp(_damageShakePos, Vector3.zero, k);
         }
 
         private void HandleMovement()
@@ -122,7 +152,8 @@ namespace Dany
             transform.Rotate(Vector3.up * mouseX);
 
             float rotationX = PlayerCamera.transform.localEulerAngles.x - mouseY;
-            PlayerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
+            PlayerCamera.transform.localRotation =
+                Quaternion.Euler(rotationX, 0f, 0f) * Quaternion.Euler(_damageShakeEuler);
         }
 
         private void HandleAiming()
@@ -150,14 +181,15 @@ namespace Dany
                 float x = Mathf.Cos(bobTime * 0.5f) * bobHorizontalAmplitude;
                 Vector3 offset = new Vector3(x, y, 0f) * targetWeight;
 
-                Vector3 targetPos = headBobDefaultLocalPos + offset;
+                Vector3 targetPos = headBobDefaultLocalPos + offset + _damageShakePos;
                 headBobTarget.localPosition =
                     Vector3.Lerp(headBobTarget.localPosition, targetPos, Time.deltaTime * bobSmooth);
             }
             else
             {
                 bobTime = 0f;
-                headBobTarget.localPosition = Vector3.Lerp(headBobTarget.localPosition, headBobDefaultLocalPos,
+                Vector3 idleTarget = headBobDefaultLocalPos + _damageShakePos;
+                headBobTarget.localPosition = Vector3.Lerp(headBobTarget.localPosition, idleTarget,
                     Time.deltaTime * bobSmooth);
             }
         }

@@ -119,6 +119,7 @@ namespace Dany
 
         public void OnUpdate()
         {
+            if (GamePause.IsPaused) return;
             if (playerTransform == null) return;
             
             HandleInput();
@@ -328,6 +329,7 @@ namespace Dany
                     UpdateHand();
                     UpdateAmmoUI();
                     Debug.Log($"Подобран {item.itemName}! Слот {i}: {slotCounts[i]} шт.");
+                    QuestEvents.RaiseItemPickedUp(item);
                     break;
                 }
             }
@@ -454,7 +456,8 @@ namespace Dany
 
             Vector3 rayOrigin = playerCamera.transform.position;
             Vector3 rayDirection = playerCamera.transform.forward;
-            if (Physics.Raycast(rayOrigin, rayDirection, out var hit, Mathf.Infinity))
+            if (Physics.Raycast(rayOrigin, rayDirection, out var hit, Mathf.Infinity,
+                    Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
             {
                 // Урон (игрок — IHealth на коллайдере/родителе; враги — Health / IHealth)
                 var health = hit.collider.GetComponentInParent<IHealth>();

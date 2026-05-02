@@ -31,6 +31,9 @@ namespace Dany
         protected Transform Target { get; private set; }
         private NavMeshAgent _navAgent;
 
+        /// <summary>NavMesh Agent с этого врага (если есть) — для логики обхода в наследниках.</summary>
+        protected NavMeshAgent NavAgent => _navAgent;
+
         protected virtual void Awake()
         {
             _navAgent = GetComponent<NavMeshAgent>();
@@ -269,11 +272,30 @@ namespace Dany
                 if (IsThisEnemyCollider(hit.collider))
                     continue;
 
-                // Первое не-«я» по пути: если это игрок — видим; иначе преграда (земля, стена).
+                // Другие враги на линии не заслоняют игрока (дружественный огонь / толпа).
+                if (IsOtherEnemyCollider(hit.collider))
+                    continue;
+
+                // Первое не-«я» и не союзник: если это игрок — видим; иначе преграда (стена, земля).
                 return hit.collider.GetComponentInParent<FirstPersonController>() != null;
             }
 
-            return true;
+            // Все попадания только «я» или другие AI — ни стены, ни коллайдера игрока на луче.
+            // Раньше первый враг давал «не видно» и включался обход; true здесь давало бы стрельбу в стену.
+            bool anyNonSelfHit = false;
+            for (int i = 0; i < hits.Length; i++)
+            {
+                if (!IsThisEnemyCollider(hits[i].collider))
+                {
+                    anyNonSelfHit = true;
+                    break;
+                }
+            }
+
+            if (!anyNonSelfHit)
+                return true;
+
+            return false;
         }
 
         /// <summary>Луч к игроку с приподнятой точки (реже цепляет землю у ног).</summary>
@@ -287,6 +309,14 @@ namespace Dany
         {
             if (col == null) return false;
             return col.transform == transform || col.transform.IsChildOf(transform);
+        }
+
+        /// <summary>Коллайдер принадлежит другому экземпляру с <see cref="EnemyBase"/> (союзный AI).</summary>
+        protected bool IsOtherEnemyCollider(Collider col)
+        {
+            if (col == null) return false;
+            var other = col.GetComponentInParent<EnemyBase>();
+            return other != null && other != this;
         }
     }
 }
