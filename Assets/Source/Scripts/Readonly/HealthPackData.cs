@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 
 namespace SiberianGJ26.YouAreDoing.Antos.Readonly
@@ -9,6 +10,7 @@ namespace SiberianGJ26.YouAreDoing.Antos.Readonly
         [field: SerializeField] public float Radius { get; private set; } = 1f;
         [field: SerializeField] public LayerMask DetectLayer { get; private set; }
         [field: SerializeField] public VfxData Effect { get; private set;}
+        [field: SerializeField, Header("Audio (FMOD)")] public EventReference PickupFmodEvent { get; private set; }
         [field: SerializeField, Header("Gizmos")] public Color GizmosColor { get; private set; }
     }
 }

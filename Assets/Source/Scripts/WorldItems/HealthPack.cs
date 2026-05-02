@@ -1,6 +1,7 @@
 using SiberianGJ26.YouAreDoing.Antos.Abstraction;
 using SiberianGJ26.YouAreDoing.Antos.Readonly;
 using Dany;
+using FMODUnity;
 using UnityEngine;
 using DG.Tweening;
 
@@ -49,6 +50,9 @@ namespace SiberianGJ26.YouAreDoing.Antos.Items
             if (!health.TrySet(data.Value)) return;
 
             _pickedUp = true;
+
+            if (!data.PickupFmodEvent.IsNull)
+                RuntimeManager.PlayOneShot(data.PickupFmodEvent, transform.position);
 
             if (data.Effect != null)
             {
