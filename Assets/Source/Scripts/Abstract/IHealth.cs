@@ -10,6 +10,8 @@ namespace SiberianGJ26.YouAreDoing.Antos.Abstraction
 
         public float Curent { get; }
         public float Max { get; }
+        public float ArmorCurent { get; }
+        public float ArmorMax { get; }
         public bool IsAlive { get; }
 
         public bool TrySet(float value);

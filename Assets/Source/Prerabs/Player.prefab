@@ -285,6 +285,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curent: 100
   max: 100
+  armorCurent: 0
+  armorMax: 0
+  fillArmorOnStart: 0
 --- !u!33 &8553694405265137796
 MeshFilter:
   m_ObjectHideFlags: 0

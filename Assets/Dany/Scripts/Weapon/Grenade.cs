@@ -57,8 +57,11 @@ namespace Dany
             {
                 var hitColliders = Physics.OverlapSphere(transform.position, item.explosionRadius);
                 foreach (var hit in hitColliders)
-                    if (hit.TryGetComponent(out IHealth health))
+                {
+                    var health = hit.GetComponentInParent<IHealth>();
+                    if (health != null && health.IsAlive)
                         health.TrySet(-item.explosionDamage);
+                }
             }
 
             _monoUpdater.Remove(this);

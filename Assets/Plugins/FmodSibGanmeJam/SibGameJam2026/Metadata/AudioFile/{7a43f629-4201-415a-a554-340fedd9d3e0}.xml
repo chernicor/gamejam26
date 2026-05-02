@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="AudioFile" id="{7a43f629-4201-415a-a554-340fedd9d3e0}">
 		<property name="assetPath">
-			<value>TF2-Natascha-Minigun-Sound.mp3</value>
+			<value>MiniganS.mp3</value>
 		</property>
 		<property name="isStreaming">
 			<value>true</value>

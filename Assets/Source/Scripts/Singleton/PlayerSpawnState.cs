@@ -19,8 +19,15 @@ namespace SiberianGJ26.YouAreDoing.Antos.Singleton
 
         public override void Awake()
         {
+            if (playerSpawn == null)
+            {
+                Debug.LogError($"{nameof(PlayerSpawnState)}: {nameof(playerSpawn)} is not assigned.");
+                base.Awake();
+                return;
+            }
+
             playerSpawn.OnSpawnEv += Init;
-            playerSpawn.OnDestroyEv += () => OnDestroyEv.Invoke();
+            playerSpawn.OnDestroyEv += () => OnDestroyEv?.Invoke();
             base.Awake();
         }
 
