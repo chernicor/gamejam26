@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4376798456546159456
+--- !u!114 &-8556505635635475851
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10,43 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.bank
+  m_Name: bank:/Master.strings.bank
   m_EditorClassIdentifier: 
-  Path: Assets/Plugins/FmodSibGanmeJam/SibGameJam2026/Build/Desktop/Master.bank
-  Name: Master
-  StudioPath: bank:/Master
-  lastModified: 639133427237449548
+  Path: Assets/Plugins/FmodSibGanmeJam/SibGameJam2026/Build/Desktop/Master.strings.bank
+  Name: Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 639133585313520124
   FileSizes:
   - Name: Desktop
-    Value: 2705824
+    Value: 1844
   Exists: 1
---- !u!114 &-3714532422097859512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/GanS
-  m_EditorClassIdentifier: 
-  Path: event:/GanS
-  Guid:
-    Data1: 1892405802
-    Data2: 1198049934
-    Data3: -1345412716
-    Data4: 1029381103
-  Banks:
-  - {fileID: -4376798456546159456}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 450
 --- !u!114 &-7723354494624028141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,6 +101,53 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4316
+--- !u!114 &-4376798456546159456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/Plugins/FmodSibGanmeJam/SibGameJam2026/Build/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 639133427237449548
+  FileSizes:
+  - Name: Desktop
+    Value: 2705824
+  Exists: 0
+--- !u!114 &-3714532422097859512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/GanS
+  m_EditorClassIdentifier: 
+  Path: event:/GanS
+  Guid:
+    Data1: 1892405802
+    Data2: 1198049934
+    Data3: -1345412716
+    Data4: 1029381103
+  Banks:
+  - {fileID: -4376798456546159456}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 450
 --- !u!114 &-3519884306090321029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,6 +217,7 @@ MonoBehaviour:
   EditorBanks:
   - {fileID: 1926245205852720016}
   - {fileID: -4376798456546159456}
+  - {fileID: -8556505635635475851}
   EditorEvents:
   - {fileID: 8037836848112873719}
   - {fileID: -3714532422097859512}
@@ -207,28 +228,9 @@ MonoBehaviour:
   - {fileID: -4376798456546159456}
   StringsBanks:
   - {fileID: 1926245205852720016}
-  cacheTime: 639133427237475423
+  - {fileID: -8556505635635475851}
+  cacheTime: 639133585313520124
   cacheVersion: 131636
---- !u!114 &1926245205852720016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.strings.bank
-  m_EditorClassIdentifier: 
-  Path: Assets/Plugins/FmodSibGanmeJam/SibGameJam2026/Build/Desktop/Master.bank
-  Name: Master
-  StudioPath: bank:/Master
-  lastModified: 639133605592362759
-  FileSizes:
-  - Name: Desktop
-    Value: 3552448
-  Exists: 1
 --- !u!114 &-1998196611287077080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,13 +298,19 @@ MonoBehaviour:
   m_Name: event:/MiniganS
   m_EditorClassIdentifier: 
   Path: Assets/Plugins/FmodSibGanmeJam/SibGameJam2026/Build/Desktop/Master.strings.bank
-  Name: Master.strings
-  StudioPath: bank:/Master.strings
-  lastModified: 639133605592382757
-  FileSizes:
-  - Name: Desktop
-    Value: 1844
-  Exists: 1
+  Guid:
+    Data1: 0
+    Data2: 0
+    Data3: 0
+    Data4: 0
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 0
 --- !u!114 &-1530689873010295439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,40 +431,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
   m_Name: event:/ShotganS
   m_EditorClassIdentifier: 
-  EditorBanks:
-  - {fileID: -1687581084223323070}
-  - {fileID: -2410401690709898207}
-  EditorEvents:
-  - {fileID: -2679530769031531041}
-  - {fileID: -8957750985393756336}
-  - {fileID: -8825685636460748505}
-  - {fileID: 1933186720359028360}
-  - {fileID: -1998196611287077080}
-  - {fileID: -1530689873010295439}
-  - {fileID: -788467124936276713}
-  - {fileID: 2996028194035625133}
-  - {fileID: -1062689833708137276}
-  - {fileID: 7548401410908131846}
-  - {fileID: -7278195310471674616}
-  - {fileID: -6972417449582963437}
-  - {fileID: -3519884306090321029}
-  - {fileID: -2967902576835283183}
-  - {fileID: -1827137694071630787}
-  - {fileID: -205770561347766433}
-  - {fileID: 3549301515929305726}
-  - {fileID: 3587744237947527367}
-  - {fileID: 1965134109689619554}
-  - {fileID: 4011037799194868855}
-  - {fileID: 4653947931440854793}
-  - {fileID: -7723354494624028141}
-  - {fileID: 2123731842451837855}
-  EditorParameters: []
-  MasterBanks:
-  - {fileID: -2410401690709898207}
-  StringsBanks:
-  - {fileID: -1687581084223323070}
-  cacheTime: 639133605592382757
-  cacheVersion: 131636
+  Path: 
+  Guid:
+    Data1: 0
+    Data2: 0
+    Data3: 0
+    Data4: 0
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 0
+--- !u!114 &1926245205852720016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/Plugins/FmodSibGanmeJam/SibGameJam2026/Build/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 639133585313514881
+  FileSizes:
+  - Name: Desktop
+    Value: 3552448
+  Exists: 1
 --- !u!114 &1933186720359028360
 MonoBehaviour:
   m_ObjectHideFlags: 0
