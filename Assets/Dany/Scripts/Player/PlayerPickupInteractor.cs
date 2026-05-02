@@ -1,29 +1,40 @@
+using SiberianGJ26.YouAreDoing.Antos.Abstraction;
 using UnityEngine;
+using System;
 
 namespace Dany
 {
-    public class PlayerPickupInteractor : MonoBehaviour
+    [Serializable]
+    public class PlayerPickupInteractor : IMonoUpdate
     {
+        [SerializeField] private InventoryManager inventoryManager;
         [SerializeField] private KeyCode pickupKey = KeyCode.E;
 
         [Header("Detection")]
         [SerializeField] private float radius = 1.5f;
         [SerializeField] private LayerMask pickupMask = ~0;
 
-        private InventoryManager inventoryManager;
+        private Transform _owner;
 
-        private void Awake()
+        public void Init(Transform owner, InventoryManager manager)
         {
-            inventoryManager = GetComponent<InventoryManager>();
-            if (!inventoryManager) inventoryManager = GetComponentInChildren<InventoryManager>();
+            _owner = owner;
+            inventoryManager = manager;
         }
 
-        private void Update()
+        public void OnDrawGizmosSelected()
+        {
+            if (_owner == null) return;
+            Gizmos.color = new Color(1f, 0.85f, 0.1f, 0.25f);
+            Gizmos.DrawSphere(_owner.position, radius);
+        }
+
+        public void OnUpdate()
         {
             if (!Input.GetKeyDown(pickupKey)) return;
             if (!inventoryManager) return;
 
-            var hits = Physics.OverlapSphere(transform.position, radius, pickupMask, QueryTriggerInteraction.Collide);
+            var hits = Physics.OverlapSphere(_owner.position, radius, pickupMask, QueryTriggerInteraction.Collide);
 
             AmmoPickup best = null;
             float bestDist = float.MaxValue;
@@ -33,7 +44,7 @@ namespace Dany
                 var p = h.GetComponentInParent<AmmoPickup>();
                 if (!p) continue;
 
-                float d = (p.transform.position - transform.position).sqrMagnitude;
+                float d = (p.transform.position - _owner.position).sqrMagnitude;
                 if (d < bestDist)
                 {
                     bestDist = d;
@@ -43,12 +54,5 @@ namespace Dany
 
             if (best) inventoryManager.PickupAmmo(best);
         }
-
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.color = new Color(1f, 0.85f, 0.1f, 0.25f);
-            Gizmos.DrawSphere(transform.position, radius);
-        }
     }
 }
-

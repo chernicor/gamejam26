@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 namespace Dany
 {
@@ -9,7 +10,8 @@ namespace Dany
         Shotgun
     }
 
-    public class PlayerAmmo : MonoBehaviour
+    [Serializable]
+    public class PlayerAmmo
     {
         [Header("Ammo counts")]
         public int pistol;
