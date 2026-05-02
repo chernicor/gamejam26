@@ -40,11 +40,11 @@ MonoBehaviour:
   weaponType: 0
   shootFmodEvent:
     Guid:
-      Data1: -833000028
-      Data2: 1317990376
-      Data3: 866189741
-      Data4: 2127024282
-    Path: event:/TF2-Natascha-Minigun-Sound
+      Data1: 1892405802
+      Data2: 1198049934
+      Data3: -1345412716
+      Data4: 1029381103
+    Path: event:/GanS
   decalPrefab: {fileID: 2504214343621411470, guid: 3ed0d324122d7b24eaec75c55c74aafc,
     type: 3}
   canThrow: 0

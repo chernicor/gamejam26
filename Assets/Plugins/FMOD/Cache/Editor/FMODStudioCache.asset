@@ -1,5 +1,59 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8957750985393756336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/ShotganS
+  m_EditorClassIdentifier: 
+  Path: event:/ShotganS
+  Guid:
+    Data1: 117670925
+    Data2: 1282531912
+    Data3: 372324519
+    Data4: -1366926807
+  Banks:
+  - {fileID: -2410401690709898207}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 520
+--- !u!114 &-8825685636460748505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/GanS
+  m_EditorClassIdentifier: 
+  Path: event:/GanS
+  Guid:
+    Data1: 1892405802
+    Data2: 1198049934
+    Data3: -1345412716
+    Data4: 1029381103
+  Banks:
+  - {fileID: -2410401690709898207}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 450
 --- !u!114 &-2679530769031531041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42,10 +96,10 @@ MonoBehaviour:
   Path: Assets/Plugins/FmodSibGanmeJam/SibGameJam2026/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639132879347752989
+  lastModified: 639133147657098244
   FileSizes:
   - Name: Desktop
-    Value: 2395584
+    Value: 2704640
   Exists: 1
 --- !u!114 &-1687581084223323070
 MonoBehaviour:
@@ -62,10 +116,10 @@ MonoBehaviour:
   Path: Assets/Plugins/FmodSibGanmeJam/SibGameJam2026/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639132879347752989
+  lastModified: 639133147657098244
   FileSizes:
   - Name: Desktop
-    Value: 822
+    Value: 878
   Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
@@ -84,15 +138,17 @@ MonoBehaviour:
   - {fileID: -2410401690709898207}
   EditorEvents:
   - {fileID: -2679530769031531041}
-  - {fileID: 5556073180102123736}
+  - {fileID: -8957750985393756336}
+  - {fileID: -8825685636460748505}
+  - {fileID: 1933186720359028360}
   EditorParameters: []
   MasterBanks:
   - {fileID: -2410401690709898207}
   StringsBanks:
   - {fileID: -1687581084223323070}
-  cacheTime: 639132879347752989
+  cacheTime: 639133147657098244
   cacheVersion: 131636
---- !u!114 &5556073180102123736
+--- !u!114 &1933186720359028360
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -102,9 +158,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/TF2-Natascha-Minigun-Sound
+  m_Name: event:/MiniganS
   m_EditorClassIdentifier: 
-  Path: event:/TF2-Natascha-Minigun-Sound
+  Path: event:/MiniganS
   Guid:
     Data1: -833000028
     Data2: 1317990376

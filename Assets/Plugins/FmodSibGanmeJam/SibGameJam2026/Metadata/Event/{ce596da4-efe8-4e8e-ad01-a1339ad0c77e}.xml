@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{ce596da4-efe8-4e8e-ad01-a1339ad0c77e}">
 		<property name="name">
-			<value>TF2-Natascha-Minigun-Sound</value>
+			<value>MiniganS</value>
 		</property>
 		<property name="outputFormat">
 			<value>2</value>
