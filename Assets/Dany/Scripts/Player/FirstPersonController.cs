@@ -7,8 +7,7 @@ namespace Dany
 {
     public class FirstPersonController : MonoBehaviour, IMonoUpdate
     {
-        [SerializeField] private CharacterController controller;
-
+        [field: SerializeField] public CharacterController CharacterController { get; private set; }
         [field: SerializeField] public Camera PlayerCamera { get; private set; }
         [field: SerializeField] public Transform HandSocket { get; private set; }
         [field: SerializeField] public MonoHealth Health { get; private set; }
@@ -121,7 +120,7 @@ namespace Dany
             Vector3 move = transform.right * moveX + transform.forward * moveZ;
             moveInputMagnitude = Mathf.Clamp01(new Vector2(moveX, moveZ).magnitude);
 
-            isGrounded = controller.isGrounded;
+            isGrounded = CharacterController.isGrounded;
             if (isGrounded && velocity.y < 0)
             {
                 velocity.y = -2f;
@@ -130,7 +129,7 @@ namespace Dany
             float currentSpeed = walkSpeed;
             if (!isGrounded) currentSpeed *= airSpeedMultiplier;
             if (isAiming) currentSpeed *= aimSpeedMultiplier;
-            controller.Move(move * currentSpeed * Time.deltaTime);
+            CharacterController.Move(move * currentSpeed * Time.deltaTime);
         }
 
         private void HandleJump()
@@ -141,7 +140,7 @@ namespace Dany
             }
 
             velocity.y += gravity * Time.deltaTime;
-            controller.Move(velocity * Time.deltaTime);
+            CharacterController.Move(velocity * Time.deltaTime);
         }
 
         private void HandleCameraRotation()

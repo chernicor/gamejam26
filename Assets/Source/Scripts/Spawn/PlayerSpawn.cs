@@ -25,7 +25,6 @@ namespace SiberianGJ26.YouAreDoing.Antos.Spawns
             isRespawn = data.IsRespawnAfterDead;
             _wait = new(data.Duration);
             StartCoroutine(Spawn(null));
-            //StartCoroutine(Damage());
         }
 
         private IEnumerator Spawn(WaitForSeconds wait)
@@ -36,20 +35,13 @@ namespace SiberianGJ26.YouAreDoing.Antos.Spawns
             var spawnPos = playerSpawnPoint.transform.position;
             var spawnRot = playerSpawnPoint.transform.rotation;
             // CharacterController keeps internal capsule at old world pose unless disabled during teleport.
-            var cc = player.GetComponent<CharacterController>();
-            if (cc != null) cc.enabled = false;
+            player.CharacterController.enabled = false;
             player.transform.SetPositionAndRotation(spawnPos, spawnRot);
-            if (cc != null) cc.enabled = true;
+            player.CharacterController.enabled = true;
             _playerHealth = player.Health;
             _playerHealth.OnDeadEv += OnDeadPlayer;
             player.Init(manager);
             OnSpawnEv?.Invoke(player);
-        }
-
-        private IEnumerator Damage()
-        {
-            yield return new WaitForSeconds(10f);
-           _playerHealth.TrySet(-_playerHealth.Max);
         }
 
         private void OnDeadPlayer()

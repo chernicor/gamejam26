@@ -242,7 +242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c801349ba16ee404cb9e0bb28f085a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 6824800035868018780}
+  <CharacterController>k__BackingField: {fileID: 6824800035868018780}
   <PlayerCamera>k__BackingField: {fileID: 285431281614534195}
   <HandSocket>k__BackingField: {fileID: 657939098282885386}
   <Health>k__BackingField: {fileID: 8223296573349195959}
