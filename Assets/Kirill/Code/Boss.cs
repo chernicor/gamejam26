@@ -13,6 +13,7 @@ namespace Kirill
         [SerializeField] private string state = "idle"; //idle, rush, meleeAttack, rotate, rangeAttack, ?reloading?, chase
         [SerializeField] private string phase = "melee"; //melee, range
         [SerializeField] private NavMeshAgent agent;
+        [SerializeField] private Animator anim;
         private Transform player;
         private MonoHealth playerHealth;
         [Header("Settings")]
@@ -76,6 +77,8 @@ namespace Kirill
                 else if (agent.velocity.magnitude < 0.1f && (state == "rotate" || state == "chase")) StartCoroutine(RangeAttack());
                 else if (state == "rotate" && Vector3.Distance(transform.position, player.position) < 10) StartCoroutine(RangeAttack());
             }
+            if(agent.velocity.magnitude > 0.1f) anim.SetBool("Walk", true);
+            else anim.SetBool("Walk", false);
         }
         private void Rush()
         {
@@ -89,6 +92,7 @@ namespace Kirill
         }
         private IEnumerator MeleeAttack()
         {
+            anim.SetTrigger("Punch");
             playerHealth.TrySet(-meleeDamage);
             if (player == null)
             {
@@ -123,6 +127,7 @@ namespace Kirill
                 yield break;
             }
             state = "rangeAttack";
+            anim.SetTrigger("Shoot");
             Vector3 shootDir = player.position + Vector3.up * Random.Range(-inaccuracy, +inaccuracy) + Vector3.right * Random.Range(-inaccuracy, +inaccuracy) - transform.position;
             Ray _shoot = new Ray(transform.position, shootDir);
             Debug.DrawRay(transform.position, shootDir);
