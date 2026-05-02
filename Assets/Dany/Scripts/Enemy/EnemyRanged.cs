@@ -13,6 +13,8 @@ namespace Dany
 
     /// <summary>
     /// Держит дистанцию и стреляет рейкастом (по умолчанию) или снарядом.
+    /// Анимации: ходьба/простой — <see cref="EnemyBase.animRunSpeedFloat"/> / <see cref="EnemyBase.animRunBool"/>; смерть — в базе (триггер или состояние + задержка Destroy на Health);
+    /// стрельба — поля секции Animation (стрельба) ниже.
     /// </summary>
     public class EnemyRanged : EnemyBase
     {
@@ -73,17 +75,55 @@ namespace Dany
         [Tooltip("Случайный разброс направления луча/снаряда в градусах (0 = идеально в цель).")]
         [SerializeField, Range(0f, 15f)] private float aimJitterMaxDegrees = 2.5f;
 
+        [Header("Animation (стрельба)")]
+        [Tooltip("Триггер выстрела в Animator. Нужны переходы из Idle и из Walk/Run.")]
+        [SerializeField] private string animShootTrigger = "";
+        [Tooltip("Имя оранжевого состояния выстрела в Animator (как в окне). Заполни обязательно — стрелок часто в Idle, триггер без перехода из Idle не сработает. Под-машина: путь вида Combat.Shoot.")]
+        [SerializeField] private string animShootStateName = "";
+        [SerializeField] private int shootAnimatorLayer = 0;
+        [Tooltip("Смягчение входа в Shoot, если задано имя состояния: 0 = мгновенный Play (надёжнее).")]
+        [SerializeField, Min(0f)] private float shootCrossFadeDuration = 0f;
+        [Tooltip("Не перебивать выстрел параметрами ходьбы столько секунд (≈ длина клипа стрельбы).")]
+        [SerializeField] private float shootAnimationDuration = 0.5f;
+        [Tooltip("На это же время не двигаться к игроку / от него и не отталкиваться от союзников (пока идёт выстрел).")]
+        [SerializeField] private bool freezeMovementWhileShooting = true;
+        [Tooltip("Если > 0 — замирать дольше анимации (сек). Иначе длительность как у Shoot Animation Duration.")]
+        [SerializeField] private float shootMovementLockExtraSeconds = 0f;
+
         private float _nextShotTime;
+        private float _shootMovementLockUntil;
         private float _nextFlankOrbitTime;
         private float _flankOrbitSide = 1f;
         private bool _flankOrbitPathPending;
+        private int _animHashShoot = -1;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            RebuildShootAnimHash();
+        }
+
+        private void RebuildShootAnimHash()
+        {
+            _animHashShoot = string.IsNullOrEmpty(animShootTrigger) ? -1 : Animator.StringToHash(animShootTrigger);
+        }
 
         private void Update()
         {
+            if (IsDead) return;
+
             RefreshTarget();
             if (Target == null) return;
 
             float dist = HorizontalDistance(transform.position, Target.position);
+
+            if (IsShootMovementLocked())
+            {
+                StopNavAgentForShootLock();
+                if (dist <= maxShootRange)
+                    FaceTowardPlayer(Time.deltaTime);
+                return;
+            }
 
             if (dist < minShootRange)
                 MoveAwayFromPlayer(minShootRange + 0.5f, Time.deltaTime);
@@ -99,6 +139,28 @@ namespace Dany
                 FaceTowardPlayer(Time.deltaTime);
 
             ApplyAllySeparation(Time.deltaTime);
+        }
+
+        private bool IsShootMovementLocked()
+        {
+            return freezeMovementWhileShooting && Time.time < _shootMovementLockUntil;
+        }
+
+        private void StopNavAgentForShootLock()
+        {
+            var agent = NavAgent;
+            if (agent == null || !agent.enabled || !agent.isOnNavMesh) return;
+            agent.isStopped = true;
+        }
+
+        private void BeginShootMovementLock()
+        {
+            if (!freezeMovementWhileShooting) return;
+            float d = shootAnimationDuration + Mathf.Max(0f, shootMovementLockExtraSeconds);
+            float until = Time.time + d;
+            if (until > _shootMovementLockUntil)
+                _shootMovementLockUntil = until;
+            StopNavAgentForShootLock();
         }
 
         /// <summary>Та же проверка, что перед выстрелом: дуло видит точку прицела у игрока.</summary>
@@ -181,6 +243,9 @@ namespace Dany
             bool rolledMiss = Random.value < missChance;
 
             PlayShootVfx(origin, aim);
+            PlayShootAnimation();
+            SuppressLocomotionAnimation(shootAnimationDuration);
+            BeginShootMovementLock();
 
             if (useProjectile)
             {
@@ -266,6 +331,44 @@ namespace Dany
             }
 
             _nextShotTime = Time.time + fireCooldown;
+        }
+
+        private void PlayShootAnimation()
+        {
+            var anim = enemyAnimator != null
+                ? enemyAnimator
+                : GetComponentInChildren<Animator>(true);
+
+            if (anim == null || !anim.isActiveAndEnabled || anim.runtimeAnimatorController == null)
+            {
+#if UNITY_EDITOR
+                if (!string.IsNullOrEmpty(animShootTrigger) || !string.IsNullOrEmpty(animShootStateName))
+                    Debug.LogWarning($"{nameof(EnemyRanged)} на «{name}»: нет Animator, он выключен или нет Controller — анимация стрельбы не сыграет.", this);
+#endif
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(animShootStateName))
+            {
+                if (shootCrossFadeDuration > 0.001f)
+                    anim.CrossFadeInFixedTime(animShootStateName, shootCrossFadeDuration, shootAnimatorLayer, 0f);
+                else
+                    anim.Play(animShootStateName, shootAnimatorLayer, 0f);
+                return;
+            }
+
+            if (_animHashShoot < 0)
+            {
+#if UNITY_EDITOR
+                Debug.LogWarning(
+                    $"{nameof(EnemyRanged)} на «{name}»: задай {nameof(animShootTrigger)} и переходы Idle/Walk→Shoot в Animator, либо укажи {nameof(animShootStateName)} (имя состояния).",
+                    this);
+#endif
+                return;
+            }
+
+            anim.ResetTrigger(_animHashShoot);
+            anim.SetTrigger(_animHashShoot);
         }
 
         private void PlayShootVfx(Vector3 muzzlePos, Vector3 aimPoint)
@@ -418,6 +521,7 @@ namespace Dany
 #if UNITY_EDITOR
         private void OnValidate()
         {
+            RebuildShootAnimHash();
             if (projectilePrefab == null) return;
             if (attackMode != EnemyRangedAttackMode.Projectile) return;
             if (projectilePrefab.GetComponentInChildren<EnemyProjectile>(true) != null) return;
