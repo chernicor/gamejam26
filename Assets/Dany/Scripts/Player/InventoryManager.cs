@@ -456,8 +456,9 @@ namespace Dany
             Vector3 rayDirection = playerCamera.transform.forward;
             if (Physics.Raycast(rayOrigin, rayDirection, out var hit, Mathf.Infinity))
             {
-                // Урон
-                if (hit.collider.TryGetComponent(out IHealth health))
+                // Урон (игрок — IHealth на коллайдере/родителе; враги — Health / IHealth)
+                var health = hit.collider.GetComponentInParent<IHealth>();
+                if (health != null && health.IsAlive)
                     health.TrySet(-weapon.damage);
 
                 if (weapon.decalPrefab != null)

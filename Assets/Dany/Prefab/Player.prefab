@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 1207427172668571063}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.7, y: -0.45, z: 0.762}
+  m_LocalPosition: {x: 0.7, y: -0.45, z: 0.879}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 8817265342268496367}
   - component: {fileID: 8923012369263447972}
   - component: {fileID: 6328405112033386591}
+  - component: {fileID: 4734307080098080523}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -179,6 +180,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c801349ba16ee404cb9e0bb28f085a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controller: {fileID: 8923012369263447972}
+  <PlayerCamera>k__BackingField: {fileID: 3869648844805205774}
+  <HandSocket>k__BackingField: {fileID: 4572609981293494721}
+  <Health>k__BackingField: {fileID: 0}
+  <PlayerAmmo>k__BackingField:
+    pistol: 0
+    rifle: 0
+    shotgun: 0
+  <PickupInteractor>k__BackingField:
+    inventoryManager: {fileID: 0}
+    pickupKey: 101
+    radius: 1
+    pickupMask:
+      serializedVersion: 2
+      m_Bits: 2097152
   walkSpeed: 5
   airSpeedMultiplier: 1
   aimSpeedMultiplier: 0.5
@@ -194,6 +210,20 @@ MonoBehaviour:
   bobAmplitude: 0.05
   bobHorizontalAmplitude: 0.03
   bobSmooth: 12
+--- !u!114 &4734307080098080523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733456135814089942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bd322e54b3610040acdf5a5f929dd14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  curent: 100
+  max: 100
 --- !u!1 &6183308384104727364
 GameObject:
   m_ObjectHideFlags: 0
