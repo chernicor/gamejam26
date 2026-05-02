@@ -206,9 +206,10 @@ GameObject:
   - component: {fileID: 8476708637043996755}
   - component: {fileID: 6307056234737837902}
   - component: {fileID: 6824800035868018780}
+  - component: {fileID: 5823456789012345678}
   m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -271,6 +272,9 @@ MonoBehaviour:
   bobAmplitude: 0.05
   bobHorizontalAmplitude: 0.03
   bobSmooth: 12
+  damageShakeAnglePerDamage: 1.35
+  damageShakePosPerDamage: 0.028
+  damageShakeDecay: 16
 --- !u!114 &8223296573349195959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,3 +391,23 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5823456789012345678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9070350835410666582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b9c7a1f2044d5e9a8b6c4d2e1f0a9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 935453777785729852}
+  health: {fileID: 8223296573349195959}
+  damagePostProfile: {fileID: 11400000, guid: c4a8f1e2d3b5476980abcdef12345678, type: 2}
+  tintBuildPerDamage: 0.045
+  tintMax: 0.85
+  tintDecay: 2.2
+  damageColor: {r: 1.35, g: 0.2, b: 0.12, a: 1}
+  vignetteIntensityScale: 0.38

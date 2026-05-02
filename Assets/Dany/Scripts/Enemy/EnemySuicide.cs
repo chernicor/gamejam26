@@ -62,6 +62,10 @@ namespace Dany
                 }
             }
 
+            var questEnemy = GetComponent<QuestEnemy>() ?? GetComponentInParent<QuestEnemy>();
+            if (questEnemy != null)
+                questEnemy.RegisterDestroyedForQuest();
+
             Destroy(gameObject);
         }
 
