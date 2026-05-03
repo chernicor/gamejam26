@@ -11,8 +11,10 @@ namespace Dany
 {
     public class InventoryManager : MonoBehaviour, IMonoUpdate
     {
+        private const int SlotCount = 3;
+
         [Header("UI Settings")] public Transform inventoryPanel;
-        public SlotUI[] slots = new SlotUI[2];
+        public SlotUI[] slots = new SlotUI[SlotCount];
         public TextMeshProUGUI ammoText;
 
         [Header("Player Hand")] public Transform handSocket;
@@ -28,13 +30,13 @@ namespace Dany
 
         private int selectedSlot = 0;
 
-        private List<InventoryItem> slotItems = new List<InventoryItem>(9);
-        private List<int> slotCounts = new List<int>(9);
+        private List<InventoryItem> slotItems = new List<InventoryItem>(SlotCount);
+        private List<int> slotCounts = new List<int>(SlotCount);
 
-        private int[] ammoInMagazine = new int[2];
-        private int[] reserveAmmo = new int[2];
-        private bool[] isReloading = new bool[2];
-        private InventoryItem[] ammoInitializedForItem = new InventoryItem[2];
+        private int[] ammoInMagazine = new int[SlotCount];
+        private int[] reserveAmmo = new int[SlotCount];
+        private bool[] isReloading = new bool[SlotCount];
+        private InventoryItem[] ammoInitializedForItem = new InventoryItem[SlotCount];
 
         private bool isShowingHint = false;
         private string currentHintText = "";
@@ -97,13 +99,13 @@ namespace Dany
 
             slotItems.Clear();
             slotCounts.Clear();
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < SlotCount; i++)
             {
                 slotItems.Add(null);
                 slotCounts.Add(0);
             }
 
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < SlotCount; i++)
             {
                 ammoInMagazine[i] = 0;
                 reserveAmmo[i] = 0;
@@ -304,7 +306,7 @@ namespace Dany
             // Смена слота: колесо мыши
             if (Input.GetAxis("Mouse ScrollWheel") > 0)
             {
-                selectedSlot = (selectedSlot + 1) % 2;
+                selectedSlot = (selectedSlot + 1) % SlotCount;
                 UpdateHand();
                 UpdateUI();
                 UpdateAmmoUI();
@@ -312,15 +314,15 @@ namespace Dany
             }
             else if (Input.GetAxis("Mouse ScrollWheel") < 0)
             {
-                selectedSlot = (selectedSlot - 1 + 2) % 2;
+                selectedSlot = (selectedSlot - 1 + SlotCount) % SlotCount;
                 UpdateHand();
                 UpdateUI();
                 UpdateAmmoUI();
                 Debug.Log($"Выбран слот {selectedSlot + 1} колесом");
             }
 
-            // Смена слота: клавиши 1-9
-            for (int i = 0; i < 2; i++)
+            // Смена слота: клавиши 1–3
+            for (int i = 0; i < SlotCount; i++)
             {
                 if (Input.GetKeyDown(KeyCode.Alpha1 + i))
                 {
@@ -343,13 +345,10 @@ namespace Dany
                 return;
             }
 
-            // Ограничение: оружие (стреляющее) можно иметь только 2 штуки (2 слота).
-            // Поэтому оружие кладём только в слоты 0-1.
             bool isWeapon = item.canShoot;
 
             bool placed = false;
-            int maxSlot = isWeapon ? 2 : 9;
-            for (int i = 0; i < maxSlot; i++)
+            for (int i = 0; i < SlotCount; i++)
             {
                 if (slotItems[i] == null ||
                     (slotItems[i] == item && !item.isConsumable && slotCounts[i] < item.maxStack))
@@ -358,10 +357,7 @@ namespace Dany
                     slotCounts[i] = (slotItems[i] == item && slotCounts[i] > 0) ? slotCounts[i] + 1 : 1;
                     placed = true;
 
-                    if (i < 2)
-                    {
-                        InitAmmoForSlot(i, item);
-                    }
+                    InitAmmoForSlot(i, item);
 
                     UpdateUI();
                     UpdateHand();
@@ -374,10 +370,9 @@ namespace Dany
 
             if (!placed)
             {
-                if (isWeapon)
-                    Debug.Log("У вас уже есть два оружия. Нельзя подобрать третье!");
-                else
-                    Debug.Log("Инвентарь полон!");
+                Debug.Log(isWeapon
+                    ? "Все слоты под оружие заняты."
+                    : "Инвентарь полон!");
             }
             else
             {
@@ -406,7 +401,7 @@ namespace Dany
             if (ammoPickup == null) return;
 
             bool applied = false;
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < SlotCount; i++)
             {
                 InventoryItem weapon = slotItems[i];
                 if (weapon == null) continue;
@@ -436,10 +431,11 @@ namespace Dany
                 string itemName = slotItems[slotIndex].itemName;
                 slotItems[slotIndex] = null;
                 slotCounts[slotIndex] = 0;
-                if (slotIndex < 2)
+                if (slotIndex >= 0 && slotIndex < SlotCount)
                 {
                     ammoInMagazine[slotIndex] = 0;
                     reserveAmmo[slotIndex] = 0;
+                    isReloading[slotIndex] = false;
                     ammoInitializedForItem[slotIndex] = null;
                 }
 
@@ -728,7 +724,7 @@ namespace Dany
 
         private void UpdateUI()
         {
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < SlotCount; i++)
             {
                 if (slots[i] != null)
                 {
@@ -741,7 +737,7 @@ namespace Dany
 
         private void HighlightSelectedSlot()
         {
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < SlotCount; i++)
             {
                 if (slots[i] != null)
                 {
@@ -790,7 +786,7 @@ namespace Dany
 
         public bool HasFreeSlot()
         {
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < SlotCount; i++)
             {
                 if (slotItems[i] == null) return true;
             }
