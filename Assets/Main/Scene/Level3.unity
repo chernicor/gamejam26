@@ -16528,6 +16528,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8729511714070442065, guid: 066124a113eb0eb4982d10ede9787c6a,
         type: 3}
+      propertyPath: nextSceneName
+      value: Credits
+      objectReference: {fileID: 0}
+    - target: {fileID: 8729511714070442065, guid: 066124a113eb0eb4982d10ede9787c6a,
+        type: 3}
       propertyPath: questController
       value: 
       objectReference: {fileID: 2136044251}
