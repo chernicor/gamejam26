@@ -9,7 +9,8 @@ namespace Dany
     /// <summary>
     /// Пока рядом живой враг (<see cref="EnemyBase"/>), через случайные промежутки проигрывает FMOD-события (реплики).
     /// Если рядом живой босс (<see cref="QuestEnemy.IsBoss"/>), берутся события из <see cref="bossBarkEvents"/> (если список не пуст).
-    /// Повесь на корень игрока рядом с <see cref="MonoHealth"/>. При смерти игрока текущая реплика прерывается; после убийства врага/босса фраза может доиграть.
+    /// Повесь на корень игрока рядом с <see cref="MonoHealth"/>. Пока играет реплика из <see cref="FmodExclusiveVoice3D"/>
+    /// (фраза зоны выхода, хилка и т.д.), боевые реплики не стартуют. При смерти игрока текущая боевая реплика прерывается.
     /// </summary>
     public class CombatVoiceBarks : MonoBehaviour
     {
@@ -33,8 +34,18 @@ namespace Dany
         private readonly List<int> _validIndices = new List<int>(8);
         private EventInstance _currentBark;
 
+        private static CombatVoiceBarks _instance;
+
+        /// <summary>Останавливает текущую боевую реплику (например перед фразой зоны выхода).</summary>
+        public static void StopAnyCombatBark()
+        {
+            _instance?.StopCurrentBark();
+        }
+
         private void Awake()
         {
+            _instance = this;
+
             if (playerHealth == null)
                 playerHealth = GetComponent<MonoHealth>() ?? GetComponentInParent<MonoHealth>();
 
@@ -46,6 +57,9 @@ namespace Dany
 
         private void OnDestroy()
         {
+            if (_instance == this)
+                _instance = null;
+
             if (playerHealth != null)
                 playerHealth.OnDeadEv -= OnPlayerDead;
 
@@ -72,6 +86,7 @@ namespace Dany
             if (GamePause.IsPaused) return;
             if (playerHealth == null || !playerHealth.IsAlive) return;
             if (!HasAnyConfiguredBarks()) return;
+            if (FmodExclusiveVoice3D.IsExclusiveVoiceBusy()) return;
             if (Time.time < _nextBarkAllowedTime) return;
             if (!ScanNearbyEnemies(out bool bossInRange)) return;
 

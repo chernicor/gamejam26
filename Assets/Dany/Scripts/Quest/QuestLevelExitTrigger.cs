@@ -6,7 +6,8 @@ namespace Dany
 {
     /// <summary>
     /// Триггер выхода: при входе игрока — если все задачи <see cref="LevelQuestController"/> выполнены,
-    /// загружается следующая сцена; иначе FMOD-фраза (не накладывается повтор того же события, пока предыдущий играет).
+    /// загружается следующая сцена; иначе фраза «сначала квесты» с приоритетом: обрывает боевые реплики и играет сразу,
+    /// пока она не кончится — <see cref="CombatVoiceBarks"/> не запускает новые фразы.
     /// </summary>
     [RequireComponent(typeof(Collider))]
     public class QuestLevelExitTrigger : MonoBehaviour
@@ -62,7 +63,8 @@ namespace Dany
                 return;
             }
 
-            FmodExclusiveVoice3D.Play(incompleteQuestVoiceLine, transform.position);
+            CombatVoiceBarks.StopAnyCombatBark();
+            FmodExclusiveVoice3D.Play(incompleteQuestVoiceLine, transform.position, interruptCurrent: true);
         }
     }
 }
