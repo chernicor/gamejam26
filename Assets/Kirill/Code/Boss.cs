@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.AI;
 using Dany;
 using SiberianGJ26.YouAreDoing.Antos.Modules;
-using FMODUnity;
 
 
 namespace Kirill
@@ -22,7 +22,6 @@ namespace Kirill
         [SerializeField] private Vector3 lastPosition;
         [SerializeField] private Vector3 playerVelocity;
         [SerializeField] private List<GameObject> animsObj;
-        [SerializeField] private EventReference deathSound;
         [Header("Settings")]
         [SerializeField] private float timeToMeleePhase;
         [SerializeField] private float timeToRangePhase;
@@ -39,6 +38,11 @@ namespace Kirill
         [SerializeField] private float meleeAttackDistance;
         [SerializeField] private float meleeDamage;
 
+        [Header("FMOD (опционально)")]
+        [SerializeField] private EventReference fmodDeathEvent;
+        [SerializeField] private EventReference fmodMeleeAttackEvent;
+        [SerializeField] private EventReference fmodRangeAttackEvent;
+
         public void SetPlayerLinks(Transform playerTransform, MonoHealth playerHealth)
         {
             player = playerTransform;
@@ -52,17 +56,12 @@ namespace Kirill
         public void Death()
         {
             QuestEvents.RaiseTrackedEnemyDied(true);
+            PlayFmodOneShot(fmodDeathEvent, transform.position + Vector3.up);
+
             animsObj[2].SetActive(true);
             animsObj[2].GetComponent<Animator>().SetTrigger("Play");
             animsObj[2].transform.SetParent(transform.parent);
-            PlayFmodOneShot(deathSound, transform.position);
             Destroy(gameObject);
-        }
-        private static void PlayFmodOneShot(EventReference eventRef, Vector3 worldPosition)
-        {
-            if (eventRef.IsNull) return;
-            if (GamePause.IsPaused) return;
-            RuntimeManager.PlayOneShot(eventRef, worldPosition);
         }
         void PlayAnim(string animName)
         {
@@ -116,7 +115,7 @@ namespace Kirill
             else if (phase == "range")
             {
                 phase = "melee";
-                if(state != "rangeAttack") state = "idle";
+                if (state != "rangeAttack") state = "idle";
                 StartCoroutine(ChangePhase(timeToRangePhase));
             }
         }
@@ -125,7 +124,7 @@ namespace Kirill
             if (player == null)
             {
                 FirstPersonController p = FindObjectOfType<FirstPersonController>();
-                if(p!=null)SetPlayerLinks(p.transform, p.GetComponent<MonoHealth>());
+                if (p != null) SetPlayerLinks(p.transform, p.GetComponent<MonoHealth>());
             }
             else
             {
@@ -136,7 +135,7 @@ namespace Kirill
             {
                 if (state == "rush" || state == "idle") Rush();
             }
-            else if(phase == "range")
+            else if (phase == "range")
             {
                 transform.LookAt(player.position, Vector3.up);
                 if (state == "idle" && Vector3.Distance(transform.position, player.position) < 7)
@@ -174,6 +173,7 @@ namespace Kirill
         private IEnumerator MeleeAttack()
         {
             PlayAnim("Attack");
+            PlayFmodOneShot(fmodMeleeAttackEvent, transform.position + Vector3.up * 0.5f);
             playerHealth.TrySet(-meleeDamage);
             if (player == null)
             {
@@ -207,8 +207,9 @@ namespace Kirill
                 yield break;
             }
             state = "rangeAttack";
-            if(isBallistic) BallisticAttack();
+            if (isBallistic) BallisticAttack();
             else RayCastAttack();
+            PlayFmodOneShot(fmodRangeAttackEvent, RangeAttackSoundPosition());
             PlayAnim("Proj");
             yield return new WaitForSeconds(rangeAttackTime);
             state = "idle";
@@ -249,6 +250,19 @@ namespace Kirill
             }
             return false;
         }
+
+        private Vector3 RangeAttackSoundPosition()
+        {
+            if (ballisticSpawnPoint != null)
+                return ballisticSpawnPoint.position;
+            return transform.position + Vector3.up;
+        }
+
+        private static void PlayFmodOneShot(EventReference eventRef, Vector3 worldPosition)
+        {
+            if (eventRef.IsNull) return;
+            if (GamePause.IsPaused) return;
+            RuntimeManager.PlayOneShot(eventRef, worldPosition);
+        }
     }
 }
-
