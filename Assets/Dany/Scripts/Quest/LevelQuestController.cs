@@ -39,6 +39,9 @@ namespace Dany
     /// <summary>Параллельные задачи уровня: все цели активны сразу, порядок выполнения любой.</summary>
     public class LevelQuestController : MonoBehaviour
     {
+        /// <summary>Rich Text TMP: цвет текста задач (активные, выполненные, итог).</summary>
+        private const string QuestTaskColorHex = "1DFF00";
+
         [SerializeField] private QuestObjective[] objectives = Array.Empty<QuestObjective>();
 
         [Header("UI (опционально)")]
@@ -250,13 +253,13 @@ namespace Dany
                 if (string.IsNullOrEmpty(line)) continue;
 
                 if (done)
-                    sb.AppendLine($"<color=#888888>✓ {line}</color>");
+                    sb.AppendLine($"<color=#{QuestTaskColorHex}>✓ {line}</color>");
                 else
-                    sb.AppendLine($"<color=#FFFFFF><b>► {line}</b></color>");
+                    sb.AppendLine($"<color=#{QuestTaskColorHex}><b>► {line}</b></color>");
             }
 
             if (_allComplete)
-                sb.AppendLine("<color=#88FF88>Все задачи выполнены!</color>");
+                sb.AppendLine($"<color=#{QuestTaskColorHex}>Все задачи выполнены!</color>");
 
             return sb.ToString().TrimEnd();
         }

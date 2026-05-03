@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Source/Scenes/Menu.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/Source/Scenes/AntosTest.unity
-    guid: 5311463fb050f824f80efe1688feef1e
+    path: Assets/Main/Scene/Level1.unity
+    guid: 20d8519898968a442924959d4687f0a3
   m_configObjects: {}
