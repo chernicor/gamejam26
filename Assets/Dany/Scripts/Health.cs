@@ -10,6 +10,8 @@ namespace Dany
         public event Action<float> OnHealEv;
         public event Action OnDeadEv;
 
+        private IDeath deathInterface;
+
         public float maxHealth = 100f;
         private float currentHealth;
 
@@ -25,6 +27,7 @@ namespace Dany
 
         private void Start()
         {
+            TryGetComponent(out deathInterface);
             currentHealth = maxHealth;
         }
 
@@ -62,6 +65,8 @@ namespace Dany
 
         private void Die()
         {
+            if (deathInterface != null) deathInterface.Death();
+
             OnDeadEv?.Invoke();
             Debug.Log("Объект уничтожен!");
 
