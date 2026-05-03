@@ -19,8 +19,19 @@ namespace SiberianGJ26.YouAreDoing.Antos.UI
 
         private void Start()
         {
-            labelPlayButton.SetText(data.GetPlayTextToScene(SceneManager.GetActiveScene().buildIndex));
-            labelExitButton.SetText(data.GetExitTextToScene(SceneManager.GetActiveScene().buildIndex));
+            if (data != null)
+            {
+                labelPlayButton.SetText(data.GetPlayTextToScene(SceneManager.GetActiveScene().buildIndex));
+                labelExitButton.SetText(data.GetExitTextToScene(SceneManager.GetActiveScene().buildIndex));
+                if (IsCurentScene(data.MenuSceneIndex))
+                    UnlockCursorForMenu();
+            }
+        }
+
+        private static void UnlockCursorForMenu()
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
 
         public override void Show()
@@ -37,14 +48,36 @@ namespace SiberianGJ26.YouAreDoing.Antos.UI
 
         public void Play()
         {
+            if (data == null) return;
             if (IsCurentScene(data.LevelSceneIndex))
             {
-                pauseMenuController?.Resume();
-                Hide();
+                ContinueGameplayFromPause();
                 return;
             }
 
             SceneManager.LoadScene(data.LevelSceneIndex);
+        }
+
+        /// <summary>
+        /// Кнопка «Продолжить»: на сцене уровня — снять паузу и скрыть окно; на сцене меню — загрузить уровень (как «Играть»).
+        /// Повесь OnClick на этот метод.
+        /// </summary>
+        public void ContinueGame()
+        {
+            if (data == null) return;
+            if (IsCurentScene(data.LevelSceneIndex))
+                ContinueGameplayFromPause();
+            else
+                SceneManager.LoadScene(data.LevelSceneIndex);
+        }
+
+        private void ContinueGameplayFromPause()
+        {
+            var pause = pauseMenuController != null
+                ? pauseMenuController
+                : FindFirstObjectByType<PauseMenuController>();
+            pause?.Resume();
+            Hide();
         }
 
         public void Exit()
