@@ -8,7 +8,9 @@ namespace Dany
     {
         CollectItem,
         ClearEnemies,
-        DefeatBoss
+        DefeatBoss,
+        /// <summary>Собрать N коллекционок одного типа (<see cref="CollectibleDefinition"/>).</summary>
+        CollectCollectibles
     }
 
     [Serializable]
@@ -19,6 +21,12 @@ namespace Dany
 
         [Tooltip("Для CollectItem — какой ScriptableObject должен подобрать игрок.")]
         public InventoryItem itemToCollect;
+
+        [Tooltip("Для CollectCollectibles — какой тип коллекционки считать (CollectiblePickup + CollectibleDefinition).")]
+        public CollectibleDefinition collectibleDefinition;
+
+        [Tooltip("Для CollectCollectibles — сколько экземпляров нужно подобрать.")]
+        public int collectiblesRequired = 1;
 
         [Tooltip("Для ClearEnemies — сколько врагов нужно убить (см. QuestEnemy на префабах).")]
         public int enemiesRequired = 1;
@@ -38,6 +46,7 @@ namespace Dany
 
         private int _currentIndex;
         private int _killsInStage;
+        private int _collectiblesInStage;
         private bool _allComplete;
 
         public int CurrentStageIndex => _currentIndex;
@@ -50,12 +59,14 @@ namespace Dany
         {
             QuestEvents.ItemPickedUp += OnItemPickedUp;
             QuestEvents.TrackedEnemyDied += OnTrackedEnemyDied;
+            QuestEvents.CollectiblePickedUp += OnCollectiblePickedUp;
         }
 
         private void OnDisable()
         {
             QuestEvents.ItemPickedUp -= OnItemPickedUp;
             QuestEvents.TrackedEnemyDied -= OnTrackedEnemyDied;
+            QuestEvents.CollectiblePickedUp -= OnCollectiblePickedUp;
         }
 
         private void Start()
@@ -75,6 +86,21 @@ namespace Dany
             if (o.itemToCollect == null || item != o.itemToCollect) return;
 
             Advance();
+        }
+
+        private void OnCollectiblePickedUp(CollectibleDefinition def)
+        {
+            if (_allComplete || objectives == null || _currentIndex >= objectives.Length) return;
+
+            var o = objectives[_currentIndex];
+            if (o.kind != QuestObjectiveKind.CollectCollectibles) return;
+            if (o.collectibleDefinition == null || def != o.collectibleDefinition) return;
+
+            _collectiblesInStage++;
+            if (_collectiblesInStage >= Mathf.Max(1, o.collectiblesRequired))
+                Advance();
+            else
+                Notify();
         }
 
         private void OnTrackedEnemyDied(bool isBoss)
@@ -102,6 +128,7 @@ namespace Dany
         private void Advance()
         {
             _killsInStage = 0;
+            _collectiblesInStage = 0;
             _currentIndex++;
 
             if (_currentIndex >= objectives.Length)
@@ -150,10 +177,15 @@ namespace Dany
             int req = Mathf.Max(1, o.enemiesRequired);
             int killsShown = o.kind == QuestObjectiveKind.ClearEnemies && done ? req : _killsInStage;
 
+            int collReq = Mathf.Max(1, o.collectiblesRequired);
+            int collShown = o.kind == QuestObjectiveKind.CollectCollectibles && done ? collReq : _collectiblesInStage;
+
             if (!string.IsNullOrWhiteSpace(o.titleOverride))
             {
                 if (o.kind == QuestObjectiveKind.ClearEnemies)
                     return $"{o.titleOverride} ({killsShown}/{req})";
+                if (o.kind == QuestObjectiveKind.CollectCollectibles)
+                    return $"{o.titleOverride} ({collShown}/{collReq})";
                 return o.titleOverride;
             }
 
@@ -163,6 +195,11 @@ namespace Dany
                 {
                     string name = o.itemToCollect != null ? o.itemToCollect.itemName : "?";
                     return $"Подбери предмет: {name}";
+                }
+                case QuestObjectiveKind.CollectCollectibles:
+                {
+                    string name = o.collectibleDefinition != null ? o.collectibleDefinition.displayName : "?";
+                    return $"Собери коллекционки: {name} ({collShown}/{collReq})";
                 }
                 case QuestObjectiveKind.ClearEnemies:
                     return $"Зачисти уровень: врагов {killsShown}/{req}";
