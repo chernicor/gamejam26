@@ -1,41 +1,36 @@
-using FMODUnity;
+using SiberianGJ26.YouAreDoing.Antos.Abstraction;
+using SiberianGJ26.YouAreDoing.Antos.Singleton;
+using SiberianGJ26.YouAreDoing.Antos.UI;
 using UnityEngine;
+using FMODUnity;
 
 namespace Dany
 {
     /// <summary>ESC — панель паузы, остановка времени и звука (FMOD).</summary>
-    public class PauseMenuController : MonoBehaviour
+    public class PauseMenuController : MonoBehaviour,IMonoUpdate
     {
-        [SerializeField] private GameObject pausePanel;
+        [SerializeField] private UI_WindowMenu windowMenu;
+        
+        //Singelton
+        private MonoUpdater _monoUpdater;
 
-        private void Awake()
+        private void Start()
         {
-            if (pausePanel != null)
-                pausePanel.SetActive(false);
+            _monoUpdater = MonoUpdater.Instance;
+            _monoUpdater.Add(this);
         }
 
         private void OnDestroy()
         {
+            _monoUpdater?.Remove(this);
             if (GamePause.IsPaused)
                 Resume();
-        }
-
-        private void Update()
-        {
-            if (!Input.GetKeyDown(KeyCode.Escape))
-                return;
-
-            if (GamePause.IsPaused)
-                Resume();
-            else
-                Pause();
         }
 
         public void Pause()
         {
-            GamePause.SetPaused(true);
-            if (pausePanel != null)
-                pausePanel.SetActive(true);
+            GamePause.SetPaused(true); 
+            windowMenu?.Show();
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             RuntimeManager.PauseAllEvents(true);
@@ -44,12 +39,22 @@ namespace Dany
         /// <summary>Вызов с кнопки «Продолжить» на Canvas.</summary>
         public void Resume()
         {
-            GamePause.SetPaused(false);
-            if (pausePanel != null)
-                pausePanel.SetActive(false);
+            GamePause.SetPaused(false); 
+            windowMenu?.Hide();
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             RuntimeManager.PauseAllEvents(false);
+        }
+
+        public void OnUpdate()
+        {
+            if (!Input.GetKeyDown(KeyCode.Escape))
+                return;
+
+            if (GamePause.IsPaused)
+                Resume();
+            else
+                Pause();
         }
     }
 }
