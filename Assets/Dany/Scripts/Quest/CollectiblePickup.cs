@@ -36,7 +36,7 @@ namespace Dany
             _collected = true;
             QuestEvents.RaiseCollectiblePickedUp(definition);
             if (!pickupFmodEvent.IsNull)
-                RuntimeManager.PlayOneShot(pickupFmodEvent, transform.position);
+                FmodExclusiveVoice3D.Play(pickupFmodEvent, transform.position);
 
             Destroy(gameObject);
         }

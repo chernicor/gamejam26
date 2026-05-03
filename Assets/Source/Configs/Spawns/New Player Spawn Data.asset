@@ -16,3 +16,10 @@ MonoBehaviour:
     type: 3}
   <IsRespawnAfterDead>k__BackingField: 1
   <Duration>k__BackingField: 1
+  <RespawnFmodEvent>k__BackingField:
+    Guid:
+      Data1: -674409869
+      Data2: 1156821164
+      Data3: 1375236518
+      Data4: 2032674325
+    Path: event:/max_respawn

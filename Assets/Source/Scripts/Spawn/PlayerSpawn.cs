@@ -42,6 +42,10 @@ namespace SiberianGJ26.YouAreDoing.Antos.Spawns
             _playerHealth.OnDeadEv += OnDeadPlayer;
             player.Init(manager);
             OnSpawnEv?.Invoke(player);
+
+            // Первый вход: Spawn(null). Респавн после смерти: Spawn(_wait), wait != null.
+            if (wait != null && data != null && !data.RespawnFmodEvent.IsNull)
+                FmodExclusiveVoice3D.Play(data.RespawnFmodEvent, player.transform.position);
         }
 
         private void OnDeadPlayer()

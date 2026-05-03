@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using FMOD.Studio;
 using FMODUnity;
 using SiberianGJ26.YouAreDoing.Antos.Modules;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace Dany
     /// <summary>
     /// Пока рядом живой враг (<see cref="EnemyBase"/>), через случайные промежутки проигрывает FMOD-события (реплики).
     /// Если рядом живой босс (<see cref="QuestEnemy.IsBoss"/>), берутся события из <see cref="bossBarkEvents"/> (если список не пуст).
-    /// Повесь на корень игрока рядом с <see cref="MonoHealth"/>.
+    /// Повесь на корень игрока рядом с <see cref="MonoHealth"/>. При смерти игрока текущая реплика прерывается; после убийства врага/босса фраза может доиграть.
     /// </summary>
     public class CombatVoiceBarks : MonoBehaviour
     {
@@ -22,21 +23,48 @@ namespace Dany
         [Tooltip("Максимум секунд между фразами.")]
         [SerializeField] private float maxIntervalSeconds = 22f;
 
-        [Tooltip("FMOD one-shot: обычный бой. Пустые записи пропускаются.")]
+        [Tooltip("FMOD: обычный бой. Пустые записи пропускаются.")]
         [SerializeField] private EventReference[] combatBarkEvents;
 
-        [Tooltip("FMOD one-shot: рядом босс (QuestEnemy с IsBoss). Если пусто — играются только обычные реплики.")]
+        [Tooltip("FMOD: рядом босс (QuestEnemy с IsBoss). Если пусто — играются только обычные реплики.")]
         [SerializeField] private EventReference[] bossBarkEvents;
 
         private float _nextBarkAllowedTime;
         private readonly List<int> _validIndices = new List<int>(8);
+        private EventInstance _currentBark;
 
         private void Awake()
         {
             if (playerHealth == null)
                 playerHealth = GetComponent<MonoHealth>() ?? GetComponentInParent<MonoHealth>();
 
+            if (playerHealth != null)
+                playerHealth.OnDeadEv += OnPlayerDead;
+
             ScheduleNextBark();
+        }
+
+        private void OnDestroy()
+        {
+            if (playerHealth != null)
+                playerHealth.OnDeadEv -= OnPlayerDead;
+
+            StopCurrentBark();
+        }
+
+        private void OnPlayerDead()
+        {
+            StopCurrentBark();
+        }
+
+        private void StopCurrentBark()
+        {
+            if (!_currentBark.isValid())
+                return;
+
+            _currentBark.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            _currentBark.release();
+            _currentBark.clearHandle();
         }
 
         private void Update()
@@ -123,7 +151,17 @@ namespace Dany
             if (_validIndices.Count == 0) return;
 
             int pick = _validIndices[Random.Range(0, _validIndices.Count)];
-            RuntimeManager.PlayOneShot(pool[pick], transform.position);
+            EventReference ev = pool[pick];
+
+            StopCurrentBark();
+
+            EventInstance instance = RuntimeManager.CreateInstance(ev);
+            if (!instance.isValid())
+                return;
+
+            instance.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
+            instance.start();
+            _currentBark = instance;
         }
     }
 }

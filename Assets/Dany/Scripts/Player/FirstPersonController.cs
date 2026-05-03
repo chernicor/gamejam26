@@ -1,6 +1,7 @@
 using SiberianGJ26.YouAreDoing.Antos.Abstraction;
 using SiberianGJ26.YouAreDoing.Antos.Singleton;
 using SiberianGJ26.YouAreDoing.Antos.Modules;
+using FMODUnity;
 using UnityEngine;
 
 namespace Dany
@@ -51,6 +52,11 @@ namespace Dany
         //Singleton
         private MonoUpdater _monoUpdater;
 
+        private void Awake()
+        {
+            EnsureFmodStudioListenerOnPlayerCamera();
+        }
+
         private void OnEnable()
         {
             _monoUpdater?.Add(this);
@@ -66,8 +72,23 @@ namespace Dany
             PickupInteractor?.OnDrawGizmosSelected();
         }
 
+        /// <summary>FMOD требует <see cref="StudioListener"/> для 3D-аттенюации; без него RuntimeManager спамит предупреждение.</summary>
+        private void EnsureFmodStudioListenerOnPlayerCamera()
+        {
+            if (PlayerCamera == null)
+                return;
+
+            GameObject camGo = PlayerCamera.gameObject;
+            if (camGo.GetComponent<StudioListener>() != null)
+                return;
+
+            camGo.AddComponent<StudioListener>();
+        }
+
         public void Init(InventoryManager manager)
         {
+            EnsureFmodStudioListenerOnPlayerCamera();
+
             _monoUpdater = MonoUpdater.Instance;
             currentFov = maxFov;
             PlayerCamera.fieldOfView = currentFov;

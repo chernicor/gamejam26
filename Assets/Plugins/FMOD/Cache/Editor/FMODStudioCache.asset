@@ -15,11 +15,95 @@ MonoBehaviour:
   Path: Assets/Plugins/FmodSibGanmeJam/SibGameJam2026/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639133605592382757
+  lastModified: 639134135332863987
   FileSizes:
   - Name: Desktop
-    Value: 1844
+    Value: 1892
   Exists: 1
+--- !u!114 &-8532169311871800488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/max_fight_low_hp
+  m_EditorClassIdentifier: 
+  Path: event:/max_fight_low_hp
+  Guid:
+    Data1: 1255681191
+    Data2: 1219808172
+    Data3: 669382586
+    Data4: 2140255807
+  Banks:
+  - {fileID: 85461510124206972}
+  - {fileID: 6609366917209333075}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 6673
+--- !u!114 &-8485279710893266786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/miniganS
+  m_EditorClassIdentifier: 
+  Path: event:/miniganS
+  Guid:
+    Data1: -833000028
+    Data2: 1317990376
+    Data3: 866189741
+    Data4: 2127024282
+  Banks:
+  - {fileID: 85461510124206972}
+  - {fileID: 6609366917209333075}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 95
+--- !u!114 &-7918580801424247467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/max_fight_boss_phrase1
+  m_EditorClassIdentifier: 
+  Path: event:/max_fight_boss_phrase1
+  Guid:
+    Data1: -1083882287
+    Data2: 1303992369
+    Data3: 792004770
+    Data4: -1073846046
+  Banks:
+  - {fileID: 85461510124206972}
+  - {fileID: 6609366917209333075}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 5828
 --- !u!114 &-7723354494624028141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39,7 +123,7 @@ MonoBehaviour:
     Data3: -1242163565
     Data4: 180925790
   Banks:
-  - {fileID: -2410401690709898207}
+  - {fileID: -4376798456546159456}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -66,7 +150,7 @@ MonoBehaviour:
     Data3: 1688389000
     Data4: -10685319
   Banks:
-  - {fileID: -2410401690709898207}
+  - {fileID: -4376798456546159456}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -93,7 +177,7 @@ MonoBehaviour:
     Data3: 981155496
     Data4: -263739264
   Banks:
-  - {fileID: -2410401690709898207}
+  - {fileID: -4376798456546159456}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -101,6 +185,90 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4316
+--- !u!114 &-6498073601669615369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/ShotganS
+  m_EditorClassIdentifier: 
+  Path: event:/ShotganS
+  Guid:
+    Data1: 117670925
+    Data2: 1282531912
+    Data3: 372324519
+    Data4: -1366926807
+  Banks:
+  - {fileID: 85461510124206972}
+  - {fileID: 6609366917209333075}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 520
+--- !u!114 &-5482896619243227163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/max_fight_boss1
+  m_EditorClassIdentifier: 
+  Path: event:/max_fight_boss1
+  Guid:
+    Data1: -2032218651
+    Data2: 1081885393
+    Data3: -1242163565
+    Data4: 180925790
+  Banks:
+  - {fileID: 85461510124206972}
+  - {fileID: 6609366917209333075}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3783
+--- !u!114 &-4743575522340792503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Doom
+  m_EditorClassIdentifier: 
+  Path: event:/Doom
+  Guid:
+    Data1: 480004298
+    Data2: 1188854243
+    Data3: -557472361
+    Data4: 1990808506
+  Banks:
+  - {fileID: 85461510124206972}
+  - {fileID: 6609366917209333075}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 144744
 --- !u!114 &-4376798456546159456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,11 +284,31 @@ MonoBehaviour:
   Path: Assets/Plugins/FmodSibGanmeJam/SibGameJam2026/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639133427237449548
+  lastModified: 639134130687558201
   FileSizes:
   - Name: Desktop
     Value: 2705824
   Exists: 0
+--- !u!114 &-3847956072331827519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/Plugins/FmodSibGanmeJam/SibGameJam2026/Build/Desktop/Master.strings.bank
+  Name: Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 639134135332863987
+  FileSizes:
+  - Name: Desktop
+    Value: 1892
+  Exists: 1
 --- !u!114 &-3714532422097859512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,7 +355,7 @@ MonoBehaviour:
     Data3: -1760191074
     Data4: -892189746
   Banks:
-  - {fileID: -2410401690709898207}
+  - {fileID: -4376798456546159456}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -175,6 +363,80 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 5383
+--- !u!114 &-3284680283075102539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/max_scene1_phrase_5
+  m_EditorClassIdentifier: 
+  Path: event:/max_scene1_phrase_5
+  Guid:
+    Data1: -304653280
+    Data2: 1155809264
+    Data3: 1374609083
+    Data4: -49010858
+  Banks:
+  - {fileID: 85461510124206972}
+  - {fileID: 6609366917209333075}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 6273
+--- !u!114 &-3218088690394103077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Bank A.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/Plugins/FmodSibGanmeJam/SibGameJam2026/Build/Desktop/Bank A.bank
+  Name: Bank A
+  StudioPath: 
+  lastModified: 639134135333190759
+  FileSizes: []
+  Exists: 1
+--- !u!114 &-3165379154613435172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/max_fight_dying
+  m_EditorClassIdentifier: 
+  Path: event:/max_fight_dying
+  Guid:
+    Data1: 411439895
+    Data2: 1174289213
+    Data3: -1126148178
+    Data4: -160588455
+  Banks:
+  - {fileID: 85461510124206972}
+  - {fileID: 6609366917209333075}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4005
 --- !u!114 &-2967902576835283183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,7 +456,7 @@ MonoBehaviour:
     Data3: 1103719861
     Data4: 1456019391
   Banks:
-  - {fileID: -2410401690709898207}
+  - {fileID: -4376798456546159456}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -215,22 +477,68 @@ MonoBehaviour:
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
   EditorBanks:
-  - {fileID: 1926245205852720016}
-  - {fileID: -4376798456546159456}
-  - {fileID: -8556505635635475851}
+  - {fileID: -3847956072331827519}
+  - {fileID: 85461510124206972}
+  - {fileID: 6609366917209333075}
   EditorEvents:
-  - {fileID: 8037836848112873719}
-  - {fileID: -3714532422097859512}
-  - {fileID: 3492014021507753649}
-  - {fileID: 8691404459082793337}
+  - {fileID: -6498073601669615369}
+  - {fileID: 810534370480993199}
+  - {fileID: -1396863854531857206}
+  - {fileID: -3165379154613435172}
+  - {fileID: 1923679362369214906}
+  - {fileID: -1261436806888596729}
+  - {fileID: -3284680283075102539}
+  - {fileID: 3185179071363433053}
+  - {fileID: 3438493564824466373}
+  - {fileID: -2359137347816796001}
+  - {fileID: 287046747367994716}
+  - {fileID: 6230247917016771166}
+  - {fileID: 3991571555908834863}
+  - {fileID: -8485279710893266786}
+  - {fileID: -8532169311871800488}
+  - {fileID: 4579393759821424963}
+  - {fileID: 5410922089031257922}
+  - {fileID: 7639736214150509592}
+  - {fileID: -4743575522340792503}
+  - {fileID: -7918580801424247467}
+  - {fileID: 2373822214856720540}
+  - {fileID: -5482896619243227163}
+  - {fileID: 5603029715769961406}
   EditorParameters: []
   MasterBanks:
-  - {fileID: -4376798456546159456}
+  - {fileID: 6609366917209333075}
   StringsBanks:
-  - {fileID: 1926245205852720016}
-  - {fileID: -8556505635635475851}
-  cacheTime: 639133605592382757
+  - {fileID: -3847956072331827519}
+  cacheTime: 639134135333190759
   cacheVersion: 131636
+--- !u!114 &-2359137347816796001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/max_fight_boss_win_phrase3
+  m_EditorClassIdentifier: 
+  Path: event:/max_fight_boss_win_phrase3
+  Guid:
+    Data1: 569943867
+    Data2: 1241579834
+    Data3: 981155496
+    Data4: -263739264
+  Banks:
+  - {fileID: 85461510124206972}
+  - {fileID: 6609366917209333075}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4316
 --- !u!114 &-1998196611287077080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,7 +558,7 @@ MonoBehaviour:
     Data3: 2007573394
     Data4: 17947285
   Banks:
-  - {fileID: -2410401690709898207}
+  - {fileID: -4376798456546159456}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -277,7 +585,7 @@ MonoBehaviour:
     Data3: 1375236518
     Data4: 2032674325
   Banks:
-  - {fileID: -2410401690709898207}
+  - {fileID: -4376798456546159456}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -330,7 +638,7 @@ MonoBehaviour:
     Data3: 955106695
     Data4: 2130683361
   Banks:
-  - {fileID: -2410401690709898207}
+  - {fileID: -4376798456546159456}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -338,6 +646,62 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 6228
+--- !u!114 &-1396863854531857206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/max_fight_phrase_2
+  m_EditorClassIdentifier: 
+  Path: event:/max_fight_phrase_2
+  Guid:
+    Data1: 827316757
+    Data2: 1132849704
+    Data3: 955106695
+    Data4: 2130683361
+  Banks:
+  - {fileID: 85461510124206972}
+  - {fileID: 6609366917209333075}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 6228
+--- !u!114 &-1261436806888596729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/max_fight_phrase_3
+  m_EditorClassIdentifier: 
+  Path: event:/max_fight_phrase_3
+  Guid:
+    Data1: 1284651296
+    Data2: 1257467942
+    Data3: 576818070
+    Data4: 1063507420
+  Banks:
+  - {fileID: 85461510124206972}
+  - {fileID: 6609366917209333075}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 9030
 --- !u!114 &-1062689833708137276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,7 +721,7 @@ MonoBehaviour:
     Data3: 576818070
     Data4: 1063507420
   Banks:
-  - {fileID: -2410401690709898207}
+  - {fileID: -4376798456546159456}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -384,7 +748,7 @@ MonoBehaviour:
     Data3: -1126148178
     Data4: -160588455
   Banks:
-  - {fileID: -2410401690709898207}
+  - {fileID: -4376798456546159456}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -411,7 +775,7 @@ MonoBehaviour:
     Data3: 669382586
     Data4: 2140255807
   Banks:
-  - {fileID: -2410401690709898207}
+  - {fileID: -4376798456546159456}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -445,7 +809,7 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 0
---- !u!114 &1926245205852720016
+--- !u!114 &85461510124206972
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -455,16 +819,100 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.strings.bank
+  m_Name: bank:/Bank A.bank
   m_EditorClassIdentifier: 
-  Path: Assets/Plugins/FmodSibGanmeJam/SibGameJam2026/Build/Desktop/Master.bank
-  Name: Master
-  StudioPath: bank:/Master
-  lastModified: 639133605592362759
+  Path: Assets/Plugins/FmodSibGanmeJam/SibGameJam2026/Build/Desktop/Bank A.bank
+  Name: Bank A
+  StudioPath: bank:/Bank A
+  lastModified: 639134135333190759
   FileSizes:
   - Name: Desktop
-    Value: 3552448
+    Value: 3551520
   Exists: 1
+--- !u!114 &287046747367994716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/max_scene1_phrase_4
+  m_EditorClassIdentifier: 
+  Path: event:/max_scene1_phrase_4
+  Guid:
+    Data1: -146495136
+    Data2: 1228454183
+    Data3: -1760191074
+    Data4: -892189746
+  Banks:
+  - {fileID: 85461510124206972}
+  - {fileID: 6609366917209333075}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 5383
+--- !u!114 &810534370480993199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/max_fight_boss_win_phrase2
+  m_EditorClassIdentifier: 
+  Path: event:/max_fight_boss_win_phrase2
+  Guid:
+    Data1: -541725682
+    Data2: 1082398453
+    Data3: 2007573394
+    Data4: 17947285
+  Banks:
+  - {fileID: 85461510124206972}
+  - {fileID: 6609366917209333075}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2849
+--- !u!114 &1923679362369214906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/max_fight_boss_phrase3
+  m_EditorClassIdentifier: 
+  Path: event:/max_fight_boss_phrase3
+  Guid:
+    Data1: -1056929001
+    Data2: 1202933115
+    Data3: 753955754
+    Data4: 1994203907
+  Banks:
+  - {fileID: 85461510124206972}
+  - {fileID: 6609366917209333075}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 6629
 --- !u!114 &1933186720359028360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -511,7 +959,7 @@ MonoBehaviour:
     Data3: -1861310813
     Data4: -696758899
   Banks:
-  - {fileID: -2410401690709898207}
+  - {fileID: -4376798456546159456}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -538,7 +986,7 @@ MonoBehaviour:
     Data3: 2077606319
     Data4: 1274663122
   Banks:
-  - {fileID: -2410401690709898207}
+  - {fileID: -4376798456546159456}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -546,6 +994,34 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4005
+--- !u!114 &2373822214856720540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/max_fight_aptechka
+  m_EditorClassIdentifier: 
+  Path: event:/max_fight_aptechka
+  Guid:
+    Data1: -27567910
+    Data2: 1168913442
+    Data3: 1129447579
+    Data4: 1145849265
+  Banks:
+  - {fileID: 85461510124206972}
+  - {fileID: 6609366917209333075}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 9830
 --- !u!114 &2996028194035625133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -565,7 +1041,7 @@ MonoBehaviour:
     Data3: 753955754
     Data4: 1994203907
   Banks:
-  - {fileID: -2410401690709898207}
+  - {fileID: -4376798456546159456}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -573,6 +1049,62 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 6629
+--- !u!114 &3185179071363433053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/GanS
+  m_EditorClassIdentifier: 
+  Path: event:/GanS
+  Guid:
+    Data1: 1892405802
+    Data2: 1198049934
+    Data3: -1345412716
+    Data4: 1029381103
+  Banks:
+  - {fileID: 85461510124206972}
+  - {fileID: 6609366917209333075}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 450
+--- !u!114 &3438493564824466373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/max_scene1_phrase_1
+  m_EditorClassIdentifier: 
+  Path: event:/max_scene1_phrase_1
+  Guid:
+    Data1: -655768789
+    Data2: 1093101946
+    Data3: 1688389000
+    Data4: -10685319
+  Banks:
+  - {fileID: 85461510124206972}
+  - {fileID: 6609366917209333075}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4805
 --- !u!114 &3549301515929305726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -592,7 +1124,7 @@ MonoBehaviour:
     Data3: -1034867553
     Data4: -2044566756
   Banks:
-  - {fileID: -2410401690709898207}
+  - {fileID: -4376798456546159456}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -619,7 +1151,7 @@ MonoBehaviour:
     Data3: 1076781958
     Data4: -642396717
   Banks:
-  - {fileID: -2410401690709898207}
+  - {fileID: -4376798456546159456}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -627,6 +1159,34 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 6406
+--- !u!114 &3991571555908834863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/max_respawn
+  m_EditorClassIdentifier: 
+  Path: event:/max_respawn
+  Guid:
+    Data1: -674409869
+    Data2: 1156821164
+    Data3: 1375236518
+    Data4: 2032674325
+  Banks:
+  - {fileID: 85461510124206972}
+  - {fileID: 6609366917209333075}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2271
 --- !u!114 &4011037799194868855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -646,7 +1206,7 @@ MonoBehaviour:
     Data3: 792004770
     Data4: -1073846046
   Banks:
-  - {fileID: -2410401690709898207}
+  - {fileID: -4376798456546159456}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -654,6 +1214,34 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 5828
+--- !u!114 &4579393759821424963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/max_fight_boss_win_phrase1
+  m_EditorClassIdentifier: 
+  Path: event:/max_fight_boss_win_phrase1
+  Guid:
+    Data1: -1377309017
+    Data2: 1311790609
+    Data3: -1034867553
+    Data4: -2044566756
+  Banks:
+  - {fileID: 85461510124206972}
+  - {fileID: 6609366917209333075}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4094
 --- !u!114 &4653947931440854793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -673,7 +1261,7 @@ MonoBehaviour:
     Data3: 1129447579
     Data4: 1145849265
   Banks:
-  - {fileID: -2410401690709898207}
+  - {fileID: -4376798456546159456}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -681,6 +1269,110 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 9830
+--- !u!114 &5410922089031257922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/max_fight_boss_phrase2
+  m_EditorClassIdentifier: 
+  Path: event:/max_fight_boss_phrase2
+  Guid:
+    Data1: 2103733928
+    Data2: 1226302005
+    Data3: 1076781958
+    Data4: -642396717
+  Banks:
+  - {fileID: 85461510124206972}
+  - {fileID: 6609366917209333075}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 6406
+--- !u!114 &5603029715769961406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/max_scene1_phrase_2
+  m_EditorClassIdentifier: 
+  Path: event:/max_scene1_phrase_2
+  Guid:
+    Data1: 365648630
+    Data2: 1084712877
+    Data3: 2077606319
+    Data4: 1274663122
+  Banks:
+  - {fileID: 85461510124206972}
+  - {fileID: 6609366917209333075}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4005
+--- !u!114 &6230247917016771166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/max_fight_phrase_1
+  m_EditorClassIdentifier: 
+  Path: event:/max_fight_phrase_1
+  Guid:
+    Data1: -838501531
+    Data2: 1210784541
+    Data3: 1103719861
+    Data4: 1456019391
+  Banks:
+  - {fileID: 85461510124206972}
+  - {fileID: 6609366917209333075}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4672
+--- !u!114 &6609366917209333075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/Plugins/FmodSibGanmeJam/SibGameJam2026/Build/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 639134135332853985
+  FileSizes:
+  - Name: Desktop
+    Value: 3552864
+  Exists: 1
 --- !u!114 &7548401410908131846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -700,7 +1392,7 @@ MonoBehaviour:
     Data3: 1374609083
     Data4: -49010858
   Banks:
-  - {fileID: -2410401690709898207}
+  - {fileID: -4376798456546159456}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -708,3 +1400,31 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 6273
+--- !u!114 &7639736214150509592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/max_scene1_phrase_3
+  m_EditorClassIdentifier: 
+  Path: event:/max_scene1_phrase_3
+  Guid:
+    Data1: -1629968465
+    Data2: 1184262293
+    Data3: -1861310813
+    Data4: -696758899
+  Banks:
+  - {fileID: 85461510124206972}
+  - {fileID: 6609366917209333075}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2982
