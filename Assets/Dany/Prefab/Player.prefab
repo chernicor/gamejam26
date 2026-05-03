@@ -224,6 +224,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curent: 100
   max: 100
+  armorCurent: 0
+  armorMax: 0
+  fillArmorOnStart: 1
 --- !u!1 &6183308384104727364
 GameObject:
   m_ObjectHideFlags: 0
