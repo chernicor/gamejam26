@@ -59,6 +59,7 @@ namespace Dany
                     if (dist <= attackRange)
                     {
                         EnemyDamage.Apply(Target.gameObject, attackDamage);
+                        PlayFmodAttackAt(transform.position + Vector3.up * 0.5f);
                         PlayAttackAnimation();
                         SuppressLocomotionAnimation(attackAnimationDuration);
                         _nextAttackTime = Time.time + attackCooldown;

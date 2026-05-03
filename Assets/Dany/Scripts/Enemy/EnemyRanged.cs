@@ -243,6 +243,7 @@ namespace Dany
             bool rolledMiss = Random.value < missChance;
 
             PlayShootVfx(origin, aim);
+            PlayFmodAttackAt(origin);
             PlayShootAnimation();
             SuppressLocomotionAnimation(shootAnimationDuration);
             BeginShootMovementLock();

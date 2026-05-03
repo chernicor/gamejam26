@@ -111,6 +111,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   navMeshSampleRadius: 4
+  fmodDeathEvent:
+    Guid:
+      Data1: -98026288
+      Data2: 1121820247
+      Data3: -938203235
+      Data4: -1094013961
+    Path: event:/Enemy/enemy2death2
+  fmodAttackEvent:
+    Guid:
+      Data1: 2064743405
+      Data2: 1109916105
+      Data3: 379089043
+      Data4: -2045839698
+    Path: event:/Enemy/enemy3idle2
   enemyAnimator: {fileID: 4091889850989148114}
   animDeathTrigger: Die
   animDeathStateName: 

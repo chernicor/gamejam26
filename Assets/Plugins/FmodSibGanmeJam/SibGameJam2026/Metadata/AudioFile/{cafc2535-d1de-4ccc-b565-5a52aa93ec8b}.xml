@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="AudioFile" id="{cafc2535-d1de-4ccc-b565-5a52aa93ec8b}">
 		<property name="assetPath">
-			<value>max_scene1_phrase_4.wav</value>
+			<value>Voice/max_scene1_phrase_4.wav</value>
 		</property>
 		<property name="frequencyInKHz">
 			<value>44.0999985</value>
