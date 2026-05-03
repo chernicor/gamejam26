@@ -69,7 +69,7 @@ MonoBehaviour:
   Path: Assets/Plugins/FmodSibGanmeJam/SibGameJam2026/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639134203873145123
+  lastModified: 639134227842807946
   FileSizes:
   - Name: Desktop
     Value: 2994
@@ -471,10 +471,10 @@ MonoBehaviour:
   Path: Assets/Plugins/FmodSibGanmeJam/SibGameJam2026/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639134203873124663
+  lastModified: 639134227842787569
   FileSizes:
   - Name: Desktop
-    Value: 4024704
+    Value: 4025536
   Exists: 1
 --- !u!114 &-4233639236406105466
 MonoBehaviour:
@@ -682,7 +682,7 @@ MonoBehaviour:
   - {fileID: -4376798456546159456}
   StringsBanks:
   - {fileID: -8556505635635475851}
-  cacheTime: 639134203873491964
+  cacheTime: 639134227842807946
   cacheVersion: 131636
 --- !u!114 &-2534921503068821340
 MonoBehaviour:
