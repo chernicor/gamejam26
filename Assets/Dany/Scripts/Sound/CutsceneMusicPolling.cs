@@ -19,7 +19,7 @@ namespace Sechin
         void Start()
         {
             // Запуск одного FMOD event
-            if (!string.IsNullOrEmpty(fmodEvent.Path))
+            if (!string.IsNullOrEmpty(fmodEvent.ToString()))
             {
                 fmodInstance = FMODUnity.RuntimeManager.CreateInstance(fmodEvent);
                 fmodInstance.start();

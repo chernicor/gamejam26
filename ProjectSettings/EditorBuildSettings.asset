@@ -11,4 +11,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Main/Scene/Level1.unity
     guid: 20d8519898968a442924959d4687f0a3
+  - enabled: 1
+    path: Assets/Main/Scene/Level2.unity
+    guid: 86c845da1181e704486ae4a4796d2437
+  - enabled: 1
+    path: Assets/Main/Scene/Level3.unity
+    guid: dd624338a89f4e24bba6371083796636
+  - enabled: 1
+    path: Assets/Kirill/Scenes/Credits.unity
+    guid: 7bd91a481a7c998439108a1964128c53
   m_configObjects: {}
