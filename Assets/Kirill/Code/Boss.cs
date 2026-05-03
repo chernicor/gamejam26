@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Dany;
 using SiberianGJ26.YouAreDoing.Antos.Modules;
+using FMODUnity;
 
 
 namespace Kirill
@@ -21,6 +22,7 @@ namespace Kirill
         [SerializeField] private Vector3 lastPosition;
         [SerializeField] private Vector3 playerVelocity;
         [SerializeField] private List<GameObject> animsObj;
+        [SerializeField] private EventReference deathSound;
         [Header("Settings")]
         [SerializeField] private float timeToMeleePhase;
         [SerializeField] private float timeToRangePhase;
@@ -49,10 +51,18 @@ namespace Kirill
         }
         public void Death()
         {
+            QuestEvents.RaiseTrackedEnemyDied(true);
             animsObj[2].SetActive(true);
             animsObj[2].GetComponent<Animator>().SetTrigger("Play");
             animsObj[2].transform.SetParent(transform.parent);
+            PlayFmodOneShot(deathSound, transform.position);
             Destroy(gameObject);
+        }
+        private static void PlayFmodOneShot(EventReference eventRef, Vector3 worldPosition)
+        {
+            if (eventRef.IsNull) return;
+            if (GamePause.IsPaused) return;
+            RuntimeManager.PlayOneShot(eventRef, worldPosition);
         }
         void PlayAnim(string animName)
         {
