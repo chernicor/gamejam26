@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 using System;
 using System.Collections.Generic;
@@ -1209,6 +1209,9 @@ namespace FMODUnity
 
         public static EditorEventRef EventFromPath(string pathOrGuid)
         {
+            if (string.IsNullOrEmpty(pathOrGuid))
+                return null;
+
             EditorEventRef eventRef;
             if (pathOrGuid.StartsWith("{"))
             {
@@ -1224,19 +1227,25 @@ namespace FMODUnity
         public static EditorEventRef EventFromString(string path)
         {
             AffirmEventCache();
-            return eventCache.EditorEvents.Find((x) => x.Path.Equals(path, StringComparison.CurrentCultureIgnoreCase));
+            if (string.IsNullOrEmpty(path) || eventCache?.EditorEvents == null)
+                return null;
+            return eventCache.EditorEvents.Find((x) => x != null && x.Path != null && x.Path.Equals(path, StringComparison.CurrentCultureIgnoreCase));
         }
 
         public static EditorEventRef EventFromGUID(FMOD.GUID guid)
         {
             AffirmEventCache();
-            return eventCache.EditorEvents.Find((x) => x.Guid == guid);
+            if (eventCache?.EditorEvents == null)
+                return null;
+            return eventCache.EditorEvents.Find((x) => x != null && x.Guid == guid);
         }
 
         public static EditorParamRef ParamFromPath(string name)
         {
             AffirmEventCache();
-            return eventCache.EditorParameters.Find((x) => x.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase));
+            if (string.IsNullOrEmpty(name) || eventCache?.EditorParameters == null)
+                return null;
+            return eventCache.EditorParameters.Find((x) => x != null && x.Name != null && x.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase));
         }
 
         public class ActiveBuildTargetListener : IActiveBuildTargetChanged

@@ -36,23 +36,51 @@ namespace Dany
 
             var hits = Physics.OverlapSphere(_owner.position, radius, pickupMask, QueryTriggerInteraction.Collide);
 
-            AmmoPickup best = null;
-            float bestDist = float.MaxValue;
+            AmmoPickup bestAmmo = null;
+            float bestAmmoDist = float.MaxValue;
+            CollectiblePickup bestCollectible = null;
+            float bestCollectibleDist = float.MaxValue;
 
             foreach (var h in hits)
             {
-                var p = h.GetComponentInParent<AmmoPickup>();
-                if (!p) continue;
-
-                float d = (p.transform.position - _owner.position).sqrMagnitude;
-                if (d < bestDist)
+                var c = h.GetComponentInParent<CollectiblePickup>();
+                if (c != null && c.Definition != null)
                 {
-                    bestDist = d;
-                    best = p;
+                    float d = (c.transform.position - _owner.position).sqrMagnitude;
+                    if (d < bestCollectibleDist)
+                    {
+                        bestCollectibleDist = d;
+                        bestCollectible = c;
+                    }
+                }
+
+                var p = h.GetComponentInParent<AmmoPickup>();
+                if (p != null)
+                {
+                    float d = (p.transform.position - _owner.position).sqrMagnitude;
+                    if (d < bestAmmoDist)
+                    {
+                        bestAmmoDist = d;
+                        bestAmmo = p;
+                    }
                 }
             }
 
-            if (best) inventoryManager.PickupAmmo(best);
+            if (bestCollectible != null && bestAmmo != null)
+            {
+                if (bestCollectibleDist <= bestAmmoDist)
+                    inventoryManager.PickupCollectible(bestCollectible);
+                else
+                    inventoryManager.PickupAmmo(bestAmmo);
+            }
+            else if (bestCollectible != null)
+            {
+                inventoryManager.PickupCollectible(bestCollectible);
+            }
+            else if (bestAmmo != null)
+            {
+                inventoryManager.PickupAmmo(bestAmmo);
+            }
         }
     }
 }
