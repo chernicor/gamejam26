@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="AudioFile" id="{aa1cd09f-59de-426c-a5f7-98027f4270fa}">
 		<property name="assetPath">
-			<value>max_fight_boss_phrase2.wav</value>
+			<value>Voice/max_fight_boss_phrase2.wav</value>
 		</property>
 		<property name="frequencyInKHz">
 			<value>44.0999985</value>

@@ -112,6 +112,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2097271
   navMeshSampleRadius: 4
+  fmodDeathEvent:
+    Guid:
+      Data1: -1837323466
+      Data2: 1134064030
+      Data3: 1503242380
+      Data4: -104996782
+    Path: event:/Enemy/enemy1death1
+  fmodAttackEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   enemyAnimator: {fileID: 0}
   animDeathTrigger: 
   animDeathStateName: 
@@ -161,6 +175,8 @@ MonoBehaviour:
   shootAnimatorLayer: 0
   shootCrossFadeDuration: 0.08
   shootAnimationDuration: 0.5
+  freezeMovementWhileShooting: 1
+  shootMovementLockExtraSeconds: 0
 --- !u!136 &2133461755736115101
 CapsuleCollider:
   m_ObjectHideFlags: 0

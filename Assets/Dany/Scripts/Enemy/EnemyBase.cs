@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -27,6 +28,12 @@ namespace Dany
         [Header("Nav Mesh (optional)")]
         [Tooltip("Добавь NavMesh Agent на префаб врага и запеки NavMesh в сцене — враг пойдёт в обход.")]
         [SerializeField] protected float navMeshSampleRadius = 4f;
+
+        [Header("FMOD (опционально)")]
+        [Tooltip("One-shot в мире при начале смерти (Health → смерть). Для суицида без HP вызови PlayFmodDeathAt вручную.")]
+        [SerializeField] private EventReference fmodDeathEvent;
+        [Tooltip("One-shot при атаке: мили — из тела; стрелок — из дула (см. вызовы в EnemyMelee / EnemyRanged).")]
+        [SerializeField] private EventReference fmodAttackEvent;
 
         [Header("Animation (Animator)")]
         [Tooltip("Пусто — будет поиск Animator в дочерних объектах.")]
@@ -143,6 +150,8 @@ namespace Dany
             if (_deathSequenceStarted) return;
             _deathSequenceStarted = true;
             IsDead = true;
+
+            PlayFmodDeathAt(transform.position + Vector3.up * 0.5f);
 
             if (_navAgent != null)
             {
@@ -415,6 +424,19 @@ namespace Dany
             a.y = 0f;
             b.y = 0f;
             return Vector3.Distance(a, b);
+        }
+
+        /// <summary>FMOD one-shot смерти в точке (например центр взрыва у суицида).</summary>
+        protected void PlayFmodDeathAt(Vector3 worldPosition) => PlayFmodOneShot(fmodDeathEvent, worldPosition);
+
+        /// <summary>FMOD one-shot атаки (мили — обычно позиция врага; стрелок — дуло).</summary>
+        protected void PlayFmodAttackAt(Vector3 worldPosition) => PlayFmodOneShot(fmodAttackEvent, worldPosition);
+
+        private static void PlayFmodOneShot(EventReference eventRef, Vector3 worldPosition)
+        {
+            if (eventRef.IsNull) return;
+            if (GamePause.IsPaused) return;
+            RuntimeManager.PlayOneShot(eventRef, worldPosition);
         }
 
         /// <summary>
