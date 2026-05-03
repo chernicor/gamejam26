@@ -96,7 +96,7 @@ MonoBehaviour:
   Path: Assets/Plugins/FmodSibGanmeJam/SibGameJam2026/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639134167799577276
+  lastModified: 639134226326262771
   FileSizes:
   - Name: Desktop
     Value: 4025536
@@ -120,7 +120,6 @@ MonoBehaviour:
     Data3: 669382586
     Data4: 2140255807
   Banks:
-  - {fileID: 4491564508724388427}
   - {fileID: -8617245741408915650}
   IsStream: 0
   Is3D: 0
@@ -202,7 +201,6 @@ MonoBehaviour:
     Data3: 2077606319
     Data4: 1274663122
   Banks:
-  - {fileID: 4491564508724388427}
   - {fileID: -8617245741408915650}
   IsStream: 0
   Is3D: 0
@@ -230,7 +228,6 @@ MonoBehaviour:
     Data3: 576818070
     Data4: 1063507420
   Banks:
-  - {fileID: 4491564508724388427}
   - {fileID: -8617245741408915650}
   IsStream: 0
   Is3D: 0
@@ -393,7 +390,6 @@ MonoBehaviour:
     Data3: -1034867553
     Data4: -2044566756
   Banks:
-  - {fileID: 4491564508724388427}
   - {fileID: -8617245741408915650}
   IsStream: 0
   Is3D: 0
@@ -475,7 +471,6 @@ MonoBehaviour:
     Data3: 955106695
     Data4: 2130683361
   Banks:
-  - {fileID: 4491564508724388427}
   - {fileID: -8617245741408915650}
   IsStream: 0
   Is3D: 0
@@ -530,7 +525,6 @@ MonoBehaviour:
     Data3: -557472361
     Data4: 1990808506
   Banks:
-  - {fileID: 4491564508724388427}
   - {fileID: -8617245741408915650}
   IsStream: 1
   Is3D: 0
@@ -558,7 +552,6 @@ MonoBehaviour:
     Data3: 866189741
     Data4: 2127024282
   Banks:
-  - {fileID: 4491564508724388427}
   - {fileID: -8617245741408915650}
   IsStream: 1
   Is3D: 1
@@ -586,7 +579,6 @@ MonoBehaviour:
     Data3: 753955754
     Data4: 1994203907
   Banks:
-  - {fileID: 4491564508724388427}
   - {fileID: -8617245741408915650}
   IsStream: 0
   Is3D: 0
@@ -614,7 +606,6 @@ MonoBehaviour:
     Data3: 981155496
     Data4: -263739264
   Banks:
-  - {fileID: 4491564508724388427}
   - {fileID: -8617245741408915650}
   IsStream: 0
   Is3D: 0
@@ -642,7 +633,6 @@ MonoBehaviour:
     Data3: -1242163565
     Data4: 180925790
   Banks:
-  - {fileID: 4491564508724388427}
   - {fileID: -8617245741408915650}
   IsStream: 0
   Is3D: 0
@@ -670,7 +660,6 @@ MonoBehaviour:
     Data3: 1375236518
     Data4: 2032674325
   Banks:
-  - {fileID: 4491564508724388427}
   - {fileID: -8617245741408915650}
   IsStream: 0
   Is3D: 0
@@ -693,7 +682,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EditorBanks:
   - {fileID: 238593136931489427}
-  - {fileID: 4491564508724388427}
   - {fileID: -8617245741408915650}
   EditorEvents:
   - {fileID: 486545423164645499}
@@ -748,7 +736,7 @@ MonoBehaviour:
   - {fileID: -8617245741408915650}
   StringsBanks:
   - {fileID: 238593136931489427}
-  cacheTime: 639134167799596966
+  cacheTime: 639134226326292677
   cacheVersion: 131636
 --- !u!114 &22770398155522465
 MonoBehaviour:
@@ -769,7 +757,6 @@ MonoBehaviour:
     Data3: -1760191074
     Data4: -892189746
   Banks:
-  - {fileID: 4491564508724388427}
   - {fileID: -8617245741408915650}
   IsStream: 0
   Is3D: 0
@@ -793,10 +780,10 @@ MonoBehaviour:
   Path: Assets/Plugins/FmodSibGanmeJam/SibGameJam2026/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639134167799596966
+  lastModified: 639134226326292677
   FileSizes:
   - Name: Desktop
-    Value: 2994
+    Value: 2944
   Exists: 1
 --- !u!114 &486545423164645499
 MonoBehaviour:
@@ -817,7 +804,6 @@ MonoBehaviour:
     Data3: 372324519
     Data4: -1366926807
   Banks:
-  - {fileID: 4491564508724388427}
   - {fileID: -8617245741408915650}
   IsStream: 1
   Is3D: 1
@@ -845,7 +831,6 @@ MonoBehaviour:
     Data3: 792004770
     Data4: -1073846046
   Banks:
-  - {fileID: 4491564508724388427}
   - {fileID: -8617245741408915650}
   IsStream: 0
   Is3D: 0
@@ -954,7 +939,6 @@ MonoBehaviour:
     Data3: -1345412716
     Data4: 1029381103
   Banks:
-  - {fileID: 4491564508724388427}
   - {fileID: -8617245741408915650}
   IsStream: 0
   Is3D: 1
@@ -1009,7 +993,6 @@ MonoBehaviour:
     Data3: 1374609083
     Data4: -49010858
   Banks:
-  - {fileID: 4491564508724388427}
   - {fileID: -8617245741408915650}
   IsStream: 0
   Is3D: 0
@@ -1037,7 +1020,6 @@ MonoBehaviour:
     Data3: 1076781958
     Data4: -642396717
   Banks:
-  - {fileID: 4491564508724388427}
   - {fileID: -8617245741408915650}
   IsStream: 0
   Is3D: 0
@@ -1046,26 +1028,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 6406
---- !u!114 &4491564508724388427
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Bank A.bank
-  m_EditorClassIdentifier: 
-  Path: Assets/Plugins/FmodSibGanmeJam/SibGameJam2026/Build/Desktop/Bank A.bank
-  Name: Bank A
-  StudioPath: bank:/Bank A
-  lastModified: 639134167799328089
-  FileSizes:
-  - Name: Desktop
-    Value: 3551520
-  Exists: 1
 --- !u!114 &5011815161947188102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1085,7 +1047,6 @@ MonoBehaviour:
     Data3: -1861310813
     Data4: -696758899
   Banks:
-  - {fileID: 4491564508724388427}
   - {fileID: -8617245741408915650}
   IsStream: 0
   Is3D: 0
@@ -1113,7 +1074,6 @@ MonoBehaviour:
     Data3: 1103719861
     Data4: 1456019391
   Banks:
-  - {fileID: 4491564508724388427}
   - {fileID: -8617245741408915650}
   IsStream: 0
   Is3D: 0
@@ -1222,7 +1182,6 @@ MonoBehaviour:
     Data3: -1126148178
     Data4: -160588455
   Banks:
-  - {fileID: 4491564508724388427}
   - {fileID: -8617245741408915650}
   IsStream: 0
   Is3D: 0
@@ -1277,7 +1236,6 @@ MonoBehaviour:
     Data3: 1129447579
     Data4: 1145849265
   Banks:
-  - {fileID: 4491564508724388427}
   - {fileID: -8617245741408915650}
   IsStream: 0
   Is3D: 0
@@ -1332,7 +1290,6 @@ MonoBehaviour:
     Data3: 1688389000
     Data4: -10685319
   Banks:
-  - {fileID: 4491564508724388427}
   - {fileID: -8617245741408915650}
   IsStream: 0
   Is3D: 0
@@ -1387,7 +1344,6 @@ MonoBehaviour:
     Data3: 2007573394
     Data4: 17947285
   Banks:
-  - {fileID: 4491564508724388427}
   - {fileID: -8617245741408915650}
   IsStream: 0
   Is3D: 0
