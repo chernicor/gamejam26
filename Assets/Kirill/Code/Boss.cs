@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.AI;
 using Dany;
@@ -37,6 +38,11 @@ namespace Kirill
         [SerializeField] private float meleeAttackDistance;
         [SerializeField] private float meleeDamage;
 
+        [Header("FMOD (опционально)")]
+        [SerializeField] private EventReference fmodDeathEvent;
+        [SerializeField] private EventReference fmodMeleeAttackEvent;
+        [SerializeField] private EventReference fmodRangeAttackEvent;
+
         public void SetPlayerLinks(Transform playerTransform, MonoHealth playerHealth)
         {
             player = playerTransform;
@@ -49,6 +55,8 @@ namespace Kirill
         }
         public void Death()
         {
+            PlayFmodOneShot(fmodDeathEvent, transform.position + Vector3.up);
+
             animsObj[2].SetActive(true);
             animsObj[2].GetComponent<Animator>().SetTrigger("Play");
             animsObj[2].transform.SetParent(transform.parent);
@@ -164,6 +172,7 @@ namespace Kirill
         private IEnumerator MeleeAttack()
         {
             PlayAnim("Attack");
+            PlayFmodOneShot(fmodMeleeAttackEvent, transform.position + Vector3.up * 0.5f);
             playerHealth.TrySet(-meleeDamage);
             if (player == null)
             {
@@ -199,6 +208,7 @@ namespace Kirill
             state = "rangeAttack";
             if(isBallistic) BallisticAttack();
             else RayCastAttack();
+            PlayFmodOneShot(fmodRangeAttackEvent, RangeAttackSoundPosition());
             PlayAnim("Proj");
             yield return new WaitForSeconds(rangeAttackTime);
             state = "idle";
@@ -238,6 +248,20 @@ namespace Kirill
                 return true;
             }
             return false;
+        }
+
+        private Vector3 RangeAttackSoundPosition()
+        {
+            if (ballisticSpawnPoint != null)
+                return ballisticSpawnPoint.position;
+            return transform.position + Vector3.up;
+        }
+
+        private static void PlayFmodOneShot(EventReference eventRef, Vector3 worldPosition)
+        {
+            if (eventRef.IsNull) return;
+            if (GamePause.IsPaused) return;
+            RuntimeManager.PlayOneShot(eventRef, worldPosition);
         }
     }
 }

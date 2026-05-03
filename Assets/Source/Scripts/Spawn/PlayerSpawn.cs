@@ -16,32 +16,15 @@ namespace SiberianGJ26.YouAreDoing.Antos.Spawns
         [SerializeField] private InventoryManager manager;
         [SerializeField] private WorldPoint playerSpawnPoint;
         [SerializeField] private bool isRespawn;
-        [SerializeField] private CheckPoint[] checkPoints;
 
         private WaitForSeconds _wait;
         private IHealth _playerHealth;
-
-        private Transform _curentSpawnPoint;
 
         private void Start()
         {
             isRespawn = data.IsRespawnAfterDead;
             _wait = new(data.Duration);
-            _curentSpawnPoint = playerSpawnPoint.transform;
-            foreach (var checkPoint in checkPoints)
-                checkPoint.OnTriggerEv += OnTriggerCheckPoint;
             StartCoroutine(Spawn(null));
-        }
-
-        private void OnDestroy()
-        {
-            foreach (var checkPoint in checkPoints)
-                checkPoint.OnTriggerEv -= OnTriggerCheckPoint;
-        }
-
-        private void OnTriggerCheckPoint(CheckPoint checkPoint)
-        {
-            _curentSpawnPoint = checkPoint.transform;
         }
 
         private IEnumerator Spawn(WaitForSeconds wait)
@@ -49,8 +32,8 @@ namespace SiberianGJ26.YouAreDoing.Antos.Spawns
             if (wait != null) yield return wait;
             yield return null;
             var player = Instantiate(data.PlayerPrefab);
-            var spawnPos = _curentSpawnPoint.transform.position;
-            var spawnRot = _curentSpawnPoint.transform.rotation;
+            var spawnPos = playerSpawnPoint.transform.position;
+            var spawnRot = playerSpawnPoint.transform.rotation;
             // CharacterController keeps internal capsule at old world pose unless disabled during teleport.
             player.CharacterController.enabled = false;
             player.transform.SetPositionAndRotation(spawnPos, spawnRot);
