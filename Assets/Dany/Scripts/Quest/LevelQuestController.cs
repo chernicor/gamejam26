@@ -253,9 +253,9 @@ namespace Dany
                 if (string.IsNullOrEmpty(line)) continue;
 
                 if (done)
-                    sb.AppendLine($"<color=#{QuestTaskColorHex}>✓ {line}</color>");
+                    sb.AppendLine($"<color=#{QuestTaskColorHex}>♦ {line}</color>");
                 else
-                    sb.AppendLine($"<color=#{QuestTaskColorHex}><b>► {line}</b></color>");
+                    sb.AppendLine($"<color=#{QuestTaskColorHex}><b>◊ {line}</b></color>");
             }
 
             if (_allComplete)
