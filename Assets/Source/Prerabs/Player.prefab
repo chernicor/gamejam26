@@ -437,35 +437,35 @@ MonoBehaviour:
       Data2: 1210784541
       Data3: 1103719861
       Data4: 1456019391
-    Path: event:/max_fight_phrase_1
+    Path: event:/Voice/max_fight_phrase_1
   - Guid:
       Data1: 827316757
       Data2: 1132849704
       Data3: 955106695
       Data4: 2130683361
-    Path: event:/max_fight_phrase_2
+    Path: event:/Voice/max_fight_phrase_2
   - Guid:
       Data1: 1284651296
       Data2: 1257467942
       Data3: 576818070
       Data4: 1063507420
-    Path: event:/max_fight_phrase_3
+    Path: event:/Voice/max_fight_phrase_3
   bossBarkEvents:
   - Guid:
       Data1: -1083882287
       Data2: 1303992369
       Data3: 792004770
       Data4: -1073846046
-    Path: event:/max_fight_boss_phrase1
+    Path: event:/Voice/max_fight_boss_phrase1
   - Guid:
       Data1: 2103733928
       Data2: 1226302005
       Data3: 1076781958
       Data4: -642396717
-    Path: event:/max_fight_boss_phrase2
+    Path: event:/Voice/max_fight_boss_phrase2
   - Guid:
       Data1: -1056929001
       Data2: 1202933115
       Data3: 753955754
       Data4: 1994203907
-    Path: event:/max_fight_boss_phrase3
+    Path: event:/Voice/max_fight_boss_phrase3

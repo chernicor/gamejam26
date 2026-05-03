@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 599156626487702506}
   - component: {fileID: 549918973499082457}
+  - component: {fileID: 7866054999199296763}
+  - component: {fileID: 6631845227514336775}
   m_Layer: 0
   m_Name: GameMenager
   m_TagString: Untagged
@@ -49,12 +51,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   ammoText: {fileID: 0}
   handSocket: {fileID: 0}
   pickupItem: {fileID: 0}
@@ -65,3 +61,47 @@ MonoBehaviour:
   hintFadeSpeed: 2
   cameraMode: 1
   playerTransform: {fileID: 0}
+--- !u!114 &7866054999199296763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5773982854462284956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 480004298
+      Data2: 1188854243
+      Data3: -557472361
+      Data4: 1990808506
+    Path: event:/Doom
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &6631845227514336775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5773982854462284956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dab1233850f9bd4497bdda266104a5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  windowMenu: {fileID: 0}

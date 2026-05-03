@@ -1,12 +1,23 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using FMODUnity;
 
 namespace Sechin
 {
+    /// <summary>
+    /// Слайдеры громкости → FMOD VCA. Если VCA нет в загруженных банках, исключение не бросается (одно предупреждение в консоль).
+    /// Пути можно переопределить в инспекторе под твой FMOD-проект.
+    /// </summary>
     public class VCA : MonoBehaviour
     {
         [SerializeField] private FMOD.Studio.EventInstance vcaEvent;
+
+        [Header("Пути VCA в FMOD (vca:/Имя как в Mixer)")]
+        [SerializeField] private string musicVcaPath = "vca:/MusicVCA";
+        [SerializeField] private string voiceVcaPath = "vca:/VoiceVCA";
+        [SerializeField] private string generalVcaPath = "vca:/GeneralVCA";
+        [SerializeField] private string effectVcaPath = "vca:/EffectVCA";
 
         [Header("Громкость голоса")]
         [SerializeField] public Slider volumeSliderVoice;
@@ -24,13 +35,19 @@ namespace Sechin
         [SerializeField] public Slider volumeSliderSound;
         private const string VolumeKeyS = "VolumeLevelSound";
 
+        private static readonly HashSet<string> WarnedMissingVcaPaths = new HashSet<string>();
+
         private void Start()
         {
             LoadVolumeToSlidersWithoutNotify();
-            volumeSliderVoice.onValueChanged.AddListener(SetVolumeVoice);
-            volumeSliderGeneral.onValueChanged.AddListener(SetVolumeGeneral);
-            volumeSliderMusic.onValueChanged.AddListener(SetVolumeMusic);
-            volumeSliderSound.onValueChanged.AddListener(SetVolumeSound);
+            if (volumeSliderVoice != null)
+                volumeSliderVoice.onValueChanged.AddListener(SetVolumeVoice);
+            if (volumeSliderGeneral != null)
+                volumeSliderGeneral.onValueChanged.AddListener(SetVolumeGeneral);
+            if (volumeSliderMusic != null)
+                volumeSliderMusic.onValueChanged.AddListener(SetVolumeMusic);
+            if (volumeSliderSound != null)
+                volumeSliderSound.onValueChanged.AddListener(SetVolumeSound);
             SyncFmodFromSliders();
         }
 
@@ -50,23 +67,27 @@ namespace Sechin
 
         private static void SetSliderFromPrefs(Slider slider, string key, float defaultValue)
         {
+            if (slider == null) return;
             float v = PlayerPrefs.HasKey(key) ? PlayerPrefs.GetFloat(key) : defaultValue;
             slider.SetValueWithoutNotify(v);
         }
 
         private void SyncFmodFromSliders()
         {
-            if (!RuntimeManager.IsInitialized) return;
-            RuntimeManager.GetVCA("vca:/MusicVCA").setVolume(volumeSliderMusic.value);
-            RuntimeManager.GetVCA("vca:/VoiceVCA").setVolume(volumeSliderVoice.value);
-            RuntimeManager.GetVCA("vca:/GeneralVCA").setVolume(volumeSliderGeneral.value);
-            RuntimeManager.GetVCA("vca:/EffectVCA").setVolume(volumeSliderSound.value);
+            if (volumeSliderMusic != null)
+                TrySetVcaVolume(musicVcaPath, volumeSliderMusic.value);
+            if (volumeSliderVoice != null)
+                TrySetVcaVolume(voiceVcaPath, volumeSliderVoice.value);
+            if (volumeSliderGeneral != null)
+                TrySetVcaVolume(generalVcaPath, volumeSliderGeneral.value);
+            if (volumeSliderSound != null)
+                TrySetVcaVolume(effectVcaPath, volumeSliderSound.value);
         }
 
         public void SetVolumeMusic(float volume)
         {
             volume = Mathf.Clamp01(volume);
-            RuntimeManager.GetVCA("vca:/MusicVCA").setVolume(volume);
+            TrySetVcaVolume(musicVcaPath, volume);
             PlayerPrefs.SetFloat(VolumeKeyM, volume);
             PlayerPrefs.Save();
         }
@@ -74,7 +95,7 @@ namespace Sechin
         public void SetVolumeVoice(float volume)
         {
             volume = Mathf.Clamp01(volume);
-            RuntimeManager.GetVCA("vca:/VoiceVCA").setVolume(volume);
+            TrySetVcaVolume(voiceVcaPath, volume);
             PlayerPrefs.SetFloat(VolumeKeyV, volume);
             PlayerPrefs.Save();
         }
@@ -82,7 +103,7 @@ namespace Sechin
         public void SetVolumeGeneral(float volume)
         {
             volume = Mathf.Clamp01(volume);
-            RuntimeManager.GetVCA("vca:/GeneralVCA").setVolume(volume);
+            TrySetVcaVolume(generalVcaPath, volume);
             PlayerPrefs.SetFloat(VolumeKeyG, volume);
             PlayerPrefs.Save();
         }
@@ -90,9 +111,34 @@ namespace Sechin
         public void SetVolumeSound(float volume)
         {
             volume = Mathf.Clamp01(volume);
-            RuntimeManager.GetVCA("vca:/EffectVCA").setVolume(volume);
+            TrySetVcaVolume(effectVcaPath, volume);
             PlayerPrefs.SetFloat(VolumeKeyS, volume);
             PlayerPrefs.Save();
+        }
+
+        private void TrySetVcaVolume(string path, float volume)
+        {
+            if (string.IsNullOrWhiteSpace(path)) return;
+            if (!RuntimeManager.IsInitialized) return;
+
+            var system = RuntimeManager.StudioSystem;
+            if (!system.isValid()) return;
+
+            if (system.getVCA(path, out FMOD.Studio.VCA vca) != FMOD.RESULT.OK || !vca.isValid())
+            {
+                if (WarnedMissingVcaPaths.Add(path))
+                {
+                    Debug.LogWarning(
+                        $"[FMOD] VCA «{path}» не найден в загруженных банках. " +
+                        "Проверь FMOD → Banks (Master + группа с музыкой), строки в Master Strings, " +
+                        "и что имя VCA в Mixer совпадает с путём. Путь можно сменить на объекте с компонентом VCA.",
+                        this);
+                }
+
+                return;
+            }
+
+            vca.setVolume(volume);
         }
     }
 }

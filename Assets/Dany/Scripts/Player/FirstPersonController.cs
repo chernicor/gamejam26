@@ -93,6 +93,7 @@ namespace Dany
             currentFov = maxFov;
             PlayerCamera.fieldOfView = currentFov;
             Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
 
             if (headBobTarget == null && PlayerCamera != null) headBobTarget = PlayerCamera.transform;
             if (headBobTarget != null) headBobDefaultLocalPos = headBobTarget.localPosition;
