@@ -41,6 +41,7 @@ namespace Dany
 
         private PickupObject currentPickupObject;
         private AmmoPickup currentAmmoPickup;
+        private CollectiblePickup currentCollectiblePickup;
 
         private float lastShotTime = 0f;
 
@@ -115,6 +116,7 @@ namespace Dany
             pickupItem = null;
             currentPickupObject = null;
             currentAmmoPickup = null;
+            currentCollectiblePickup = null;
             currentHintText = "";
             isShowingHint = false;
             recoilCurrent = Vector3.zero;
@@ -172,7 +174,21 @@ namespace Dany
                     pickupItem = pickupObj.item;
                     currentPickupObject = pickupObj;
                     currentAmmoPickup = null;
+                    currentCollectiblePickup = null;
                     currentHintText = $"Нажми E, чтобы подобрать {pickupObj.item.itemName}";
+                    return;
+                }
+
+                CollectiblePickup collectiblePickup = hit.collider.GetComponent<CollectiblePickup>() ??
+                                                      hit.collider.GetComponentInParent<CollectiblePickup>();
+                if (collectiblePickup != null && collectiblePickup.Definition != null)
+                {
+                    canPickup = true;
+                    pickupItem = null;
+                    currentPickupObject = null;
+                    currentAmmoPickup = null;
+                    currentCollectiblePickup = collectiblePickup;
+                    currentHintText = collectiblePickup.GetHintText();
                     return;
                 }
 
@@ -182,6 +198,7 @@ namespace Dany
                     canPickup = true;
                     pickupItem = null;
                     currentPickupObject = null;
+                    currentCollectiblePickup = null;
                     currentAmmoPickup = ammoPickup;
                     currentHintText = ammoPickup.GetHintText();
                     return;
@@ -192,6 +209,7 @@ namespace Dany
             pickupItem = null;
             currentPickupObject = null;
             currentAmmoPickup = null;
+            currentCollectiblePickup = null;
             currentHintText = "";
         }
 
@@ -199,7 +217,8 @@ namespace Dany
         {
             if (pickupHintText == null) return;
 
-            bool shouldShow = canPickup && (pickupItem != null || currentAmmoPickup != null);
+            bool shouldShow = canPickup &&
+                               (pickupItem != null || currentAmmoPickup != null || currentCollectiblePickup != null);
 
             if (shouldShow && !isShowingHint)
             {
@@ -231,7 +250,11 @@ namespace Dany
             // Подбор по E
             if (Input.GetKeyDown(KeyCode.E) && canPickup)
             {
-                if (pickupItem != null)
+                if (currentCollectiblePickup != null)
+                {
+                    PickupCollectible(currentCollectiblePickup);
+                }
+                else if (pickupItem != null)
                 {
                     PickupItem(pickupItem);
                 }
@@ -365,6 +388,17 @@ namespace Dany
                     Debug.Log("Объект на сцене уничтожен!");
                 }
             }
+        }
+
+        /// <summary>Подбор коллекционки (не занимает слоты инвентаря).</summary>
+        public void PickupCollectible(CollectiblePickup pickup)
+        {
+            if (pickup == null) return;
+
+            if (currentCollectiblePickup == pickup)
+                currentCollectiblePickup = null;
+
+            pickup.Collect();
         }
 
         public void PickupAmmo(AmmoPickup ammoPickup)

@@ -8,6 +8,7 @@ namespace Dany
     {
         public static event Action<InventoryItem> ItemPickedUp;
         public static event Action<bool> TrackedEnemyDied;
+        public static event Action<CollectibleDefinition> CollectiblePickedUp;
 
         public static void RaiseItemPickedUp(InventoryItem item)
         {
@@ -19,6 +20,12 @@ namespace Dany
         public static void RaiseTrackedEnemyDied(bool isBoss)
         {
             TrackedEnemyDied?.Invoke(isBoss);
+        }
+
+        public static void RaiseCollectiblePickedUp(CollectibleDefinition definition)
+        {
+            if (definition != null)
+                CollectiblePickedUp?.Invoke(definition);
         }
     }
 }
