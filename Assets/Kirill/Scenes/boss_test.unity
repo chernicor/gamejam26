@@ -1877,7 +1877,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 135847203}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 426eb252191f50d4180530569aecf3d2, type: 3}
+  m_Script: {fileID: 11500000, guid: 9fa0f13fa24b0d745a7fb5029e6fda74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mobes:
@@ -4263,6 +4263,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   navMeshSampleRadius: 4
+  fmodDeathEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  fmodAttackEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   enemyAnimator: {fileID: 0}
   animDeathTrigger: 
   animDeathStateName: 
@@ -7255,7 +7269,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 688643253}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f19cd27941fa849458dfb84bd74c64d7, type: 3}
+  m_Script: {fileID: 11500000, guid: 22659195d0e0d5649a70e66ec5a2fe46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 688643255}
@@ -8216,10 +8230,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 749499411}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f19cd27941fa849458dfb84bd74c64d7, type: 3}
+  m_Script: {fileID: 11500000, guid: 22659195d0e0d5649a70e66ec5a2fe46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 749499413}
+  agent: {fileID: 688643255}
   spawner: {fileID: 135847204}
 --- !u!195 &749499413
 NavMeshAgent:
@@ -9082,10 +9096,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 913642033}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f19cd27941fa849458dfb84bd74c64d7, type: 3}
+  m_Script: {fileID: 11500000, guid: 22659195d0e0d5649a70e66ec5a2fe46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 913642035}
+  agent: {fileID: 688643255}
   spawner: {fileID: 135847204}
 --- !u!136 &913642037
 CapsuleCollider:
@@ -14452,6 +14466,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   navMeshSampleRadius: 4
+  fmodDeathEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  fmodAttackEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   enemyAnimator: {fileID: 0}
   animDeathTrigger: 
   animDeathStateName: 
@@ -15674,7 +15702,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: ccafee3683a3d6d4a8d3261d0b161940, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: b2efab38e4a3f00498c61e31076caa21, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1272359497
 Transform:
@@ -20021,10 +20049,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1729170125}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f19cd27941fa849458dfb84bd74c64d7, type: 3}
+  m_Script: {fileID: 11500000, guid: 22659195d0e0d5649a70e66ec5a2fe46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 1729170127}
+  agent: {fileID: 688643255}
   spawner: {fileID: 135847204}
 --- !u!195 &1729170127
 NavMeshAgent:
@@ -21338,10 +21366,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1895578062}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f19cd27941fa849458dfb84bd74c64d7, type: 3}
+  m_Script: {fileID: 11500000, guid: 22659195d0e0d5649a70e66ec5a2fe46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 1895578064}
+  agent: {fileID: 688643255}
   spawner: {fileID: 135847204}
 --- !u!136 &1895578066
 CapsuleCollider:
@@ -21760,6 +21788,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   navMeshSampleRadius: 4
+  fmodDeathEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  fmodAttackEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   enemyAnimator: {fileID: 0}
   animDeathTrigger: 
   animDeathStateName: 
@@ -22454,38 +22496,38 @@ MonoBehaviour:
   m_GameObject: {fileID: 2026891915}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45ee1acadae455e4dbd601c570198831, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b76704c841c3994186ac59ee906c816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   state: idle
   phase: range
   agent: {fileID: 2026891918}
   anim: {fileID: 0}
-  ballisticPrefab: {fileID: 2206081245077252277, guid: 5d7e36d671ea25c48a71e0fb4323526d,
+  ballisticPrefab: {fileID: 2206081245077252277, guid: ea77eab146f2953468aa118f8f30050e,
     type: 3}
-  ballisticSpawnPoint: {fileID: 1899495353}
+  ballisticSpawnPoint: {fileID: 0}
   lastPosition: {x: 0, y: 0, z: 0}
   playerVelocity: {x: 0, y: 0, z: 0}
   animsObj:
   - {fileID: 3134121440572846003}
-  - {fileID: 896300631219027715}
-  - {fileID: 14324360028893580}
   - {fileID: 6008201869189894786}
+  - {fileID: 14324360028893580}
   - {fileID: 4614920607498158698}
+  - {fileID: 896300631219027715}
   timeToMeleePhase: 15
-  timeToRangePhase: 10
+  timeToRangePhase: 5
   meleeAttackTime: 3.2
   inaccuracy: 1
   ballSpeed: 16
   isBallistic: 1
-  UpryazhdenieCoef: 1.2
+  UpryazhdenieCoef: 1
   rangeAttackTime: 2.1
-  rangeAttackMaxDistance: 20
+  rangeAttackMaxDistance: 25
   rangeDamage: 10
-  preferredDistanceToPlayer: 15
+  preferredDistanceToPlayer: 20
   rotateChance: 0.2
   meleeAttackDistance: 4
-  meleeDamage: 15
+  meleeDamage: 10
 --- !u!114 &2026891923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22697,10 +22739,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2037082955}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f19cd27941fa849458dfb84bd74c64d7, type: 3}
+  m_Script: {fileID: 11500000, guid: 22659195d0e0d5649a70e66ec5a2fe46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 2037082957}
+  agent: {fileID: 688643255}
   spawner: {fileID: 135847204}
 --- !u!195 &2037082957
 NavMeshAgent:
