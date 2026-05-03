@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6126503295945284596}
   - component: {fileID: 8310596408868657152}
   - component: {fileID: -8676213883116632602}
-  m_Layer: 0
+  m_Layer: 30
   m_Name: AcidBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2206081245077252277}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 8506a51fc0798ae43b886a9c937bfc11, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -192,8 +192,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 3
-      minScalar: 1.5
+      scalar: 1.2
+      minScalar: 0.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -244,7 +244,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSpeed:
       serializedVersion: 2
-      minMaxState: 3
+      minMaxState: 1
       scalar: 5
       minScalar: 0
       maxCurve:
@@ -252,13 +252,22 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 1
-          inSlope: 0
-          outSlope: 0
+          value: -1
+          inSlope: 2.7443197
+          outSlope: 2.7443197
           tangentMode: 0
           weightedMode: 0
           inWeight: 0.33333334
-          outWeight: 0.33333334
+          outWeight: 0.2209757
+        - serializedVersion: 3
+          time: 0.503013
+          value: -0.19648778
+          inSlope: 3.2444859
+          outSlope: 3.2444859
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.10862925
+          outWeight: 0.113770016
         - serializedVersion: 3
           time: 1
           value: 1
@@ -999,7 +1008,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 4
+      scalar: 12
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -4963,3 +4972,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7aa19c93fe1a9d4b9056019c5f9d58c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 0
+  splash: {fileID: 2206081245077252277, guid: dfcd7dd938ad0f64798da57211de4c23, type: 3}

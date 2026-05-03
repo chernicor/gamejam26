@@ -8,7 +8,7 @@ using SiberianGJ26.YouAreDoing.Antos.Modules;
 
 namespace Kirill
 {
-    public class Boss : MonoBehaviour
+    public class Boss : MonoBehaviour, IDeath
     {
         [SerializeField] private string state = "idle"; //idle, rush, meleeAttack, rotate, rangeAttack, ?reloading?, chase
         [SerializeField] private string phase = "melee"; //melee, range
@@ -18,6 +18,9 @@ namespace Kirill
         [SerializeField] private Transform ballisticSpawnPoint;
         private Transform player;
         private MonoHealth playerHealth;
+        [SerializeField] private Vector3 lastPosition;
+        [SerializeField] private Vector3 playerVelocity;
+        [SerializeField] private List<GameObject> animsObj;
         [Header("Settings")]
         [SerializeField] private float timeToMeleePhase;
         [SerializeField] private float timeToRangePhase;
@@ -25,6 +28,7 @@ namespace Kirill
         [SerializeField] private float inaccuracy;
         [SerializeField] private float ballSpeed;
         [SerializeField] private bool isBallistic;
+        [SerializeField] private float UpryazhdenieCoef;
         [SerializeField] private float rangeAttackTime;
         [SerializeField] private float rangeAttackMaxDistance;
         [SerializeField] private float rangeDamage;
@@ -40,10 +44,55 @@ namespace Kirill
         }
         private void Start()
         {
-            FirstPersonController p = FindObjectOfType<FirstPersonController>();
-            SetPlayerLinks(p.transform, p.GetComponent<MonoHealth>());
             if (phase == "melee") StartCoroutine(ChangePhase(timeToRangePhase));
             else if (phase == "range") StartCoroutine(ChangePhase(timeToMeleePhase));
+        }
+        public void Death()
+        {
+            animsObj[2].SetActive(true);
+            animsObj[2].GetComponent<Animator>().SetTrigger("Play");
+            animsObj[2].transform.SetParent(transform.parent);
+            Destroy(gameObject);
+        }
+        void PlayAnim(string animName)
+        {
+            switch (animName)
+            {
+                case "Idle":
+                    animsObj[0].SetActive(true);
+
+                    animsObj[1].SetActive(false);
+                    animsObj[2].SetActive(false);
+                    animsObj[3].SetActive(false);
+                    animsObj[4].SetActive(false);
+                    break;
+                case "Run":
+                    animsObj[1].SetActive(true);
+
+                    animsObj[0].SetActive(false);
+                    animsObj[2].SetActive(false);
+                    animsObj[3].SetActive(false);
+                    animsObj[4].SetActive(false);
+                    break;
+                case "Attack":
+                    animsObj[3].SetActive(true);
+                    animsObj[3].GetComponent<Animator>().SetTrigger("Play");
+
+                    animsObj[0].SetActive(false);
+                    animsObj[1].SetActive(false);
+                    animsObj[2].SetActive(false);
+                    animsObj[4].SetActive(false);
+                    break;
+                case "Proj":
+                    animsObj[4].SetActive(true);
+                    animsObj[4].GetComponent<Animator>().SetTrigger("Play");
+
+                    animsObj[0].SetActive(false);
+                    animsObj[1].SetActive(false);
+                    animsObj[2].SetActive(false);
+                    animsObj[3].SetActive(false);
+                    break;
+            }
         }
         public IEnumerator ChangePhase(float delay)
         {
@@ -63,13 +112,31 @@ namespace Kirill
         }
         private void FixedUpdate()
         {
+            if (player == null)
+            {
+                FirstPersonController p = FindObjectOfType<FirstPersonController>();
+                if(p!=null)SetPlayerLinks(p.transform, p.GetComponent<MonoHealth>());
+            }
+            else
+            {
+                playerVelocity = (player.position - lastPosition) / Time.deltaTime;
+                lastPosition = player.position;
+            }
             if (phase == "melee")
             {
                 if (state == "rush" || state == "idle") Rush();
             }
             else if(phase == "range")
             {
-                if (state == "idle")
+                transform.LookAt(player.position, Vector3.up);
+                if (state == "idle" && Vector3.Distance(transform.position, player.position) < 7)
+                {
+                    phase = "melee";
+                    if (state != "rangeAttack") state = "idle";
+                    StopAllCoroutines();
+                    StartCoroutine(ChangePhase(timeToRangePhase));
+                }
+                else if (state == "idle")
                 {
                     if (Random.Range(0f, 1f) < rotateChance) Rotate();
                     else StartCoroutine(RangeAttack());
@@ -79,10 +146,10 @@ namespace Kirill
                     if (isBossSeePlayer()) StartCoroutine(RangeAttack());
                 }
                 else if (agent.velocity.magnitude < 0.1f && (state == "rotate" || state == "chase")) StartCoroutine(RangeAttack());
-                else if (state == "rotate" && Vector3.Distance(transform.position, player.position) < 10) StartCoroutine(RangeAttack());
+                else if (state == "rotate" && Vector3.Distance(transform.position, player.position) < 15) StartCoroutine(RangeAttack());
             }
-            if(agent.velocity.magnitude > 0.1f) anim.SetBool("Walk", true);
-            else anim.SetBool("Walk", false);
+            if (state == "chase" || state == "rotate" || state == "rush") PlayAnim("Run");
+            else if (state == "idle") PlayAnim("Idle");
         }
         private void Rush()
         {
@@ -96,7 +163,7 @@ namespace Kirill
         }
         private IEnumerator MeleeAttack()
         {
-            anim.SetTrigger("Punch");
+            PlayAnim("Attack");
             playerHealth.TrySet(-meleeDamage);
             if (player == null)
             {
@@ -119,8 +186,8 @@ namespace Kirill
         private IEnumerator RangeAttack()
         {
             agent.isStopped = true;
-            Ray _ray = new Ray(transform.position, player.position - transform.position);
-            Debug.DrawRay(transform.position, player.position - transform.position);
+            Ray _ray = new Ray(ballisticSpawnPoint.position, player.position - ballisticSpawnPoint.position);
+            Debug.DrawRay(ballisticSpawnPoint.position, player.position - ballisticSpawnPoint.position);
             Physics.Raycast(_ray, out RaycastHit _hit);
             //Debug.Log(_hit.collider.tag);
             if (_hit.distance > rangeAttackMaxDistance || !_hit.collider.CompareTag("Player"))
@@ -132,8 +199,7 @@ namespace Kirill
             state = "rangeAttack";
             if(isBallistic) BallisticAttack();
             else RayCastAttack();
-            transform.LookAt(player.position, Vector3.up);
-            anim.SetTrigger("Shoot");
+            PlayAnim("Proj");
             yield return new WaitForSeconds(rangeAttackTime);
             state = "idle";
             agent.isStopped = false;
@@ -143,8 +209,9 @@ namespace Kirill
             GameObject ball = Instantiate(ballisticPrefab, ballisticSpawnPoint);
             ball.transform.parent = transform.parent;
             //ballisticSpawnPoint.LookAt(player.position);
-            Vector3 velocity = (player.position - transform.position).normalized;
-            velocity.y += 2 / ballSpeed;
+            float distanceToPlayer = Vector3.Distance(player.position + playerVelocity, ballisticSpawnPoint.position) / 20;
+            Vector3 velocity = (player.position + playerVelocity * UpryazhdenieCoef * distanceToPlayer + Vector3.up * Mathf.Pow(Vector3.Distance(player.position + playerVelocity * UpryazhdenieCoef, ballisticSpawnPoint.position), 2) / 75 - ballisticSpawnPoint.position).normalized;
+            //Debug.Log("!!!!!!!!!!!" + player.GetComponent<CharacterController>().);
             velocity = velocity * ballSpeed;
             ball.GetComponent<Rigidbody>().velocity = velocity;
             ball.GetComponent<Ball>().damage = rangeDamage;
@@ -160,11 +227,6 @@ namespace Kirill
             if (hit.collider.CompareTag("Player"))
             {
                 playerHealth.TrySet(-rangeDamage);
-                if (player == null)
-                {
-                    FirstPersonController p = FindObjectOfType<FirstPersonController>();
-                    SetPlayerLinks(p.transform, p.GetComponent<MonoHealth>());
-                }
             }
         }
         private bool isBossSeePlayer()
