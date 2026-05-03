@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 using System;
 using System.Collections.Generic;
@@ -267,7 +267,7 @@ namespace FMODUnity
                     }
                 }
 
-                eventCache.EditorParameters.ForEach((x) => x.Exists = false);
+                eventCache.EditorParameters.ForEach((x) => { if (x != null) x.Exists = false; });
 
                 foreach (string bankFileName in bankFileNames)
                 {
@@ -336,16 +336,22 @@ namespace FMODUnity
                 // Remove any stale entries from bank, event and parameter lists
                 eventCache.EditorBanks.FindAll((bankRef) => !bankRef.Exists).ForEach((bankRef) =>
                 {
-                    eventCache.EditorEvents.ForEach((eventRef) => eventRef.Banks.Remove(bankRef));
+                    eventCache.EditorEvents.ForEach((eventRef) =>
+                    {
+                        if (eventRef == null || eventRef.Banks == null) return;
+                        eventRef.Banks.Remove(bankRef);
+                    });
                     DestroyImmediate(bankRef, true);
                 });
                 eventCache.EditorBanks.RemoveAll((x) => x == null);
                 eventCache.MasterBanks.RemoveAll((x) => x == null);
                 eventCache.StringsBanks.RemoveAll((x) => x == null);
 
-                eventCache.EditorEvents.FindAll((eventRef) => eventRef.Banks.Count == 0).ForEach((eventRef) =>
+                eventCache.EditorEvents.FindAll((eventRef) =>
+                    eventRef != null && eventRef.Banks != null && eventRef.Banks.Count == 0).ForEach((eventRef) =>
                 {
-                    eventRef.Parameters.ForEach((paramRef) => DestroyImmediate(paramRef, true));
+                    if (eventRef?.Parameters != null)
+                        eventRef.Parameters.ForEach((paramRef) => DestroyImmediate(paramRef, true));
                     DestroyImmediate(eventRef, true);
                 });
                 eventCache.EditorEvents.RemoveAll((x) => x == null);
@@ -395,7 +401,11 @@ namespace FMODUnity
         private static void UpdateCacheBank(EditorBankRef bankRef, ref bool renameOccurred)
         {
             // Clear out any cached events from this bank
-            eventCache.EditorEvents.ForEach((x) => x.Banks.Remove(bankRef));
+            eventCache.EditorEvents.ForEach((x) =>
+            {
+                if (x == null || x.Banks == null) return;
+                x.Banks.Remove(bankRef);
+            });
 
             FMOD.Studio.Bank bank;
             FMOD.RESULT loadResult = EditorUtils.System.loadBankFile(bankRef.Path, FMOD.Studio.LOAD_BANK_FLAGS.NORMAL, out bank);
@@ -420,7 +430,9 @@ namespace FMODUnity
                         FMOD.GUID guid;
                         eventDesc.getID(out guid);
 
-                        EditorEventRef eventRef = eventCache.EditorEvents.Find((x) => string.Compare(x.Path, path, StringComparison.CurrentCultureIgnoreCase) == 0);
+                        EditorEventRef eventRef = eventCache.EditorEvents.Find((x) =>
+                            x != null && x.Path != null &&
+                            string.Compare(x.Path, path, StringComparison.CurrentCultureIgnoreCase) == 0);
                         if (eventRef == null)
                         {
                             eventRef = ScriptableObject.CreateInstance<EditorEventRef>();
@@ -432,7 +444,7 @@ namespace FMODUnity
 
                             if (!renameOccurred)
                             {
-                                EditorEventRef eventRefByGuid = eventCache.EditorEvents.Find((x) => x.Guid == guid);
+                                EditorEventRef eventRefByGuid = eventCache.EditorEvents.Find((x) => x != null && x.Guid == guid);
 
                                 if (eventRefByGuid != null)
                                 {
@@ -445,6 +457,8 @@ namespace FMODUnity
                             renameOccurred = true;
                         }
 
+                        if (eventRef.Banks == null)
+                            eventRef.Banks = new List<EditorBankRef>();
                         eventRef.Banks.Add(bankRef);
                         eventRef.Guid = guid;
                         eventRef.Path = eventRef.name = path;
@@ -455,7 +469,9 @@ namespace FMODUnity
                         eventDesc.getLength(out eventRef.Length);
                         int paramCount = 0;
                         eventDesc.getParameterDescriptionCount(out paramCount);
-                        eventRef.Parameters.ForEach((x) => x.Exists = false);
+                        if (eventRef.Parameters == null)
+                            eventRef.Parameters = new List<EditorParamRef>();
+                        eventRef.Parameters.ForEach((x) => { if (x != null) x.Exists = false; });
                         for (int paramIndex = 0; paramIndex < paramCount; paramIndex++)
                         {
                             FMOD.Studio.PARAMETER_DESCRIPTION param;
@@ -1209,6 +1225,9 @@ namespace FMODUnity
 
         public static EditorEventRef EventFromPath(string pathOrGuid)
         {
+            if (string.IsNullOrEmpty(pathOrGuid))
+                return null;
+
             EditorEventRef eventRef;
             if (pathOrGuid.StartsWith("{"))
             {
@@ -1224,19 +1243,25 @@ namespace FMODUnity
         public static EditorEventRef EventFromString(string path)
         {
             AffirmEventCache();
-            return eventCache.EditorEvents.Find((x) => x.Path.Equals(path, StringComparison.CurrentCultureIgnoreCase));
+            if (string.IsNullOrEmpty(path) || eventCache?.EditorEvents == null)
+                return null;
+            return eventCache.EditorEvents.Find((x) => x != null && x.Path != null && x.Path.Equals(path, StringComparison.CurrentCultureIgnoreCase));
         }
 
         public static EditorEventRef EventFromGUID(FMOD.GUID guid)
         {
             AffirmEventCache();
-            return eventCache.EditorEvents.Find((x) => x.Guid == guid);
+            if (eventCache?.EditorEvents == null)
+                return null;
+            return eventCache.EditorEvents.Find((x) => x != null && x.Guid == guid);
         }
 
         public static EditorParamRef ParamFromPath(string name)
         {
             AffirmEventCache();
-            return eventCache.EditorParameters.Find((x) => x.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase));
+            if (string.IsNullOrEmpty(name) || eventCache?.EditorParameters == null)
+                return null;
+            return eventCache.EditorParameters.Find((x) => x != null && x.Name != null && x.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase));
         }
 
         public class ActiveBuildTargetListener : IActiveBuildTargetChanged

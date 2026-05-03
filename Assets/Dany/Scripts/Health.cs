@@ -19,6 +19,9 @@ namespace Dany
 
         [SerializeField] private GameObject explosionPrefab;
 
+        [Tooltip("Секунды до Destroy после смерти. Для врагов с анимацией смерти выстави ≥ длины клипа (например 2–3). 0 — удалить сразу.")]
+        [SerializeField] private float destroyDelayAfterDeath = 0f;
+
         public float Curent => currentHealth;
         public float Max => maxHealth;
         public float ArmorCurent => 0f;
@@ -107,7 +110,10 @@ namespace Dany
                 }
             }
 
-            Destroy(gameObject);
+            if (destroyDelayAfterDeath > 0f)
+                Destroy(gameObject, destroyDelayAfterDeath);
+            else
+                Destroy(gameObject);
         }
     }
 }

@@ -27,7 +27,11 @@ namespace SiberianGJ26.YouAreDoing.Antos.Singleton
             }
 
             playerSpawn.OnSpawnEv += Init;
-            playerSpawn.OnDestroyEv += () => OnDestroyEv?.Invoke();
+            playerSpawn.OnDestroyEv += () =>
+            {
+                _player = null;
+                OnDestroyEv?.Invoke();
+            };
             base.Awake();
         }
 

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dec0581800ebb64d82c777e2ace462e, type: 3}
   m_Name: Item World Point Data
   m_EditorClassIdentifier: 
-  <Color>k__BackingField: {r: 1, g: 0.83542955, b: 0, a: 0.78431374}
-  <Radius>k__BackingField: 1
+  <Color>k__BackingField: {r: 1, g: 0.83542955, b: 0, a: 0.5019608}
+  <Radius>k__BackingField: 0.3

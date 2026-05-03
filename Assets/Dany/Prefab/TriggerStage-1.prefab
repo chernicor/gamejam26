@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7753558779734300074
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3417909719230238681}
+  - component: {fileID: 5964594925754430756}
+  - component: {fileID: 7702225304316294118}
+  m_Layer: 0
+  m_Name: TriggerStage-1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3417909719230238681
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7753558779734300074}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1346.593, y: -608.42865, z: -3.5764246}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5964594925754430756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7753558779734300074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d87dc08c5847de74cbec33d48e15ca1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entries:
+  - prefab: {fileID: 4017358154204471715, guid: 240d3c70d6020b04cb03c048fb01bc3e,
+      type: 3}
+    spawnPoint: {fileID: 0}
+  - prefab: {fileID: 4017358154204471715, guid: 240d3c70d6020b04cb03c048fb01bc3e,
+      type: 3}
+    spawnPoint: {fileID: 0}
+  - prefab: {fileID: 4017358154204471715, guid: 240d3c70d6020b04cb03c048fb01bc3e,
+      type: 3}
+    spawnPoint: {fileID: 0}
+  - prefab: {fileID: 7989308882002439220, guid: f507bee338c650a4299af9328c300da2,
+      type: 3}
+    spawnPoint: {fileID: 0}
+  - prefab: {fileID: 2081557370314480726, guid: 6b08be56ba9f1654aa8bc641de068a54,
+      type: 3}
+    spawnPoint: {fileID: 0}
+  - prefab: {fileID: 2081557370314480726, guid: 6b08be56ba9f1654aa8bc641de068a54,
+      type: 3}
+    spawnPoint: {fileID: 0}
+  playerTag: Player
+  spawnWhenPlayerEntersTrigger: 1
+  despawnLivingEnemiesOnPlayerDeath: 1
+--- !u!65 &7702225304316294118
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7753558779734300074}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 3.003096, z: 4.3074617}
+  m_Center: {x: 0, y: 1.001548, z: 0.3543296}

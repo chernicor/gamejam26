@@ -206,6 +206,8 @@ GameObject:
   - component: {fileID: 8476708637043996755}
   - component: {fileID: 6307056234737837902}
   - component: {fileID: 6824800035868018780}
+  - component: {fileID: 5823456789012345678}
+  - component: {fileID: -271220368523080225}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -241,7 +243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c801349ba16ee404cb9e0bb28f085a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 6824800035868018780}
+  <CharacterController>k__BackingField: {fileID: 6824800035868018780}
   <PlayerCamera>k__BackingField: {fileID: 285431281614534195}
   <HandSocket>k__BackingField: {fileID: 657939098282885386}
   <Health>k__BackingField: {fileID: 8223296573349195959}
@@ -271,6 +273,9 @@ MonoBehaviour:
   bobAmplitude: 0.05
   bobHorizontalAmplitude: 0.03
   bobSmooth: 12
+  damageShakeAnglePerDamage: 1.35
+  damageShakePosPerDamage: 0.028
+  damageShakeDecay: 16
 --- !u!114 &8223296573349195959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,3 +392,80 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5823456789012345678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9070350835410666582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b9c7a1f2044d5e9a8b6c4d2e1f0a9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 935453777785729852}
+  health: {fileID: 8223296573349195959}
+  damagePostProfile: {fileID: 11400000, guid: c4a8f1e2d3b5476980abcdef12345678, type: 2}
+  tintBuildPerDamage: 0.045
+  tintMax: 0.85
+  tintDecay: 2.2
+  damageColor: {r: 1.35, g: 0.2, b: 0.12, a: 1}
+  vignetteIntensityScale: 0.38
+--- !u!114 &-271220368523080225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9070350835410666582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c70060fe82c79af42a7ef96f308d669b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHealth: {fileID: 8223296573349195959}
+  detectionRadius: 100
+  enemyDetectionLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  minIntervalSeconds: 10
+  maxIntervalSeconds: 22
+  combatBarkEvents:
+  - Guid:
+      Data1: -838501531
+      Data2: 1210784541
+      Data3: 1103719861
+      Data4: 1456019391
+    Path: event:/max_fight_phrase_1
+  - Guid:
+      Data1: 827316757
+      Data2: 1132849704
+      Data3: 955106695
+      Data4: 2130683361
+    Path: event:/max_fight_phrase_2
+  - Guid:
+      Data1: 1284651296
+      Data2: 1257467942
+      Data3: 576818070
+      Data4: 1063507420
+    Path: event:/max_fight_phrase_3
+  bossBarkEvents:
+  - Guid:
+      Data1: -1083882287
+      Data2: 1303992369
+      Data3: 792004770
+      Data4: -1073846046
+    Path: event:/max_fight_boss_phrase1
+  - Guid:
+      Data1: 2103733928
+      Data2: 1226302005
+      Data3: 1076781958
+      Data4: -642396717
+    Path: event:/max_fight_boss_phrase2
+  - Guid:
+      Data1: -1056929001
+      Data2: 1202933115
+      Data3: 753955754
+      Data4: 1994203907
+    Path: event:/max_fight_boss_phrase3

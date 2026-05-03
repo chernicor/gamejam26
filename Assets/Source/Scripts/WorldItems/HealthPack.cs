@@ -1,27 +1,22 @@
 using SiberianGJ26.YouAreDoing.Antos.Abstraction;
-using SiberianGJ26.YouAreDoing.Antos.Singleton;
 using SiberianGJ26.YouAreDoing.Antos.Readonly;
+using Dany;
 using UnityEngine;
 using DG.Tweening;
 
 namespace SiberianGJ26.YouAreDoing.Antos.Items
 {
-    public class HealthPack : MonoBehaviour, IMonoUpdate
+    public class HealthPack : MonoBehaviour
     {
         [SerializeField] private HealthPackData data;
         [SerializeField] private float axisY;
         [SerializeField] private float duration;
 
         private Sequence _sequence;
-
-        //Singleton
-        private MonoUpdater _monoUpdater;
+        private bool _pickedUp;
 
         private void Start()
         {
-            _monoUpdater = MonoUpdater.Instance;
-            _monoUpdater?.Add(this);
-
             _sequence = DOTween.Sequence();
             _sequence.Append(transform.DOMoveY(axisY, duration));
             _sequence.SetLoops(-1, LoopType.Yoyo);
@@ -30,7 +25,6 @@ namespace SiberianGJ26.YouAreDoing.Antos.Items
 
         private void OnDestroy()
         {
-            _monoUpdater?.Remove(this);
             _sequence?.Kill();
         }
 
@@ -41,20 +35,31 @@ namespace SiberianGJ26.YouAreDoing.Antos.Items
             Gizmos.DrawSphere(transform.position, data.Radius);
         }
 
-        public void OnUpdate()
+        private void OnTriggerEnter(Collider other)
         {
-            if (Physics.SphereCast(transform.position, data.Radius, transform.forward, out var hit, data.DetectLayer))
+            if (_pickedUp || data == null) return;
+
+            var player = other.GetComponentInParent<FirstPersonController>();
+            if (player == null || player.Health == null) return;
+
+            IHealth health = player.Health;
+            if (!health.IsAlive) return;
+            if (health.Curent >= health.Max) return;
+
+            if (!health.TrySet(data.Value)) return;
+
+            _pickedUp = true;
+
+            if (!data.PickupFmodEvent.IsNull)
+                FmodExclusiveVoice3D.Play(data.PickupFmodEvent, transform.position);
+
+            if (data.Effect != null)
             {
-                if (hit.collider.TryGetComponent(out IHealth health) && health.TrySet(data.Value))
-                {
-                    if (data.Effect != null)
-                    {
-                        var effect = Instantiate(data.Effect.Prefab);
-                        effect.Init(hit.collider.transform);
-                    }
-                    Destroy(gameObject);
-                }
+                var effect = Instantiate(data.Effect.Prefab);
+                effect.Init(other.transform);
             }
+
+            Destroy(gameObject);
         }
     }
 }

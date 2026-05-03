@@ -6,6 +6,7 @@ namespace Dany
 {
     /// <summary>
     /// Бежит к игроку и при срабатывании дистанции наносит урон по сфере и уничтожается.
+    /// Достаточно параметров бега в <see cref="EnemyBase"/> (Run Speed Float / Run Bool). Смерть через Animator не подписывается, если не задан триггер.
     /// </summary>
     public class EnemySuicide : EnemyBase
     {
@@ -23,7 +24,7 @@ namespace Dany
 
         private void Update()
         {
-            if (_exploded) return;
+            if (_exploded || IsDead) return;
 
             RefreshTarget();
             if (Target == null) return;
@@ -38,6 +39,9 @@ namespace Dany
             _exploded = true;
 
             Vector3 center = transform.position + Vector3.up * 0.5f;
+
+            PlayFmodAttackAt(center);
+            PlayFmodDeathAt(center);
 
             if (explosionEffectPrefab != null)
                 Instantiate(explosionEffectPrefab, center, Quaternion.identity);
@@ -61,6 +65,12 @@ namespace Dany
                     EnemyDamage.Apply(receiver.gameObject, damageToOthers);
                 }
             }
+
+            var questEnemy = GetComponent<QuestEnemy>() ?? GetComponentInParent<QuestEnemy>();
+            if (questEnemy != null)
+                questEnemy.RegisterDestroyedForQuest();
+
+            GetComponent<EnemyWaveSpawnSlotTracker>()?.MarkPermanentRemovalWithoutHealth();
 
             Destroy(gameObject);
         }

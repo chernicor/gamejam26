@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{3e8cef1c-08fb-4d14-aee3-b0d5e0fe4fbb}">
+		<property name="assetPath">
+			<value>Voice/max_fight_phrase_1.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>4.6724489795918371</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{cba7cec5-8392-4821-98e9-563b750e6ed0}</destination>
+		</relationship>
+	</object>
+</objects>

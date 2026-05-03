@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -28,8 +29,62 @@ namespace Dany
         [Tooltip("Добавь NavMesh Agent на префаб врага и запеки NavMesh в сцене — враг пойдёт в обход.")]
         [SerializeField] protected float navMeshSampleRadius = 4f;
 
+        [Header("FMOD (опционально)")]
+        [Tooltip("One-shot в мире при начале смерти (Health → смерть). Для суицида без HP вызови PlayFmodDeathAt вручную.")]
+        [SerializeField] private EventReference fmodDeathEvent;
+        [Tooltip("One-shot при атаке: мили — из тела; стрелок — из дула (см. вызовы в EnemyMelee / EnemyRanged).")]
+        [SerializeField] private EventReference fmodAttackEvent;
+
+        [Header("Animation (Animator)")]
+        [Tooltip("Пусто — будет поиск Animator в дочерних объектах.")]
+        [SerializeField] protected Animator enemyAnimator;
+        [Tooltip("Триггер смерти (по событию Health). Можно оставить пустым, если задаёшь только Anim Death State Name.")]
+        [SerializeField] protected string animDeathTrigger = "";
+        [Tooltip("Прямой переход в состояние смерти (имя в Animator). Надёжно, если триггер из Idle не настроен.")]
+        [SerializeField] protected string animDeathStateName = "";
+        [SerializeField] protected int deathAnimatorLayer = 0;
+        [SerializeField, Min(0f)] protected float deathCrossFadeDuration = 0.1f;
+        [Tooltip("Отключить коллайдеры при смерти (не бить игрока и не мешать).")]
+        [SerializeField] protected bool disableCollidersOnDeath = true;
+        [Tooltip("Float: скорость по плоскости (0 = стояние). Часто Speed или MoveSpeed.")]
+        [SerializeField] protected string animRunSpeedFloat = "";
+        [Tooltip("Bool: true, когда враг движется. Альтернатива или дополнение к Float.")]
+        [SerializeField] protected string animRunBool = "";
+        [SerializeField] protected float animRunSpeedThreshold = 0.08f;
+        [SerializeField] protected float animRunSpeedNormalize = 3.5f;
+
         protected Transform Target { get; private set; }
         private NavMeshAgent _navAgent;
+
+        private Vector3 _animLastPlanarPos;
+        private int _animHashDeath = -1;
+        private int _animHashRunSpeed = -1;
+        private int _animHashRunBool = -1;
+        private Health _healthForAnim;
+        private bool _subscribedHealthDead;
+
+        /// <summary>HP ≤ 0: логика врага отключена, играется смерть до Destroy на <see cref="Health"/>.</summary>
+        protected bool IsDead { get; private set; }
+        private bool _deathSequenceStarted;
+
+        /// <summary>
+        /// Пока Time.time меньше этого значения, в Animator подаётся скорость 0 (бег не перебивает атаку и т.п.).
+        /// </summary>
+        private float _animLocomotionSuppressUntil;
+
+        /// <summary>NavMesh Agent с этого врага (если есть) — для логики обхода в наследниках.</summary>
+        protected NavMeshAgent NavAgent => _navAgent;
+
+        /// <summary>
+        /// Временно не обновлять бег/idle в Animator (например на длину клипа атаки). 0 или меньше — игнорировать.
+        /// </summary>
+        protected void SuppressLocomotionAnimation(float durationSeconds)
+        {
+            if (durationSeconds <= 0f) return;
+            float until = Time.time + durationSeconds;
+            if (until > _animLocomotionSuppressUntil)
+                _animLocomotionSuppressUntil = until;
+        }
 
         protected virtual void Awake()
         {
@@ -38,12 +93,139 @@ namespace Dany
                 _navAgent.updateRotation = !facePlayerWhenMoving;
 
             RefreshTarget();
+
+            if (enemyAnimator == null)
+                enemyAnimator = GetComponentInChildren<Animator>(true);
+
+            CacheAnimatorParamHashes();
+            _animLastPlanarPos = transform.position;
+
+            _healthForAnim = GetComponent<Health>() ?? GetComponentInParent<Health>();
         }
 
         protected virtual void OnEnable()
         {
             TryWarpOntoNavMesh();
             RefreshTarget();
+
+            TrySubscribeHealthDeath();
+        }
+
+        protected virtual void OnDisable()
+        {
+            UnsubscribeHealthDeath();
+        }
+
+        private void CacheAnimatorParamHashes()
+        {
+            _animHashDeath = string.IsNullOrEmpty(animDeathTrigger) ? -1 : Animator.StringToHash(animDeathTrigger);
+            _animHashRunSpeed = string.IsNullOrEmpty(animRunSpeedFloat) ? -1 : Animator.StringToHash(animRunSpeedFloat);
+            _animHashRunBool = string.IsNullOrEmpty(animRunBool) ? -1 : Animator.StringToHash(animRunBool);
+        }
+
+        private void TrySubscribeHealthDeath()
+        {
+            if (_healthForAnim == null || _subscribedHealthDead) return;
+            _healthForAnim.OnDeadEv += OnEnemyHealthDead;
+            _subscribedHealthDead = true;
+        }
+
+        private void UnsubscribeHealthDeath()
+        {
+            if (_healthForAnim == null || !_subscribedHealthDead) return;
+            _healthForAnim.OnDeadEv -= OnEnemyHealthDead;
+            _subscribedHealthDead = false;
+        }
+
+        private void OnEnemyHealthDead()
+        {
+            BeginEnemyDeathSequence();
+        }
+
+        /// <summary>
+        /// Остановка AI, коллайдеров, проигрывание смерти. Вызывается из Health.OnDeadEv до задержанного Destroy.
+        /// </summary>
+        protected virtual void BeginEnemyDeathSequence()
+        {
+            if (_deathSequenceStarted) return;
+            _deathSequenceStarted = true;
+            IsDead = true;
+
+            PlayFmodDeathAt(transform.position + Vector3.up * 0.5f);
+
+            if (_navAgent != null)
+            {
+                _navAgent.isStopped = true;
+                _navAgent.ResetPath();
+                _navAgent.enabled = false;
+            }
+
+            if (disableCollidersOnDeath)
+            {
+                foreach (var col in GetComponentsInChildren<Collider>())
+                {
+                    if (col != null) col.enabled = false;
+                }
+            }
+
+            SuppressLocomotionAnimation(999f);
+            PlayDeathAnimation();
+        }
+
+        /// <summary>Триггер или CrossFade состояния смерти в Animator.</summary>
+        protected void PlayDeathAnimation()
+        {
+            if (enemyAnimator == null)
+                enemyAnimator = GetComponentInChildren<Animator>(true);
+            if (enemyAnimator == null || !enemyAnimator.isActiveAndEnabled) return;
+
+            if (!string.IsNullOrEmpty(animDeathStateName))
+            {
+                enemyAnimator.CrossFadeInFixedTime(animDeathStateName, deathCrossFadeDuration, deathAnimatorLayer, 0f);
+                return;
+            }
+
+            if (_animHashDeath < 0) return;
+            enemyAnimator.ResetTrigger(_animHashDeath);
+            enemyAnimator.SetTrigger(_animHashDeath);
+        }
+
+        /// <summary>Обновить бег / стояние: float ≈ скорость (0 = idle), bool по порогу.</summary>
+        protected void UpdateLocomotionAnimation()
+        {
+            if (enemyAnimator == null) return;
+
+            float planarSpeed = Time.time < _animLocomotionSuppressUntil ? 0f : GetPlanarSpeedForAnimation();
+
+            if (_animHashRunSpeed >= 0)
+            {
+                float n = animRunSpeedNormalize > 0.01f ? planarSpeed / animRunSpeedNormalize : planarSpeed;
+                enemyAnimator.SetFloat(_animHashRunSpeed, Mathf.Clamp01(n));
+            }
+
+            if (_animHashRunBool >= 0)
+                enemyAnimator.SetBool(_animHashRunBool, planarSpeed > animRunSpeedThreshold);
+        }
+
+        private float GetPlanarSpeedForAnimation()
+        {
+            if (_navAgent != null && _navAgent.enabled && _navAgent.isOnNavMesh)
+            {
+                Vector3 v = _navAgent.velocity;
+                return new Vector3(v.x, 0f, v.z).magnitude;
+            }
+
+            Vector3 p = transform.position;
+            Vector3 delta = new Vector3(p.x - _animLastPlanarPos.x, 0f, p.z - _animLastPlanarPos.z);
+            float dt = Time.deltaTime;
+            return dt > 1e-6f ? delta.magnitude / dt : 0f;
+        }
+
+        protected virtual void LateUpdate()
+        {
+            if (IsDead) return;
+            UpdateLocomotionAnimation();
+            _animLastPlanarPos = transform.position;
         }
 
         private void TryWarpOntoNavMesh()
@@ -244,6 +426,19 @@ namespace Dany
             return Vector3.Distance(a, b);
         }
 
+        /// <summary>FMOD one-shot смерти в точке (например центр взрыва у суицида).</summary>
+        protected void PlayFmodDeathAt(Vector3 worldPosition) => PlayFmodOneShot(fmodDeathEvent, worldPosition);
+
+        /// <summary>FMOD one-shot атаки (мили — обычно позиция врага; стрелок — дуло).</summary>
+        protected void PlayFmodAttackAt(Vector3 worldPosition) => PlayFmodOneShot(fmodAttackEvent, worldPosition);
+
+        private static void PlayFmodOneShot(EventReference eventRef, Vector3 worldPosition)
+        {
+            if (eventRef.IsNull) return;
+            if (GamePause.IsPaused) return;
+            RuntimeManager.PlayOneShot(eventRef, worldPosition);
+        }
+
         /// <summary>
         /// Луч без коллайдеров-триггеров; считаем попадание в игрока не препятствием.
         /// Попадания в этот же объект (свой коллайдер / дуло внутри капсулы) пропускаются.
@@ -269,11 +464,30 @@ namespace Dany
                 if (IsThisEnemyCollider(hit.collider))
                     continue;
 
-                // Первое не-«я» по пути: если это игрок — видим; иначе преграда (земля, стена).
+                // Другие враги на линии не заслоняют игрока (дружественный огонь / толпа).
+                if (IsOtherEnemyCollider(hit.collider))
+                    continue;
+
+                // Первое не-«я» и не союзник: если это игрок — видим; иначе преграда (стена, земля).
                 return hit.collider.GetComponentInParent<FirstPersonController>() != null;
             }
 
-            return true;
+            // Все попадания только «я» или другие AI — ни стены, ни коллайдера игрока на луче.
+            // Раньше первый враг давал «не видно» и включался обход; true здесь давало бы стрельбу в стену.
+            bool anyNonSelfHit = false;
+            for (int i = 0; i < hits.Length; i++)
+            {
+                if (!IsThisEnemyCollider(hits[i].collider))
+                {
+                    anyNonSelfHit = true;
+                    break;
+                }
+            }
+
+            if (!anyNonSelfHit)
+                return true;
+
+            return false;
         }
 
         /// <summary>Луч к игроку с приподнятой точки (реже цепляет землю у ног).</summary>
@@ -287,6 +501,14 @@ namespace Dany
         {
             if (col == null) return false;
             return col.transform == transform || col.transform.IsChildOf(transform);
+        }
+
+        /// <summary>Коллайдер принадлежит другому экземпляру с <see cref="EnemyBase"/> (союзный AI).</summary>
+        protected bool IsOtherEnemyCollider(Collider col)
+        {
+            if (col == null) return false;
+            var other = col.GetComponentInParent<EnemyBase>();
+            return other != null && other != this;
         }
     }
 }
