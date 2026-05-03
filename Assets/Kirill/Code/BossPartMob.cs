@@ -11,9 +11,13 @@ namespace Kirill
         [SerializeField] private BossSpawn spawner;
         public void WakeUp(Vector3 destinationPoint, float stoppingDistance)
         {
-            enabled = true;
+            Invoke("en", 1);
             agent.stoppingDistance = stoppingDistance;
             agent.SetDestination(destinationPoint);
+        }
+        void en()
+        {
+            enabled = true;
         }
         public void Merge(Vector3 destinationPoint, float mergeTime)
         {
