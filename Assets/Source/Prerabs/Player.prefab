@@ -429,8 +429,8 @@ MonoBehaviour:
   enemyDetectionLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  minIntervalSeconds: 10
-  maxIntervalSeconds: 22
+  minIntervalSeconds: 25
+  maxIntervalSeconds: 40
   combatBarkEvents:
   - Guid:
       Data1: -838501531
