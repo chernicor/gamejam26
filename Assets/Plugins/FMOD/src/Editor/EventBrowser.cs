@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -261,21 +261,22 @@ namespace FMODUnity
                 if ((TypeFilter & TypeFilter.Event) != 0)
                 {
                     CreateSubTree("Events", EventPrefix,
-                        EventManager.Events.Where(e => e.Path.StartsWith(EventPrefix)), e => e.Path);
+                        EventManager.Events.Where(e => e != null && e.Path != null && e.Path.StartsWith(EventPrefix)), e => e.Path);
 
                     CreateSubTree("Snapshots", SnapshotPrefix,
-                        EventManager.Events.Where(e => e.Path.StartsWith(SnapshotPrefix)), s => s.Path);
+                        EventManager.Events.Where(e => e != null && e.Path != null && e.Path.StartsWith(SnapshotPrefix)), s => s.Path);
                 }
 
                 if ((TypeFilter & TypeFilter.Bank) != 0)
                 {
-                    CreateSubTree("Banks", BankPrefix, EventManager.Banks, b => b.StudioPath);
+                    CreateSubTree("Banks", BankPrefix,
+                        EventManager.Banks.Where(b => b != null && b.StudioPath != null), b => b.StudioPath);
                 }
 
                 if ((TypeFilter & TypeFilter.Parameter) != 0)
                 {
                     CreateSubTree("Global Parameters", ParameterPrefix,
-                        EventManager.Parameters, p => p.StudioPath);
+                        EventManager.Parameters.Where(p => p != null && p.StudioPath != null), p => p.StudioPath);
                 }
 
                 List<TreeViewItem> rows = new List<TreeViewItem>();

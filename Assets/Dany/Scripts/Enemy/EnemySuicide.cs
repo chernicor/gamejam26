@@ -40,6 +40,9 @@ namespace Dany
 
             Vector3 center = transform.position + Vector3.up * 0.5f;
 
+            PlayFmodAttackAt(center);
+            PlayFmodDeathAt(center);
+
             if (explosionEffectPrefab != null)
                 Instantiate(explosionEffectPrefab, center, Quaternion.identity);
 
@@ -66,6 +69,8 @@ namespace Dany
             var questEnemy = GetComponent<QuestEnemy>() ?? GetComponentInParent<QuestEnemy>();
             if (questEnemy != null)
                 questEnemy.RegisterDestroyedForQuest();
+
+            GetComponent<EnemyWaveSpawnSlotTracker>()?.MarkPermanentRemovalWithoutHealth();
 
             Destroy(gameObject);
         }

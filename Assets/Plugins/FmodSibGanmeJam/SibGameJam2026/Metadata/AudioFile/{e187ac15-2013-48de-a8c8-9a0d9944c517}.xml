@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="AudioFile" id="{e187ac15-2013-48de-a8c8-9a0d9944c517}">
 		<property name="assetPath">
-			<value>Minigun.mp3</value>
+			<value>Sound/Minigun.mp3</value>
 		</property>
 		<property name="frequencyInKHz">
 			<value>44.0999985</value>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{d47c1ca2-6d33-4e7e-9537-89f66c386962}">
+		<property name="assetPath">
+			<value>Enemy/enemy1idle2.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>1.4422291666666667</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{cba7cec5-8392-4821-98e9-563b750e6ed0}</destination>
+		</relationship>
+	</object>
+</objects>
