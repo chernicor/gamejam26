@@ -2,7 +2,6 @@ using SiberianGJ26.YouAreDoing.Antos.Abstraction;
 using SiberianGJ26.YouAreDoing.Antos.Readonly;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using System;
 using Dany;
 
@@ -48,10 +47,9 @@ namespace SiberianGJ26.YouAreDoing.Antos.Spawns
         private void OnDeadPlayer()
         {
             _playerHealth.OnDeadEv -= OnDeadPlayer;
-            /* OnDestroyEv?.Invoke();
+             OnDestroyEv?.Invoke();
             if (isRespawn)
-                StartCoroutine(Spawn(_wait)); */
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                StartCoroutine(Spawn(_wait)); 
         }
     }
 }

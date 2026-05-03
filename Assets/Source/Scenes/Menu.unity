@@ -678,6 +678,7 @@ MonoBehaviour:
   self: {fileID: 511519098}
   labelPlayButton: {fileID: 2143329235}
   labelExitButton: {fileID: 252227319}
+  pauseMenuController: {fileID: 1311116370}
 --- !u!1 &602549938
 GameObject:
   m_ObjectHideFlags: 0

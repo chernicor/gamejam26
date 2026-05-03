@@ -87,7 +87,6 @@ namespace Dany
 
             // Не отписываемся от OnDestroyEv: иначе после первой смерти респавн больше не
             // вызовет Init, и playerCamera / playerTransform останутся на уничтоженном игроке.
-            _playerSpawnState.OnSpawnEv -= Init;
             _playerSpawnState.OnSpawnEv += Init;
         }
 

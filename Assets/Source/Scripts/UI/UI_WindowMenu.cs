@@ -2,6 +2,7 @@ using SiberianGJ26.YouAreDoing.Antos.Abstraction;
 using SiberianGJ26.YouAreDoing.Antos.Readonly;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using Dany;
 using TMPro;
 
 namespace SiberianGJ26.YouAreDoing.Antos.UI
@@ -14,6 +15,7 @@ namespace SiberianGJ26.YouAreDoing.Antos.UI
         [SerializeField] private Canvas self;
         [SerializeField] private TextMeshProUGUI labelPlayButton;
         [SerializeField] private TextMeshProUGUI labelExitButton;
+        [SerializeField] private PauseMenuController pauseMenuController;
 
         private void Start()
         {
@@ -37,6 +39,7 @@ namespace SiberianGJ26.YouAreDoing.Antos.UI
         {
             if (IsCurentScene(data.LevelSceneIndex))
             {
+                pauseMenuController?.Resume();
                 Hide();
                 return;
             }
