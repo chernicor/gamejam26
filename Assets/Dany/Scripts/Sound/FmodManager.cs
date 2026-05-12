@@ -7,21 +7,21 @@ namespace Sechin
 {
     public class FmodManager : MonoBehaviour
     {
-        [Header("СОХРОНЕНИЕ НАСТРОЕК")]
+        [Header("?????????? ????????")]
 
-        [Header("Слайдер общий")]
+        [Header("??????? ?????")]
         public Slider volumeSliderGeneral;
         private const string VolumeKeyGeneral = "VolumeLevelGeneral";
 
-        [Header("Слайдер звука")]
+        [Header("??????? ?????")]
         public Slider volumeSliderSound;
         private const string VolumeKeySound = "VolumeLevelSound";
 
-        [Header("Слайдер музыки")]
+        [Header("??????? ??????")]
         public Slider volumeSliderMusic;
         private const string VolumeKeyMusic = "VolumeLevelMusic";
 
-        [Header("Слайдер голоса")]
+        [Header("??????? ??????")]
         public Slider volumeSliderVoice;
         private const string VolumeKeyVoice = "VolumeLevelVoice";
 
@@ -33,47 +33,26 @@ namespace Sechin
         }
         public void LoadVolume()
         {
-            if (PlayerPrefs.HasKey(VolumeKeyGeneral))//General
-            {
-                float volume = PlayerPrefs.GetFloat(VolumeKeyGeneral);
-                volumeSliderGeneral.value = volume;
-            }
-            else
-            {
-                volumeSliderGeneral.value = 1.0f;
-            }
-            if (PlayerPrefs.HasKey(VolumeKeyMusic))//Music
-            {
-                float volume = PlayerPrefs.GetFloat(VolumeKeyMusic);
-                volumeSliderMusic.value = volume;
-            }
-            else
-            {
-                volumeSliderMusic.value = 1.0f;
-            }
-            if (PlayerPrefs.HasKey(VolumeKeySound))//Sound
-            {
-                float volume = PlayerPrefs.GetFloat(VolumeKeySound);
-                volumeSliderSound.value = volume;
-            }
-            else
-            {
-                volumeSliderSound.value = 1.0f;
-            }
-            if (PlayerPrefs.HasKey(VolumeKeyVoice))//Sound
-            {
-                float volume = PlayerPrefs.GetFloat(VolumeKeyVoice);
-                volumeSliderVoice.value = volume;
-            }
-            else
-            {
-                volumeSliderVoice.value = 1.0f;
-            }
+            // ?????? ?????? ? Slider.value ??? ??????: ??? ???????? onValueChanged ? VCA ? FMOD ??
+            // ?????????? ????????????? RuntimeManager ?? WebGL (memory access out of bounds).
+            SetSliderFromPrefs(volumeSliderGeneral, VolumeKeyGeneral, 1f);
+            SetSliderFromPrefs(volumeSliderMusic, VolumeKeyMusic, 1f);
+            SetSliderFromPrefs(volumeSliderSound, VolumeKeySound, 1f);
+            SetSliderFromPrefs(volumeSliderVoice, VolumeKeyVoice, 1f);
+        }
+
+        private static void SetSliderFromPrefs(Slider slider, string key, float defaultValue)
+        {
+            if (slider == null) return;
+            float v = PlayerPrefs.HasKey(key) ? PlayerPrefs.GetFloat(key) : defaultValue;
+            slider.SetValueWithoutNotify(v);
         }
         public void SaveVolume()
         {
-            PlayerPrefs.SetFloat(VolumeKeyMusic, volumeSliderMusic.value);
-            PlayerPrefs.SetFloat(VolumeKeySound, volumeSliderSound.value);
+            if (volumeSliderMusic != null)
+                PlayerPrefs.SetFloat(VolumeKeyMusic, volumeSliderMusic.value);
+            if (volumeSliderSound != null)
+                PlayerPrefs.SetFloat(VolumeKeySound, volumeSliderSound.value);
             PlayerPrefs.Save();
         }
     }

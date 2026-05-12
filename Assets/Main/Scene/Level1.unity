@@ -15751,7 +15751,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 0774ae5922e31d54cb021615aa7d5eaa, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: b5eb190c32fe4c64abf55f365cdf149b, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &933488047
 Transform:
@@ -24409,7 +24409,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1733032486
 Light:
   m_ObjectHideFlags: 0
@@ -24664,37 +24664,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 451122652}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1757030635
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1757030636}
-  m_Layer: 0
-  m_Name: ----Ammo
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1757030636
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1757030635}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 66.340836, y: -49.712727, z: -100.453964}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1758412872
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25462,7 +25431,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.4333333
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 637cb4bc60e1a9c46bbdead5aa5877c0, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 4e6b4254d0a4f824aa415391e4a72ba4, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1826667831
 Transform:
@@ -29204,7 +29173,6 @@ SceneRoots:
   - {fileID: 1803071286}
   - {fileID: 1748774989}
   - {fileID: 1231361804}
-  - {fileID: 933488047}
   - {fileID: 1139637115}
   - {fileID: 1895701142}
   - {fileID: 429786505}
@@ -29215,8 +29183,8 @@ SceneRoots:
   - {fileID: 1093375062}
   - {fileID: 2125072802}
   - {fileID: 46939414}
+  - {fileID: 933488047}
   - {fileID: 1826667831}
-  - {fileID: 1757030636}
   - {fileID: 1857163621}
   - {fileID: 672390005}
   - {fileID: 441502962}
